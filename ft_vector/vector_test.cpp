@@ -22,7 +22,15 @@ int     main(void)
 	std::cout << "DONE" << std::endl;
 
 	ft::Vector<int>::iterator iter;
+	ft::Vector<int>::iterator iter2(iter);
+	ft::Vector<int>::iterator iter3(iter);
 	(void)(iter);
+	(void)(iter2);
+
+	iter3 = int_arr.begin();
+
+	ft::Vector<int>::const_iterator citer;
+	(void)(citer);
 
     return (0);
 }
