@@ -7,7 +7,6 @@
 # include <memory>   // allocator
 # include <cstddef>  // ptrdiff_t
 # include <iterator> // std::random_access_iterator_tag
-# include <limits> // std::numeric_limits
 
 // =============================================================================
 
@@ -19,14 +18,6 @@
 
 namespace ft {
 
-template < bool B, class T = void >
-struct enable_if {};
-
-template < class T >
-struct enable_if <true, T> {
-	typedef T type;
-};
-
 // ============================= VECTOR ========================================
 
 	template < class T, class Alloc = std::allocator<T> >
@@ -34,7 +25,7 @@ struct enable_if <true, T> {
 
 	public:
 
-		// Iterators-structs ---------------------------------------------------
+		// Iterators-structs ------------------------------------------------------
 
 		struct vector_iterator {
 
@@ -54,9 +45,9 @@ struct enable_if <true, T> {
 			typedef std::random_access_iterator_tag iterator_category;
 		};
 
-		// ---------------------------------------------------------------------
+		// ------------------------------------------------------------------------
 
-		// Typedef -------------------------------------------------------------
+		// Typedef ----------------------------------------------------------------
 
 		typedef T                                                   value_type;
 		typedef Alloc                                               allocator_type;
@@ -75,9 +66,9 @@ struct enable_if <true, T> {
 
 		typedef size_t                                              size_type;
 
-		// ---------------------------------------------------------------------
+		// ------------------------------------------------------------------------
 
-		// Constructor - Destructor --------------------------------------------
+		// Constructor - Destructor -----------------------------------------------
 
 		explicit Vector(const allocator_type & alloc = allocator_type())
 		  : arr_(0), size_(0), capacity_(0), alloc_(alloc) {}
@@ -96,24 +87,13 @@ struct enable_if <true, T> {
 			}
 		  }
 
-		template <class InputIterator>
-		Vector
-		(
-		 InputIterator first,
-		 InputIterator last,
-		 typename enable_if
-		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0,
-		 const allocator_type& alloc = allocator_type()
-		) : alloc_(alloc)
-		{
-			this->size_     = last - first;
-			this->capacity_ = this->size_;
-			this->arr_      = this->alloc_.allocate(this->size_);
-			for (size_type i = 0; i < this->size_; ++i) {
-				this->arr_[i] = *first;
-				++first;
-			}
-		}
+		// template <class InputIterator>
+		// Vector
+		// (
+		//  InputIterator first,
+		//  InputIterator last,
+		//  const allocator_type& alloc = allocator_type()
+		// )
 
 		Vector(const Vector & x)
 			: size_(x.size_), capacity_(x.capacity_), alloc_(x.alloc_) {
@@ -129,9 +109,9 @@ struct enable_if <true, T> {
 			this->alloc_.deallocate(this->arr_, this->capacity_);
 		}
 
-		// ---------------------------------------------------------------------
+		// ------------------------------------------------------------------------
 
-		// Operators -----------------------------------------------------------
+		// Operators --------------------------------------------------------------
 
 		Vector &   operator=(Vector const & x) {
 
@@ -151,45 +131,21 @@ struct enable_if <true, T> {
 			return *this;
 		}
 
-		reference  operator[](difference_type index) {
+		value_type operator[](difference_type index) {
 
-			return this->arr_[index];
+			return *this->arr_[index];
 		}
 
-		// ---------------------------------------------------------------------
+		// ------------------------------------------------------------------------
 
-		// Iterators -----------------------------------------------------------
+		// Iterators --------------------------------------------------------------
 
-		iterator    begin() {
+		iterator begin() {
 
 			return iterator(this->arr_);
 		}
 
-		iterator    end() {
-
-			return iterator(this->arr_ + this->size_);
-		}
-
-		// iterator rbegin() {
-
-		//     return iterator(this->arr_);
-		// }
-
-		// iterator rend() {
-
-		//     return iterator(this->arr_);
-		// }
-
-		// Capacity ------------------------------------------------------------
-
-		size_type size() const {
-
-			return this->size_;
-		}
-
-		// ---------------------------------------------------------------------
-
-		// ---------------------------------------------------------------------
+		// ------------------------------------------------------------------------
 	private:
 		pointer          arr_;
 		size_type        size_;
