@@ -3,37 +3,35 @@
 
 // ========================== OTHER INCLUDES ===================================
 
-# include "ft_iterator_traits.hpp"
-
 // =============================================================================
 
 // ===================== RADOM ACCESS ITERATOR =================================
 
 namespace ft {
 
-	template < class It >
+	template < class T, class P, class R >
 	class RandomAccessIterator {
 
 	public:
 
 		// Typedef -------------------------------------------------------------
 
-		typedef typename ft::iterator_traits<It>::difference_type
-                                                              difference_type;
+		typedef ptrdiff_t                       difference_type;
+		typedef T                               value_type;
+		typedef P                               pointer;
+		typedef R                               reference;
+		typedef std::random_access_iterator_tag iterator_category;
 
-		typedef typename ft::iterator_traits<It>::value_type  value_type;
-		typedef typename ft::iterator_traits<It>::pointer     pointer;
-		typedef typename ft::iterator_traits<It>::reference   reference;
 
 		// ---------------------------------------------------------------------
 
 		// Constructor - Destructor --------------------------------------------
 
-		explicit RandomAccessIterator() : arr_(0) {}
-		explicit RandomAccessIterator(pointer arr) : arr_(arr) {}
+		RandomAccessIterator() : arr_(0) {}
+		RandomAccessIterator(pointer arr) : arr_(arr) {}
 
-		RandomAccessIterator(RandomAccessIterator const & x)
-			: arr_(x.arr_) {}
+		RandomAccessIterator(RandomAccessIterator<T, T*, T&> const & x)
+			: arr_(x.get_pointer()) {}
 
 		virtual ~RandomAccessIterator() {}
 
@@ -181,22 +179,22 @@ namespace ft {
 	// Operators ---------------------------------------------------------------
 
 	// 'n + iter'
-	template <class It>
-	RandomAccessIterator<It> operator+
+	template < class T, class P, class R >
+	RandomAccessIterator<T, P, R> operator+
 	(
-	 typename RandomAccessIterator<It>::difference_type n,
-	 RandomAccessIterator<It> const & x
+	 typename RandomAccessIterator<T, P, R>::difference_type n,
+	 RandomAccessIterator<T, P, R> const & x
 	)
 	{
 		return x + n;
 	}
 
-	// 'iter + iter'
-	template <class It>
-	typename RandomAccessIterator<It>::difference_type operator-
+	// // 'iter + iter'
+	template < class T, class P, class R >
+	typename RandomAccessIterator<T, P, R>::difference_type operator-
 	(
-	 RandomAccessIterator<It> const & a,
-	 RandomAccessIterator<It> const & b
+	 RandomAccessIterator<T, P, R> const & a,
+	 RandomAccessIterator<T, P, R> const & b
 	)
 	{
 		return a.get_pointer() - b.get_pointer();

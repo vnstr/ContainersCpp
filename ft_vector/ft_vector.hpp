@@ -4,10 +4,11 @@
 // ============================ STD-LIBS =======================================
 
 # include <iostream>
-# include <memory>   // allocator
-# include <cstddef>  // ptrdiff_t
-# include <iterator> // std::random_access_iterator_tag
-# include <limits> // std::numeric_limits
+# include <memory>    // allocator
+# include <cstddef>   // ptrdiff_t
+# include <iterator>  // std::random_access_iterator_tag
+# include <limits>    // std::numeric_limits
+# include <exception> // std::exception
 
 // =============================================================================
 
@@ -36,21 +37,14 @@ struct enable_if <true, T> {
 
 		// Iterators-structs ---------------------------------------------------
 
+		template < class TYPE >
 		struct vector_iterator {
 
+			typedef vector_iterator<TYPE>           iterator;
 			typedef ptrdiff_t                       difference_type;
-			typedef T                               value_type;
-			typedef T*                              pointer;
-			typedef T &                             reference;
-			typedef std::random_access_iterator_tag iterator_category;
-		};
-
-		struct const_vector_iterator {
-
-			typedef ptrdiff_t                       difference_type;
-			typedef T                               value_type;
-			typedef T const *                       pointer;
-			typedef T const &                       reference;
+			typedef TYPE                            value_type;
+			typedef TYPE*                           pointer;
+			typedef TYPE&                           reference;
 			typedef std::random_access_iterator_tag iterator_category;
 		};
 
@@ -65,12 +59,13 @@ struct enable_if <true, T> {
 		typedef typename allocator_type::pointer                    pointer;
 		typedef typename allocator_type::const_pointer              const_pointer;
 
-		typedef ft::RandomAccessIterator<vector_iterator>           iterator;
-		typedef ft::RandomAccessIterator<vector_iterator>           const_iterator;
+		typedef ft::RandomAccessIterator<T, T*, T& >                iterator;
+		typedef ft::RandomAccessIterator<T, const T*, const T&>     const_iterator;
+
 		// typedef [> reverse_iterator<iterator> <]                 reverse_iterator;
 		// typedef [> reverse_iterator<const_iterator> <]           const_reverse_iterator;
 		//
-		typedef typename ft::iterator_traits<vector_iterator>::difference_type
+		typedef typename RandomAccessIterator<T, T*, T&>::difference_type
                                                                     difference_type;
 
 		typedef size_t                                              size_type;
@@ -126,6 +121,9 @@ struct enable_if <true, T> {
 
 		virtual ~Vector() {
 
+			for (size_type i = 0; i < this->size_; ++i) {
+				this->alloc_.destroy(this->arr_ + i);
+			}
 			this->alloc_.deallocate(this->arr_, this->capacity_);
 		}
 
@@ -151,34 +149,41 @@ struct enable_if <true, T> {
 			return *this;
 		}
 
-		reference  operator[](difference_type index) {
-
-			return this->arr_[index];
-		}
-
 		// ---------------------------------------------------------------------
 
 		// Iterators -----------------------------------------------------------
 
-		iterator    begin() {
+		iterator          begin() {
 
 			return iterator(this->arr_);
 		}
 
-		iterator    end() {
+		const_iterator    begin() const {
+
+			return const_iterator(this->arr_);
+		}
+
+		iterator          end() {
 
 			return iterator(this->arr_ + this->size_);
 		}
 
-		// iterator rbegin() {
+		const_iterator    end() const {
+
+			return const_iterator(this->arr_ + this->size_);
+		}
+
+		// iterator rbegin() { + const version
 
 		//     return iterator(this->arr_);
 		// }
 
-		// iterator rend() {
+		// iterator rend() { + const version
 
 		//     return iterator(this->arr_);
 		// }
+
+		// ---------------------------------------------------------------------
 
 		// Capacity ------------------------------------------------------------
 
@@ -187,9 +192,153 @@ struct enable_if <true, T> {
 			return this->size_;
 		}
 
-		// ---------------------------------------------------------------------
+		size_type max_size() const {
+
+			return this->alloc_.max_size();
+		}
+
+		void resize (size_type n, value_type val = value_type()) {
+
+			(void)(val);
+			if (this->size_ == n) {
+				return ;
+			}
+			else if (this->size_ > n) {
+
+				for (size_type i = n; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->size_ = n;
+			}
+			else {
+
+				pointer new_arr = this->alloc_.allocate(n);
+
+				size_type i = 0;
+
+				while (i < this->size_) {
+					new_arr[i] = this->arr_[i];
+					++i;
+				}
+
+				while (i < n) {
+					this->alloc_.construct(new_arr + i, val);
+					++i;
+				}
+
+				for (i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->arr_, this->capacity_);
+
+				this->arr_      = new_arr;
+				this->size_     = n;
+				this->capacity_ = n;
+			}
+		}
+
+		size_type capacity() const {
+
+			return this->capacity_;
+		}
+
+		bool empty() const {
+
+			return this->size_ == 0;
+		}
+
+		void reserve (size_type n) {
+
+			if (this->capacity_ > n) {
+				return ;
+			}
+
+			pointer new_arr = this->alloc_.allocate(n);
+
+			size_type i;
+			for (i = 0; i < this->size_; ++i) {
+				new_arr[i] = this->arr_[i];
+			}
+
+			for (i = 0; i < this->size_; ++i) {
+				this->alloc_.destroy(this->arr_ + i);
+			}
+			this->alloc_.deallocate(this->arr_, this->capacity_);
+
+			this->arr_      = new_arr;
+			this->capacity_ = n;
+
+		}
+
 
 		// ---------------------------------------------------------------------
+
+		// Element access ------------------------------------------------------
+
+		reference    operator[] (size_type n) {
+
+			return this->arr_[n];
+		}
+
+		const_reference operator[] (size_type n) const {
+
+			return this->arr_[n];
+		}
+
+		reference at (size_type n) {
+
+			if (n >= this->size_) {
+				throw Vector::OutOfRange();
+			}
+			else {
+				return this->arr_[n];
+			}
+		}
+
+		const_reference at (size_type n) const {
+
+			if (n >= this->size_) {
+				throw Vector::OutOfRange();
+			}
+			else {
+				return this->arr_[n];
+			}
+		}
+
+		reference front() {
+
+			return this->arr_[0];
+		}
+
+		const_reference front() const {
+
+			return this->arr_[0];
+		}
+
+
+
+
+
+
+
+
+
+		// ---------------------------------------------------------------------
+
+
+
+
+		// Exceptions ----------------------------------------------------------
+
+		class OutOfRange : public std::exception {
+		public:
+			const char*  what() const throw() {
+				return "vector";
+			}
+		};
+
+		// ---------------------------------------------------------------------
+
 	private:
 		pointer          arr_;
 		size_type        size_;
