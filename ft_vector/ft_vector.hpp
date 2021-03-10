@@ -431,6 +431,15 @@ struct enable_if <true, T> {
 			this->capacity_ = new_capacity;
 		}
 
+		void pop_back() {
+
+			if (this->size_ == 0) {
+				return ;
+			}
+			this->alloc_.destroy(this->arr_ + this->size_ - 1);
+			--this->size_;
+		}
+
 		// ---------------------------------------------------------------------
 
 		// Exceptions ----------------------------------------------------------
