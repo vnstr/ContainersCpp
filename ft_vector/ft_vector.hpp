@@ -37,45 +37,45 @@ struct enable_if <true, T> {
 
 		// Iterators-structs ---------------------------------------------------
 
-		template < class TYPE >
-		struct vector_iterator {
+		// template < class TYPE >
+		// struct vector_iterator {
 
-			typedef vector_iterator<TYPE>           iterator;
-			typedef ptrdiff_t                       difference_type;
-			typedef TYPE                            value_type;
-			typedef TYPE*                           pointer;
-			typedef TYPE&                           reference;
-			typedef std::random_access_iterator_tag iterator_category;
-		};
+		//     typedef vector_iterator<TYPE>           iterator;
+		//     typedef ptrdiff_t                       difference_type;
+		//     typedef TYPE                            value_type;
+		//     typedef TYPE*                           pointer;
+		//     typedef TYPE&                           reference;
+		//     typedef std::random_access_iterator_tag iterator_category;
+		// };
 
 		// ---------------------------------------------------------------------
 
 		// Typedef -------------------------------------------------------------
 
-		typedef T                                                   value_type;
-		typedef Alloc                                               allocator_type;
-		typedef typename allocator_type::reference                  reference;
-		typedef typename allocator_type::const_reference            const_reference;
-		typedef typename allocator_type::pointer                    pointer;
-		typedef typename allocator_type::const_pointer              const_pointer;
+		typedef T                                               value_type;
+		typedef Alloc                                           allocator_type;
+		typedef typename allocator_type::reference              reference;
+		typedef typename allocator_type::const_reference        const_reference;
+		typedef typename allocator_type::pointer                pointer;
+		typedef typename allocator_type::const_pointer          const_pointer;
 
-		typedef ft::RandomAccessIterator<T, T*, T& >                iterator;
-		typedef ft::RandomAccessIterator<T, const T*, const T&>     const_iterator;
+		typedef ft::RandomAccessIterator<T, T*, T& >            iterator;
+		typedef ft::RandomAccessIterator<T, const T*, const T&> const_iterator;
 
-		// typedef [> reverse_iterator<iterator> <]                 reverse_iterator;
-		// typedef [> reverse_iterator<const_iterator> <]           const_reverse_iterator;
+		// typedef [> reverse_iterator<iterator> <]             reverse_iterator;
+		// typedef [> reverse_iterator<const_iterator> <]       const_reverse_iterator;
 		//
 		typedef typename RandomAccessIterator<T, T*, T&>::difference_type
-                                                                    difference_type;
+                                                                difference_type;
 
-		typedef size_t                                              size_type;
+		typedef size_t                                          size_type;
 
 		// ---------------------------------------------------------------------
 
 		// Constructor - Destructor --------------------------------------------
 
 		explicit Vector(const allocator_type & alloc = allocator_type())
-		  : arr_(0), size_(0), capacity_(0), alloc_(alloc) {}
+		: arr_(0), begin_(0), size_(0), capacity_(0), alloc_(alloc) {}
 
 		explicit Vector
 		  (
@@ -85,7 +85,8 @@ struct enable_if <true, T> {
 		  )
 		  : size_(n), capacity_(n), alloc_(alloc) {
 
-			this->arr_ = this->alloc_.allocate(n);
+			this->arr_   = this->alloc_.allocate(n);
+			this->begin_ = this->arr_;
 			for (size_type i = 0; i < n; ++i) {
 				this->alloc_.construct(this->arr_ + i, val);
 			}
@@ -99,11 +100,12 @@ struct enable_if <true, T> {
 		 typename enable_if
 		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0,
 		 const allocator_type& alloc = allocator_type()
-		) : alloc_(alloc)
-		{
+		) : alloc_(alloc) {
+
 			this->size_     = last - first;
 			this->capacity_ = this->size_;
 			this->arr_      = this->alloc_.allocate(this->size_);
+			this->begin_    = this->arr_;
 			for (size_type i = 0; i < this->size_; ++i) {
 				this->arr_[i] = *first;
 				++first;
@@ -111,20 +113,24 @@ struct enable_if <true, T> {
 		}
 
 		Vector(const Vector & x)
-			: size_(x.size_), capacity_(x.capacity_), alloc_(x.alloc_) {
+		: size_(x.size_), capacity_(x.capacity_), alloc_(x.alloc_) {
 
-				this->arr_ = this->alloc_.allocate(x.size_);
-				for (size_type i = 0; i < x.size_; ++i) {
-					this->arr_[i]  = x.arr_[i];
-				}
+			this->arr_   = this->alloc_.allocate(x.size_);
+			this->begin_ = this->arr_;
+			for (size_type i = 0; i < x.size_; ++i) {
+				this->arr_[i]  = x.arr_[i];
 			}
+		}
 
 		virtual ~Vector() {
 
+			if (this->arr_ == 0) {
+				return ;
+			}
 			for (size_type i = 0; i < this->size_; ++i) {
 				this->alloc_.destroy(this->arr_ + i);
 			}
-			this->alloc_.deallocate(this->arr_, this->capacity_);
+			this->alloc_.deallocate(this->begin_, this->capacity_);
 		}
 
 		// ---------------------------------------------------------------------
@@ -226,10 +232,12 @@ struct enable_if <true, T> {
 					++i;
 				}
 
-				for (i = 0; i < this->size_; ++i) {
-					this->alloc_.destroy(this->arr_ + i);
+				if (this->arr_ != 0) {
+					for (i = 0; i < this->size_; ++i) {
+						this->alloc_.destroy(this->arr_ + i);
+					}
+					this->alloc_.deallocate(this->arr_, this->capacity_);
 				}
-				this->alloc_.deallocate(this->arr_, this->capacity_);
 
 				this->arr_      = new_arr;
 				this->size_     = n;
@@ -260,10 +268,12 @@ struct enable_if <true, T> {
 				new_arr[i] = this->arr_[i];
 			}
 
-			for (i = 0; i < this->size_; ++i) {
-				this->alloc_.destroy(this->arr_ + i);
+			if (this->arr_ != 0) {
+				for (i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->arr_, this->capacity_);
 			}
-			this->alloc_.deallocate(this->arr_, this->capacity_);
 
 			this->arr_      = new_arr;
 			this->capacity_ = n;
@@ -275,7 +285,7 @@ struct enable_if <true, T> {
 
 		// Element access ------------------------------------------------------
 
-		reference    operator[] (size_type n) {
+		reference       operator[] (size_type n) {
 
 			return this->arr_[n];
 		}
@@ -285,7 +295,7 @@ struct enable_if <true, T> {
 			return this->arr_[n];
 		}
 
-		reference at (size_type n) {
+		reference       at (size_type n) {
 
 			if (n >= this->size_) {
 				throw Vector::OutOfRange();
@@ -305,7 +315,7 @@ struct enable_if <true, T> {
 			}
 		}
 
-		reference front() {
+		reference       front() {
 
 			return this->arr_[0];
 		}
@@ -315,18 +325,53 @@ struct enable_if <true, T> {
 			return this->arr_[0];
 		}
 
+		reference       back() {
+
+			return this->arr_[this->size_ - 1];
+		}
+
+		const_reference back() const {
+
+			return this->arr_[this->size_ - 1];
+		}
+
+		// ---------------------------------------------------------------------
+
+		// Modifiers -----------------------------------------------------------
+
+		template <class InputIterator>
+		void assign (InputIterator first, InputIterator last) {
 
 
+			if (last - first < 0) {
+				for (size_type i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->arr_, this->capacity_);
+				this->arr_       = 0;
+				this->size_      = 0;
+				this->capacity_  = 0;
+				throw Vector::LengthError();
+			}
 
+			size_type new_size    = (last - first);
+			difference_type begin = first - this->begin();
+			difference_type end   = last - this->begin() + 1;
 
+			for (difference_type i = 0; i < begin; ++i) {
+				this->alloc_.destroy(this->arr_ + i);
+			}
 
+			for (size_type i = end; i < this->size_; ++i) {
+				this->alloc_.destroy(this->arr_ + i);
+			}
+			this->arr_ += begin;
+			this->size_ = new_size;
+		}
 
 
 
 		// ---------------------------------------------------------------------
-
-
-
 
 		// Exceptions ----------------------------------------------------------
 
@@ -337,10 +382,17 @@ struct enable_if <true, T> {
 			}
 		};
 
+		class LengthError : public std::exception {
+			const char* what() const throw() {
+				return "vector";
+			}
+		};
+
 		// ---------------------------------------------------------------------
 
 	private:
 		pointer          arr_;
+		pointer          begin_;
 		size_type        size_;
 		size_type        capacity_;
 		allocator_type   alloc_;

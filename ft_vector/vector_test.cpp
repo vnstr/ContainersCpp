@@ -329,7 +329,127 @@ void    element_access_test() {
 
 	// std::cout << "\n---------------------\n" << std::endl;
 
+
+	// std::cout << "\n---- front()         \n" << std::endl;
+
+	// std::cout << arr.back().some << " OK: 7";
+
+	// std::cout << "\n---------------------\n" << std::endl;
+
 	std::cout << "\n# ElementAccess End #\n" << std::endl;
+}
+
+void    modifier_test() {
+
+	std::cout << "\n# Modifiers Test    #\n" << std::endl;
+
+	// ARR ---------------------------------------------------------------------
+
+	std::cout << "ARR:" << std::endl;
+
+	// CREAT AND PRINT
+	ft::Vector<int> iarr_0_128(129);
+	for (size_t i = 0; i < iarr_0_128.size(); ++i) {
+		iarr_0_128[i] = i;
+	}
+	std::cout << "\narr: ";
+	for (size_t i = 0; i < iarr_0_128.size(); ++i) {
+		if (i == 32 || i == 64 || i == 96)
+			std::cout << "     ";
+		std::setw(3);
+		std::cout << iarr_0_128[i] << " ";
+		if (i == 31 || i == 63 || i == 95)
+			std::cout << std::endl;
+	}
+	std::cout << "\n" << std::endl;
+	std::cout << "size: " << iarr_0_128.size() << ", capacity: " << iarr_0_128.capacity() << std::endl;
+	// ---------------
+
+
+
+	std::cout << "\n---- assign()        \n" << std::endl;
+
+	ft::Vector<int>::iterator iter1 = iarr_0_128.begin() + 5;
+	ft::Vector<int>::iterator iter2 = iarr_0_128.end() - 5;
+
+	try {
+		iarr_0_128.assign(iter1, iter2);
+	}
+	catch(std::exception & e) {
+		std::cout << "Exceptions: |" << e.what() << "|" << std::endl;
+	}
+
+	// PRINT
+	std::cout << "\narr: ";
+	for (size_t i = 0; i < iarr_0_128.size(); ++i) {
+		if (i == 32 || i == 64 || i == 96)
+			std::cout << "     ";
+		std::setw(3);
+		std::cout << iarr_0_128[i] << " ";
+		if (i == 31 || i == 63 || i == 95)
+			std::cout << std::endl;
+	}
+	std::cout << "\n" << std::endl;
+	std::cout << "size: " << iarr_0_128.size() << ", capacity: " << iarr_0_128.capacity() << std::endl;
+	// -----
+
+
+	std::cout << "\n---------------------\n" << std::endl;
+
+	// STD_ARR -----------------------------------------------------------------
+
+	std::cout << "STD_ARR:" << std::endl;
+
+	// CREAT AND PRINT
+	std::vector<int> std_iarr_0_128(129);
+	for (size_t i = 0; i < std_iarr_0_128.size(); ++i) {
+		std_iarr_0_128[i] = i;
+	}
+	std::cout << "\nstd_arr: ";
+	for (size_t i = 0; i < std_iarr_0_128.size(); ++i) {
+		if (i == 32 || i == 64 || i == 96)
+			std::cout << "     ";
+		std::setw(3);
+		std::cout << std_iarr_0_128[i] << " ";
+		if (i == 31 || i == 63 || i == 95)
+			std::cout << std::endl;
+	}
+	std::cout << "\n" << std::endl;
+	std::cout << "size: " << std_iarr_0_128.size() << ", capacity: " << std_iarr_0_128.capacity() << std::endl;
+	// ---------------
+
+	std::cout << "\n---- assign()        \n" << std::endl;
+
+
+	std::vector<int>::iterator std_iter1 = std_iarr_0_128.begin() + 5;
+	std::vector<int>::iterator std_iter2 = std_iarr_0_128.end() - 5;
+
+	try {
+		std_iarr_0_128.assign(std_iter1, std_iter2);
+	}
+	catch(std::exception & e) {
+		std::cout << "Exceptions: |" << e.what() << "|" << std::endl;
+	}
+
+	// PRINT
+	std::cout << "\nstd_arr: ";
+	for (size_t i = 0; i < std_iarr_0_128.size(); ++i) {
+		if (i == 32 || i == 64 || i == 96)
+			std::cout << "     ";
+		std::setw(3);
+		std::cout << std_iarr_0_128[i] << " ";
+		if (i == 31 || i == 63 || i == 95)
+			std::cout << std::endl;
+	}
+	std::cout << "\n" << std::endl;
+	std::cout << "size: " << std_iarr_0_128.size() << ", capacity: " << std_iarr_0_128.capacity() << std::endl;
+	// -----
+
+
+	std::cout << "\n---------------------\n" << std::endl;
+
+
+	std::cout << "\n# Modifiers Test End#\n" << std::endl;
 }
 
 int     main(void)
@@ -337,9 +457,9 @@ int     main(void)
 	// constructors_iterator();
 	// const_iterator_test();
 	// capacity_test();
-	// sleep(10);
+	// element_access_test();
 
-	element_access_test();
+	modifier_test();
 
 	// std::vector<int> arr(10, 2);
 	// arr.push_back(3);
