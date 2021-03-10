@@ -539,14 +539,65 @@ void    modifier_test() {
 	std::cout << "\n# Modifiers Test End#\n" << std::endl;
 }
 
+void push_back_test()
+{
+	std::vector<int> arr1(10);
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	arr1.push_back(4);
+	arr1.push_back(5);
+
+
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	std::cout << std::endl;
+
+	ft::Vector<int> ft_arr1(10);
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	ft_arr1.push_back(4);
+	ft_arr1.push_back(5);
+
+
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+}
+
 int     main(void)
 {
 	// constructors_iterator();
 	// const_iterator_test();
 	// capacity_test();
 	// element_access_test();
-	modifier_test();
+	// modifier_test();
+	// push_back_test();
 
+
+
+	// std::cout << ;
 
 
     return (0);

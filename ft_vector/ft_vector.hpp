@@ -1,6 +1,9 @@
 #ifndef FT_VECTOR_HPP
 # define FT_VECTOR_HPP
 
+// NOTES:
+// 1) Add exception for allocate();
+
 // ============================ STD-LIBS =======================================
 
 # include <iostream>
@@ -35,21 +38,6 @@ struct enable_if <true, T> {
 	class Vector {
 
 	public:
-
-		// Iterators-structs ---------------------------------------------------
-
-		// template < class TYPE >
-		// struct vector_iterator {
-
-		//     typedef vector_iterator<TYPE>           iterator;
-		//     typedef ptrdiff_t                       difference_type;
-		//     typedef TYPE                            value_type;
-		//     typedef TYPE*                           pointer;
-		//     typedef TYPE&                           reference;
-		//     typedef std::random_access_iterator_tag iterator_category;
-		// };
-
-		// ---------------------------------------------------------------------
 
 		// Typedef -------------------------------------------------------------
 
@@ -116,10 +104,13 @@ struct enable_if <true, T> {
 		Vector(const Vector & x)
 		: size_(x.size_), capacity_(x.capacity_), alloc_(x.alloc_) {
 
-			this->arr_   = this->alloc_.allocate(x.size_);
-			this->begin_ = this->arr_;
+			this->arr_      = this->alloc_.allocate(x.capacity_);
+			this->begin_    = this->arr_;
+			this->size_     = x.size_;
+			this->capacity_ = x.capacity_;
+			this->alloc_    = x.alloc_;
 			for (size_type i = 0; i < x.size_; ++i) {
-				this->arr_[i]  = x.arr_[i];
+				this->alloc_.construct(this->arr_ + i, x[i]);
 			}
 		}
 
@@ -412,7 +403,33 @@ struct enable_if <true, T> {
 			this->begin_    = new_arr;
 		}
 
+		void push_back (const value_type & val) {
 
+			if (this->size_ < capacity_) {
+				this->alloc_.construct(this->arr_ + this->size_, val);
+				++this->size_;
+				return ;
+			}
+
+			size_type new_capacity = this->capacity_ * 2;
+			pointer   new_arr      = this->alloc_.allocate(new_capacity);
+
+			memcpy(new_arr, this->arr_, sizeof(value_type) * this->size_);
+
+			this->alloc_.construct(new_arr + this->size_, val);
+
+			if (this->begin_ != 0) {
+				for (size_type i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->begin_, this->capacity_);
+			}
+
+			++this->size_;
+			this->arr_      = new_arr;
+			this->begin_    = new_arr;
+			this->capacity_ = new_capacity;
+		}
 
 		// ---------------------------------------------------------------------
 

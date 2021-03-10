@@ -102,7 +102,6 @@ namespace ft {
 			return (tmp);
 		}
 
-
 		// '+'
 		RandomAccessIterator operator+(difference_type n) const {
 
