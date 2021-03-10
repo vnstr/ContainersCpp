@@ -4,6 +4,7 @@
 // ============================ STD-LIBS =======================================
 
 # include <iostream>
+# include <cstring>   // memcpy();
 # include <memory>    // allocator
 # include <cstddef>   // ptrdiff_t
 # include <iterator>  // std::random_access_iterator_tag
@@ -124,7 +125,7 @@ struct enable_if <true, T> {
 
 		virtual ~Vector() {
 
-			if (this->arr_ == 0) {
+			if (this->begin_ == 0) {
 				return ;
 			}
 			for (size_type i = 0; i < this->size_; ++i) {
@@ -205,41 +206,38 @@ struct enable_if <true, T> {
 
 		void resize (size_type n, value_type val = value_type()) {
 
-			(void)(val);
-			if (this->size_ == n) {
-				return ;
-			}
-			else if (this->size_ > n) {
+			size_type i;
 
-				for (size_type i = n; i < this->size_; ++i) {
+			if (this->size_ >= n) {
+				for (i = n; i < this->size_; ++i) {
 					this->alloc_.destroy(this->arr_ + i);
 				}
 				this->size_ = n;
 			}
+			else if (this->capacity_ >= n) {
+				for (i = this->size_; i < n; ++i) {
+					this->alloc_.construct(this->arr_ + i, val);
+				}
+				this->size_ = n;
+			}
 			else {
+				pointer   new_arr = this->alloc_.allocate(n);
 
-				pointer new_arr = this->alloc_.allocate(n);
+				memcpy(new_arr, this->arr_, sizeof(value_type) * this->size_);
 
-				size_type i = 0;
-
-				while (i < this->size_) {
-					new_arr[i] = this->arr_[i];
-					++i;
-				}
-
-				while (i < n) {
+				for (i = this->size_; i < n; ++i) {
 					this->alloc_.construct(new_arr + i, val);
-					++i;
 				}
 
-				if (this->arr_ != 0) {
+				if (this->begin_ != 0) {
 					for (i = 0; i < this->size_; ++i) {
 						this->alloc_.destroy(this->arr_ + i);
 					}
-					this->alloc_.deallocate(this->arr_, this->capacity_);
+					this->alloc_.deallocate(this->begin_, this->capacity_);
 				}
 
 				this->arr_      = new_arr;
+				this->begin_    = new_arr;
 				this->size_     = n;
 				this->capacity_ = n;
 			}
@@ -257,25 +255,23 @@ struct enable_if <true, T> {
 
 		void reserve (size_type n) {
 
-			if (this->capacity_ > n) {
+			if (this->capacity_ >= n) {
 				return ;
 			}
 
 			pointer new_arr = this->alloc_.allocate(n);
 
-			size_type i;
-			for (i = 0; i < this->size_; ++i) {
-				new_arr[i] = this->arr_[i];
-			}
+			memcpy(new_arr, this->arr_, sizeof(value_type) * this->size_);
 
-			if (this->arr_ != 0) {
-				for (i = 0; i < this->size_; ++i) {
+			if (this->begin_ != 0) {
+				for (size_type i = 0; i < this->size_; ++i) {
 					this->alloc_.destroy(this->arr_ + i);
 				}
-				this->alloc_.deallocate(this->arr_, this->capacity_);
+				this->alloc_.deallocate(this->begin_, this->capacity_);
 			}
 
 			this->arr_      = new_arr;
+			this->begin_    = new_arr;
 			this->capacity_ = n;
 
 		}
@@ -340,33 +336,80 @@ struct enable_if <true, T> {
 		// Modifiers -----------------------------------------------------------
 
 		template <class InputIterator>
-		void assign (InputIterator first, InputIterator last) {
-
-
+		void assign
+		(
+		 InputIterator first,
+		 InputIterator last,
+		 typename enable_if
+		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
+		)
+		{
 			if (last - first < 0) {
+				// EXCEPTION
 				for (size_type i = 0; i < this->size_; ++i) {
 					this->alloc_.destroy(this->arr_ + i);
 				}
-				this->alloc_.deallocate(this->arr_, this->capacity_);
-				this->arr_       = 0;
-				this->size_      = 0;
-				this->capacity_  = 0;
+				this->alloc_.deallocate(this->begin_, this->capacity_);
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
 				throw Vector::LengthError();
 			}
 
-			size_type new_size    = (last - first);
-			difference_type begin = first - this->begin();
-			difference_type end   = last - this->begin() + 1;
+			size_type new_capacity;
+			size_type new_size = static_cast<size_type>(last - first);
 
-			for (difference_type i = 0; i < begin; ++i) {
-				this->alloc_.destroy(this->arr_ + i);
+			if (new_size > this->capacity_) {
+				new_capacity = new_size;
+			} else {
+				new_capacity = this->capacity_;
 			}
 
-			for (size_type i = end; i < this->size_; ++i) {
-				this->alloc_.destroy(this->arr_ + i);
+			pointer   new_arr  = this->alloc_.allocate(new_capacity);
+
+			std::copy(first, last, new_arr);
+
+			if (this->begin_ != 0) {
+				for (size_type i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->begin_, this->capacity_);
 			}
-			this->arr_ += begin;
-			this->size_ = new_size;
+			this->size_     = new_size;
+			this->capacity_ = new_capacity;
+			this->arr_      = new_arr;
+			this->begin_    = new_arr;
+		}
+
+		void assign (size_type n, const value_type& val) {
+
+			size_type new_capacity;
+			size_type new_size = n;
+
+			if (new_size > this->capacity_) {
+				new_capacity = new_size;
+			} else {
+				new_capacity = this->capacity_;
+			}
+
+			pointer   new_arr  = this->alloc_.allocate(new_capacity);
+
+			size_type i;
+			for (i = 0; i < new_size; ++i) {
+				this->alloc_.construct(new_arr + i, val);
+			}
+
+			if (this->begin_ != 0) {
+				for (i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->begin_, this->capacity_);
+			}
+			this->size_     = new_size;
+			this->capacity_ = new_capacity;
+			this->arr_      = new_arr;
+			this->begin_    = new_arr;
 		}
 
 
