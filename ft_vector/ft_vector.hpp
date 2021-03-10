@@ -440,6 +440,43 @@ struct enable_if <true, T> {
 			--this->size_;
 		}
 
+		iterator insert (iterator position, const value_type& val) {
+
+			pointer         new_arr;
+			size_t          new_capacity;
+			difference_type before = position - this->begin();
+
+			if (this->size_ + 1 > capacity_) {
+				new_capacity = this->capacity_ * 2;
+			} else {
+				new_capacity = this->capacity_;
+			}
+
+			new_arr = this->alloc_.allocate(new_capacity);
+
+			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
+			this->alloc_.construct(new_arr + before, val);
+			memcpy
+				(
+				 new_arr + before + 1,
+				 this->arr_ + before,
+				 sizeof(value_type) * (this->size_ - before)
+				 );
+
+			if (this->begin_ != 0) {
+				for (size_type i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->begin_, this->capacity_);
+			}
+
+			++this->size_;
+			this->arr_      = new_arr;
+			this->begin_    = new_arr;
+			this->capacity_ = new_capacity;
+			return (this->begin() + before);
+		}
+
 		// ---------------------------------------------------------------------
 
 		// Exceptions ----------------------------------------------------------

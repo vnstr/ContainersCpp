@@ -586,6 +586,73 @@ void push_back_test()
 		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
 }
 
+void insert_pos_val_test() {
+
+	std::cout << "\n STD_ARR\n" << std::endl;
+	std::vector<int> arr1(10, 3);
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		arr1[i] = i;
+	}
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	arr1.insert(arr1.begin() + 5, 998);
+	arr1.insert(arr1.begin(), 997);
+	std::vector<int>::iterator res = arr1.insert(arr1.end(), 996);
+
+	// for (size_t i = 0; i < arr1.size(); ++i) {
+	//     std::cout << arr1[i] << " ";
+	// }
+	// std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	std::cout << "*(res = arr1.insert(arr1.end(), 996)) =  " << *res << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << "\n FT_ARR\n" << std::endl;
+
+	ft::Vector<int> ft_arr1(10, 3);
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		ft_arr1[i] = i;
+	}
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	ft_arr1.insert(ft_arr1.begin() + 5, 998);
+	ft_arr1.insert(ft_arr1.begin(), 997);
+	ft::Vector<int>::iterator ft_res = ft_arr1.insert(ft_arr1.end(), 996);
+
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	std::cout << "*(ft_res = ft_arr1.insert(ft_arr1.end(), 996)) =  " << *ft_res << std::endl;
+
+	std::cout << "arr   : ";
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "ft_arr: ";
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+}
+
 int     main(void)
 {
 	// constructors_iterator();
@@ -594,6 +661,7 @@ int     main(void)
 	// element_access_test();
 	// modifier_test();
 	// push_back_test();
+	// insert_pos_val_test();
 
 
     return (0);
