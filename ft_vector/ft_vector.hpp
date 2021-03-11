@@ -600,13 +600,23 @@ struct enable_if <true, T> {
 			return iterator(this->arr_ + start);
 		}
 
-		void swap (Vector & x) {
+		void     swap (Vector & x) {
 
 			std::swap(this->arr_, x.arr_);
 			std::swap(this->begin_, x.begin_);
 			std::swap(this->size_, x.size_);
 			std::swap(this->capacity_, x.capacity_);
 			std::swap(this->alloc_, x.alloc_);
+		}
+
+		void     clear() {
+
+			if (this->begin_ != 0) {
+				for (size_type i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+			}
+			this->size_ = 0;
 		}
 
 		// ---------------------------------------------------------------------
