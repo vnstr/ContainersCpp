@@ -13,7 +13,7 @@
 # include <iterator>  // std::random_access_iterator_tag
 # include <limits>    // std::numeric_limits
 # include <exception> // std::exception
-# include <algorithm> // std::swap();
+# include <algorithm> // std::swap(); std::equal();
 
 // =============================================================================
 
@@ -23,7 +23,11 @@
 
 // =============================================================================
 
+// ============================ NAMESPACE FT ===================================
+
 namespace ft {
+
+// For correct working with size_t ---------------------------------------------
 
 template < bool B, class T = void >
 struct enable_if {};
@@ -32,6 +36,8 @@ template < class T >
 struct enable_if <true, T> {
 	typedef T type;
 };
+
+// ----------------------------------------------------------------------------
 
 // ============================= VECTOR ========================================
 
@@ -128,7 +134,7 @@ struct enable_if <true, T> {
 
 		// ---------------------------------------------------------------------
 
-		// Operators -----------------------------------------------------------
+		// Operator '=' --------------------------------------------------------
 
 		Vector &   operator=(Vector const & x) {
 
@@ -541,9 +547,7 @@ struct enable_if <true, T> {
 
 			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
 
-			iterator output(new_arr + before);
-
-			std::copy(first, last, output);
+			std::copy(first, last, new_arr + before);
 			memcpy
 				(
 				 new_arr + before + n,
@@ -655,6 +659,74 @@ struct enable_if <true, T> {
 		allocator_type   alloc_;
   };
 
+// Relational operators ========================================================
+
+template <class T, class Alloc>
+bool operator==(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+
+	return lhs.size() == rhs.size() &&
+		   std::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
+
+template <class T, class Alloc>
+bool operator!=(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+
+	return !(lhs.size() == rhs.size() &&
+		   std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+template <class T, class Alloc>
+bool operator<(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+
+	return std::lexicographical_compare
+		(
+		 lhs.begin(),
+		 lhs.end(),
+		 rhs.begin(),
+		 rhs.end()
+		);
+}
+
+template <class T, class Alloc>
+bool operator<=(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+
+	return !std::lexicographical_compare
+		(
+		 rhs.begin(),
+		 rhs.end(),
+		 lhs.begin(),
+		 lhs.end()
+		);
+}
+
+template <class T, class Alloc>
+bool operator>(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+
+	return std::lexicographical_compare
+		(
+		 rhs.begin(),
+		 rhs.end(),
+		 lhs.begin(),
+		 lhs.end()
+		);
+}
+
+template <class T, class Alloc>
+bool operator>=(const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs) {
+
+	return !std::lexicographical_compare
+		(
+		 lhs.begin(),
+		 lhs.end(),
+		 rhs.begin(),
+		 rhs.end()
+		);
+}
+
+// =============================================================================
+
+}
+
+// ============================ END NAMESPACE FT ===============================
 
 #endif /* FT_VECTOR_HPP */

@@ -1036,20 +1036,45 @@ void    clear_test() {
 	std::cout << std::endl;
 }
 
+void relational_operators_test() {
+
+	ft::Vector<int> arr1(20, 3);
+	ft::Vector<int> arr2(20, 3);
+	ft::Vector<int> arr3(20, 1);
+
+	std::cout << (arr1 == arr2) << " OK: 1" << std::endl;
+	std::cout << (arr1 == arr3) << " OK: 0" << std::endl;
+	std::cout << (arr1 != arr2) << " OK: 0" << std::endl;
+	std::cout << (arr1 != arr3) << " OK: 1" << std::endl;
+
+	std::cout << (arr3 < arr1)  << " OK: 1" << std::endl;
+
+	std::cout << (arr1 < arr2)  << " OK: 0" << std::endl;
+	std::cout << (arr1 <= arr2) << " OK: 1" << std::endl;
+
+	std::cout << (arr3 > arr1)  << " OK: 0" << std::endl;
+	std::cout << (arr1 > arr3)  << " OK: 1" << std::endl;
+
+	std::cout << (arr1 >= arr2) << " OK: 1" << std::endl;
+	std::cout << (arr1 >= arr3) << " OK: 1" << std::endl;
+	std::cout << (arr3 >= arr1)  << " OK: 0" << std::endl;
+}
+
 int     main(void)
 {
-	// constructors_iterator();
-	// const_iterator_test();
-	// capacity_test();
-	// element_access_test();
-	// modifier_test();
-	// push_back_test();
-	// insert_pos_val_test();
-	// insert_pos_iter_iter();
-	// erase_iter_test();
-	// erase_iter_iter_test();
-	// swap_test();
+	constructors_iterator();
+	const_iterator_test();
+	capacity_test();
+	element_access_test();
+	modifier_test();
+	push_back_test();
+	insert_pos_val_test();
+	insert_pos_iter_iter();
+	erase_iter_test();
+	erase_iter_iter_test();
+	swap_test();
 	clear_test();
+	relational_operators_test();
 
 
     return (0);
