@@ -564,6 +564,41 @@ struct enable_if <true, T> {
 
 		}
 
+		iterator erase(iterator position) {
+
+			difference_type index = position - this->begin();
+
+			this->alloc_.destroy(this->arr_ + index);
+			--this->size_;
+			memmove
+				(
+				 this->arr_ + index,
+				 this->arr_ + index + 1,
+				 sizeof(value_type) * (this->size_ - index)
+				 );
+
+			return iterator(this->arr_ + index);
+
+		}
+
+		iterator erase(iterator first, iterator last) {
+
+			size_type n     = last - first;
+			size_type start = first - this->begin();
+
+			for (size_type i = start ; i < n; ++i) {
+				this->alloc_.destroy(this->arr_ + i);
+				--this->size_;
+			}
+			memmove
+				(
+				 this->arr_ + start,
+				 this->arr_ + start + n,
+				 sizeof(value_type) * (this->size_ - start)
+				 );
+			return iterator(this->arr_ + start);
+		}
+
 		// ---------------------------------------------------------------------
 
 		// Exceptions ----------------------------------------------------------

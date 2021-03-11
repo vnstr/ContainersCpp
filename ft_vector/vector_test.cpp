@@ -784,6 +784,142 @@ void    insert_pos_iter_iter() {
 	std::cout << std::endl;
 }
 
+void    erase_iter_test() {
+
+	std::vector<int> src(30);
+	for (size_t i = 0; i < src.size(); ++i) {
+		src[i] = i + 990;
+	}
+
+	std::cout << "\n STD_ARR\n" << std::endl;
+	std::vector<int> arr1(10, 3);
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		arr1[i] = i;
+	}
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	std::vector<int>::iterator res = arr1.erase(arr1.end() - 3);
+
+	// for (size_t i = 0; i < arr1.size(); ++i) {
+	//     std::cout << arr1[i] << " ";
+	// }
+	// std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	std::cout << "*(res = arr1.insert(arr1.end(), 996)) =  " << *res << std::endl;
+
+	(void)(res);
+	std::cout << std::endl;
+
+	std::cout << "\n FT_ARR\n" << std::endl;
+
+	ft::Vector<int> ft_arr1(10, 3);
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		ft_arr1[i] = i;
+	}
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	ft::Vector<int>::iterator ft_res = ft_arr1.erase(ft_arr1.end() - 3);
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	std::cout << "*(ft_res = ft_arr1.insert(ft_arr1.end(), 996)) =  " << *ft_res << std::endl;
+
+	std::cout << "arr   : ";
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "ft_arr: ";
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+}
+
+void    erase_iter_iter_test() {
+
+	std::vector<int> src(30);
+	for (size_t i = 0; i < src.size(); ++i) {
+		src[i] = i + 990;
+	}
+
+	std::cout << "\n STD_ARR\n" << std::endl;
+	std::vector<int> arr1(10, 3);
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		arr1[i] = i;
+	}
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	std::vector<int>::iterator res = arr1.erase(arr1.begin(), arr1.end() - 3);
+
+	// for (size_t i = 0; i < arr1.size(); ++i) {
+	//     std::cout << arr1[i] << " ";
+	// }
+	// std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	std::cout << "*(res = arr1.insert(arr1.end(), 996)) =  " << *res << std::endl;
+
+	(void)(res);
+	std::cout << std::endl;
+
+	std::cout << "\n FT_ARR\n" << std::endl;
+
+	ft::Vector<int> ft_arr1(10, 3);
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		ft_arr1[i] = i;
+	}
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	ft::Vector<int>::iterator ft_res = ft_arr1.erase(ft_arr1.begin(), ft_arr1.end() - 3);
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	std::cout << "*(ft_res = ft_arr1.insert(ft_arr1.end(), 996)) =  " << *ft_res << std::endl;
+
+	std::cout << "arr   : ";
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "ft_arr: ";
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+}
+
 int     main(void)
 {
 	// constructors_iterator();
@@ -793,7 +929,9 @@ int     main(void)
 	// modifier_test();
 	// push_back_test();
 	// insert_pos_val_test();
-	insert_pos_iter_iter();
+	// insert_pos_iter_iter();
+	// erase_iter_test();
+	erase_iter_iter_test();
 
 
     return (0);
