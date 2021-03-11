@@ -122,7 +122,7 @@ namespace ft {
 		}
 
 		// '-='
-		RandomAccessIterator operator-=(difference_type n) {
+		RandomAccessIterator &operator-=(difference_type n) {
 
 			this->arr_ -= n;
 			return (*this);
@@ -160,7 +160,7 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
-		// Operators -----------------------------------------------------------
+		// GETTERS -------------------------------------------------------------
 
 		pointer get_pointer() const {
 
@@ -175,7 +175,7 @@ namespace ft {
 
 	};
 
-	// Operators ---------------------------------------------------------------
+	// Relational Operators ----------------------------------------------------
 
 	// 'n + iter'
 	template < class T, class P, class R >
@@ -188,7 +188,7 @@ namespace ft {
 		return x + n;
 	}
 
-	// // 'iter + iter'
+	// // 'iter - iter'
 	template < class T, class P, class R >
 	typename RandomAccessIterator<T, P, R>::difference_type operator-
 	(

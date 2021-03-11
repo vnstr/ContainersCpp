@@ -121,6 +121,7 @@ void    constructors_iterator() {
 
 	ft::Vector<int>::iterator  iter1 = iarr_0_128.begin();
 	ft::Vector<int>::iterator iter2 = iarr_0_128.end();
+	std::cout << (iter2 - iter1) << " OK: 129" << std::endl;
 	std::cout << "*iter = begin()   : " << *iter1 << "   OK: 0" << std::endl;
 	std::cout << "*iter_end = end() : " << *(--iter2)<< " OK: 128" << std::endl;
 	std::cout << "begin() < end()   : " << (iarr_0_128.begin() < iarr_0_128.end()) << "   OK: 1" << std::endl;
@@ -1060,6 +1061,64 @@ void relational_operators_test() {
 	std::cout << (arr3 >= arr1)  << " OK: 0" << std::endl;
 }
 
+void reverse_iterator_test() {
+
+	ft::Vector<int> arr1(20);
+	ft::Vector<int> arr2(1, 2);
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		arr1[i] = i;
+	}
+	ft::Vector<int>::reverse_iterator       riter;
+	ft::Vector<int>::const_reverse_iterator criter;
+
+	for (riter = arr1.rbegin(); riter != arr1.rend(); ++riter) {
+		std::cout << *riter << " ";
+	}
+	std::cout << std::endl;
+
+	for (criter = arr1.rbegin(); criter != arr1.rend(); ++criter) {
+		std::cout << *criter << " ";
+	}
+	std::cout << std::endl;
+
+	for (riter = arr1.rend() - 1; riter != arr1.rbegin() - 1; --riter) {
+		std::cout << *riter << " ";
+	}
+	std::cout << std::endl;
+
+
+	std::cout << (arr1.rbegin() == arr1.rbegin()) << " OK: 1" << std::endl;
+	std::cout << (arr1.rbegin() != arr1.rbegin()) << " OK: 0" << std::endl;
+	std::cout << *(arr1.rbegin() + 5) << " OK: 14" << std::endl;
+	*(arr1.rbegin() + 5) += 100;
+	std::cout << *(arr1.rbegin() + 5) << " OK: 114" << std::endl;
+
+	ft::Vector<ab> ab(2);
+
+	ab[1].a = 'a';
+	ab[1].b = 'b';
+
+	std::cout << (ab.rbegin())->a << " OK: a" << std::endl;
+
+	*(arr1.rbegin() + 5) -= 100;
+	std::cout << *(arr1.rbegin() + 5) << " OK: 14" << std::endl;
+
+	std::cout << (arr1.begin() > arr1.end()) << " OK: 0" << std::endl;
+	std::cout << (arr1.begin() >= arr1.end()) << " OK: 0" << std::endl;
+	std::cout << (arr1.begin() >= arr1.begin()) << " OK: 1" << std::endl;
+	std::cout << (arr1.begin() < arr1.end()) << " OK: 1" << std::endl;
+	std::cout << (arr1.begin() <= arr1.begin()) << " OK: 1" << std::endl;
+	std::cout << (arr1.end() <= arr1.begin()) << " OK: 0" << std::endl;
+	std::cout << (arr1.end() <= arr1.end()) << " OK: 1" << std::endl;
+
+	std::cout << (arr1.rbegin()[5]) << " OK: 14" << std::endl;
+
+	std::cout << *(5 + arr1.rbegin()) << " OK: 14" << std::endl;
+
+	std::cout << (arr1.rend() - arr1.rbegin()) << " OK: 20" << std::endl;
+
+}
+
 int     main(void)
 {
 	constructors_iterator();
@@ -1075,6 +1134,7 @@ int     main(void)
 	swap_test();
 	clear_test();
 	relational_operators_test();
+	reverse_iterator_test();
 
 
     return (0);

@@ -20,6 +20,7 @@
 // ========================== OTHER INCLUDES ===================================
 
 # include "ft_random_access_iterator.hpp"
+# include "ft_reverse_iterator.hpp"
 
 // =============================================================================
 
@@ -58,9 +59,9 @@ struct enable_if <true, T> {
 		typedef ft::RandomAccessIterator<T, T*, T& >            iterator;
 		typedef ft::RandomAccessIterator<T, const T*, const T&> const_iterator;
 
-		// typedef [> reverse_iterator<iterator> <]             reverse_iterator;
-		// typedef [> reverse_iterator<const_iterator> <]       const_reverse_iterator;
-		//
+		typedef ft::ReverseIterator<iterator>                   reverse_iterator;
+		typedef ft::ReverseIterator<const_iterator>             const_reverse_iterator;
+
 		typedef typename RandomAccessIterator<T, T*, T&>::difference_type
                                                                 difference_type;
 
@@ -200,35 +201,61 @@ struct enable_if <true, T> {
 
 		// Iterators -----------------------------------------------------------
 
-		iterator          begin() {
+		iterator               begin() {
 
 			return iterator(this->arr_);
 		}
 
-		const_iterator    begin() const {
+		const_iterator         begin() const {
 
 			return const_iterator(this->arr_);
 		}
 
-		iterator          end() {
+		iterator               end() {
 
 			return iterator(this->arr_ + this->size_);
 		}
 
-		const_iterator    end() const {
+		const_iterator         end() const {
 
 			return const_iterator(this->arr_ + this->size_);
 		}
 
-		// iterator rbegin() { + const version
+		reverse_iterator       rbegin() {
 
-		//     return iterator(this->arr_);
-		// }
+			if (this->size_ == 0) {
+				return reverse_iterator(iterator(this->arr_));
+			} else {
+				return reverse_iterator(iterator(this->arr_ + this->size_ - 1));
+			}
+		}
 
-		// iterator rend() { + const version
+		const_reverse_iterator rbegin() const {
 
-		//     return iterator(this->arr_);
-		// }
+			if (this->size_ == 0) {
+				return iterator(this->arr_);
+			} else {
+				return iterator(this->arr_ + this->size_ - 1);
+			}
+		}
+
+		reverse_iterator       rend() {
+
+			if (this->size_ == 0) {
+				return reverse_iterator(iterator(this->arr_));
+			} else {
+				return reverse_iterator(iterator(this->arr_ - 1));
+			}
+		}
+
+		reverse_iterator       rend() const {
+
+			if (this->size_ == 0) {
+				return reverse_iterator(iterator(this->arr_));
+			} else {
+				return reverse_iterator(iterator(this->arr_ - 1));
+			}
+		}
 
 		// ---------------------------------------------------------------------
 
