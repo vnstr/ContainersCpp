@@ -920,6 +920,68 @@ void    erase_iter_iter_test() {
 	std::cout << std::endl;
 }
 
+void    swap_test() {
+
+	std::vector<int> src(30);
+	for (size_t i = 0; i < src.size(); ++i) {
+		src[i] = i + 990;
+	}
+
+	std::cout << "\n STD_ARR\n" << std::endl;
+	std::vector<int> arr1(10, 3);
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		arr1[i] = i;
+	}
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	arr1.swap(src);
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "\n FT_ARR\n" << std::endl;
+
+	ft::Vector<int> ft_src(30);
+	for (size_t i = 0; i < ft_src.size(); ++i) {
+		ft_src[i] = i + 990;
+	}
+	ft::Vector<int> ft_arr1(10, 3);
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		ft_arr1[i] = i + 10;
+	}
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	ft_arr1.swap(ft_src);
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+
+	std::cout << "arr   : ";
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "ft_arr: ";
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+}
+
 int     main(void)
 {
 	// constructors_iterator();
@@ -931,7 +993,8 @@ int     main(void)
 	// insert_pos_val_test();
 	// insert_pos_iter_iter();
 	// erase_iter_test();
-	erase_iter_iter_test();
+	// erase_iter_iter_test();
+	// swap_test();
 
 
     return (0);

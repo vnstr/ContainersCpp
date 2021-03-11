@@ -13,6 +13,7 @@
 # include <iterator>  // std::random_access_iterator_tag
 # include <limits>    // std::numeric_limits
 # include <exception> // std::exception
+# include <algorithm> // std::swap();
 
 // =============================================================================
 
@@ -597,6 +598,15 @@ struct enable_if <true, T> {
 				 sizeof(value_type) * (this->size_ - start)
 				 );
 			return iterator(this->arr_ + start);
+		}
+
+		void swap (Vector & x) {
+
+			std::swap(this->arr_, x.arr_);
+			std::swap(this->begin_, x.begin_);
+			std::swap(this->size_, x.size_);
+			std::swap(this->capacity_, x.capacity_);
+			std::swap(this->alloc_, x.alloc_);
 		}
 
 		// ---------------------------------------------------------------------
