@@ -195,7 +195,7 @@ struct enable_if <true, T> {
 			return this->alloc_.max_size();
 		}
 
-		void resize (size_type n, value_type val = value_type()) {
+		void      resize (size_type n, value_type val = value_type()) {
 
 			size_type i;
 
@@ -239,12 +239,12 @@ struct enable_if <true, T> {
 			return this->capacity_;
 		}
 
-		bool empty() const {
+		bool      empty() const {
 
 			return this->size_ == 0;
 		}
 
-		void reserve (size_type n) {
+		void      reserve(size_type n) {
 
 			if (this->capacity_ >= n) {
 				return ;
@@ -264,7 +264,6 @@ struct enable_if <true, T> {
 			this->arr_      = new_arr;
 			this->begin_    = new_arr;
 			this->capacity_ = n;
-
 		}
 
 
@@ -282,7 +281,7 @@ struct enable_if <true, T> {
 			return this->arr_[n];
 		}
 
-		reference       at (size_type n) {
+		reference       at(size_type n) {
 
 			if (n >= this->size_) {
 				throw Vector::OutOfRange();
@@ -292,7 +291,7 @@ struct enable_if <true, T> {
 			}
 		}
 
-		const_reference at (size_type n) const {
+		const_reference at(size_type n) const {
 
 			if (n >= this->size_) {
 				throw Vector::OutOfRange();
@@ -327,7 +326,7 @@ struct enable_if <true, T> {
 		// Modifiers -----------------------------------------------------------
 
 		template <class InputIterator>
-		void assign
+		void     assign
 		(
 		 InputIterator first,
 		 InputIterator last,
@@ -373,7 +372,7 @@ struct enable_if <true, T> {
 			this->begin_    = new_arr;
 		}
 
-		void assign (size_type n, const value_type& val) {
+		void     assign(size_type n, const value_type& val) {
 
 			size_type new_capacity;
 			size_type new_size = n;
@@ -403,7 +402,7 @@ struct enable_if <true, T> {
 			this->begin_    = new_arr;
 		}
 
-		void push_back (const value_type & val) {
+		void     push_back(const value_type & val) {
 
 			if (this->size_ < capacity_) {
 				this->alloc_.construct(this->arr_ + this->size_, val);
@@ -431,7 +430,7 @@ struct enable_if <true, T> {
 			this->capacity_ = new_capacity;
 		}
 
-		void pop_back() {
+		void     pop_back() {
 
 			if (this->size_ == 0) {
 				return ;
@@ -440,7 +439,7 @@ struct enable_if <true, T> {
 			--this->size_;
 		}
 
-		iterator insert (iterator position, const value_type& val) {
+		iterator insert(iterator position, const value_type& val) {
 
 			pointer         new_arr;
 			size_t          new_capacity;
@@ -451,7 +450,6 @@ struct enable_if <true, T> {
 			} else {
 				new_capacity = this->capacity_;
 			}
-
 			new_arr = this->alloc_.allocate(new_capacity);
 
 			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
@@ -475,6 +473,95 @@ struct enable_if <true, T> {
 			this->begin_    = new_arr;
 			this->capacity_ = new_capacity;
 			return (this->begin() + before);
+		}
+
+		void     insert(iterator position, size_type n, const value_type& val) {
+
+			pointer         new_arr;
+			size_t          new_capacity = this->capacity_;
+			difference_type before       = position - this->begin();
+
+			while (this->size_ + n > new_capacity) {
+				new_capacity *= 2;
+			}
+			new_arr = this->alloc_.allocate(new_capacity);
+
+			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
+			size_type i;
+			for (i = 0; i < n; ++i) {
+				this->alloc_.construct(new_arr + before + i, val);
+			}
+			memcpy
+				(
+				 new_arr + before + n,
+				 this->arr_ + before,
+				 sizeof(value_type) * (this->size_ - before)
+				 );
+
+			if (this->begin_ != 0) {
+				for (i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->begin_, this->capacity_);
+			}
+
+			this->size_    += n;
+			this->arr_      = new_arr;
+			this->begin_    = new_arr;
+			this->capacity_ = new_capacity;
+		}
+
+		template <class InputIterator>
+		void     insert
+		(
+		 iterator position,
+		 InputIterator first,
+		 InputIterator last,
+		 typename enable_if
+		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
+		 ) {
+
+			pointer         new_arr;
+			difference_type n = last - first;
+			size_t          new_capacity = this->capacity_;
+			difference_type before       = position - this->begin();
+
+			if (n <= 0) {
+				return ;
+			} else if (this->size_ + n > new_capacity) {
+				new_capacity *= 2;
+			}
+
+			if (this->size_ + n > new_capacity) {
+				new_capacity = this->size_ + n;
+			}
+
+			new_arr = this->alloc_.allocate(new_capacity);
+
+			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
+
+			iterator output(new_arr + before);
+
+			std::copy(first, last, output);
+			memcpy
+				(
+				 new_arr + before + n,
+				 this->arr_ + before,
+				 sizeof(value_type) * (this->size_ - before)
+				 );
+
+			if (this->begin_ != 0) {
+				for (size_type i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->begin_, this->capacity_);
+			}
+
+			this->size_     += n;
+			this->arr_      = new_arr;
+			this->begin_    = new_arr;
+			this->capacity_ = new_capacity;
+
 		}
 
 		// ---------------------------------------------------------------------

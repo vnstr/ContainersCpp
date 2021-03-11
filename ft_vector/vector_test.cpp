@@ -295,49 +295,49 @@ void    capacity_test() {
 	std::cout << "\n# Capasity Test End #\n" << std::endl;
 }
 
-// void    element_access_test() {
+void    element_access_test() {
 
-//     std::cout << "\n# ElementAccess     #\n" << std::endl;
+	std::cout << "\n# ElementAccess     #\n" << std::endl;
 
-//     // std::cout << "\n---- operator[]      \n" << std::endl;
+	// std::cout << "\n---- operator[]      \n" << std::endl;
 
-//     ft::Vector<Test> arr(10, 7);
-//     for (int i = 0; i < 10; ++i) {
-//         arr[i].alloc();
-//     }
-//     std::cout << arr[0].some << " OK: 7" << std::endl;
+	ft::Vector<Test> arr(10, 7);
+	for (int i = 0; i < 10; ++i) {
+		arr[i].alloc();
+	}
+	std::cout << arr[0].some << " OK: 7" << std::endl;
 
-//     std::cout << "\n---------------------\n" << std::endl;
+	std::cout << "\n---------------------\n" << std::endl;
 
-//     std::cout << "\n---- at()            \n" << std::endl;
+	std::cout << "\n---- at()            \n" << std::endl;
 
-//     std::cout << arr.at(0).some <<  " OK: 7" << std::endl;
+	std::cout << arr.at(0).some <<  " OK: 7" << std::endl;
 
-//     try {
-//         arr.at(1000);
-//     }
-//     catch(std::exception & e) {
-//         std::cout << e.what() << std::endl;
-//     }
-
-
-//     std::cout << "\n---------------------\n" << std::endl;
-
-//     std::cout << "\n---- front()         \n" << std::endl;
-
-//     std::cout << arr.front().some << " OK: 7" << std::endl;
-
-//     std::cout << "\n---------------------\n" << std::endl;
+	try {
+		arr.at(1000);
+	}
+	catch(std::exception & e) {
+		std::cout << e.what() << std::endl;
+	}
 
 
-//     std::cout << "\n---- front()         \n" << std::endl;
+	std::cout << "\n---------------------\n" << std::endl;
 
-//     std::cout << arr.back().some << " OK: 7";
+	std::cout << "\n---- front()         \n" << std::endl;
 
-//     std::cout << "\n---------------------\n" << std::endl;
+	std::cout << arr.front().some << " OK: 7" << std::endl;
 
-//     std::cout << "\n# ElementAccess End #\n" << std::endl;
-// }
+	std::cout << "\n---------------------\n" << std::endl;
+
+
+	std::cout << "\n---- front()         \n" << std::endl;
+
+	std::cout << arr.back().some << " OK: 7";
+
+	std::cout << "\n---------------------\n" << std::endl;
+
+	std::cout << "\n# ElementAccess End #\n" << std::endl;
+}
 
 void    modifier_test() {
 
@@ -448,93 +448,93 @@ void    modifier_test() {
 	// ARR ---------------------------------------------------------------------
 	// assign(n, val);
 
-	// std::cout << "ARR:" << std::endl;
+	std::cout << "ARR:" << std::endl;
 
 
-	// ft::Vector<int> iarr_0_128(129);
-	// for (size_t i = 0; i < iarr_0_128.size(); ++i) {
-	//     iarr_0_128[i] = i;
-	// }
-	// std::cout << "\narr: ";
-	// for (size_t i = 0; i < iarr_0_128.size(); ++i) {
-	//     if (i == 32 || i == 64 || i == 96)
-	//         std::cout << "     ";
-	//     std::setw(3);
-	//     std::cout << iarr_0_128[i] << " ";
-	//     if (i == 31 || i == 63 || i == 95)
-	//         std::cout << std::endl;
-	// }
-	// std::cout << "\n" << std::endl;
-	// std::cout << "size: " << iarr_0_128.size() << ", capacity: " << iarr_0_128.capacity() << std::endl;
+	ft::Vector<int> iarr_0_128(129);
+	for (size_t i = 0; i < iarr_0_128.size(); ++i) {
+		iarr_0_128[i] = i;
+	}
+	std::cout << "\narr: ";
+	for (size_t i = 0; i < iarr_0_128.size(); ++i) {
+		if (i == 32 || i == 64 || i == 96)
+			std::cout << "     ";
+		std::setw(3);
+		std::cout << iarr_0_128[i] << " ";
+		if (i == 31 || i == 63 || i == 95)
+			std::cout << std::endl;
+	}
+	std::cout << "\n" << std::endl;
+	std::cout << "size: " << iarr_0_128.size() << ", capacity: " << iarr_0_128.capacity() << std::endl;
 
 
 
-	// std::cout << "\n---- assign()        \n" << std::endl;
+	std::cout << "\n---- assign()        \n" << std::endl;
 
 
-	// try {
-	//     iarr_0_128.assign(0, 8);
-	// }
-	// catch(std::exception & e) {
-	//     std::cout << "Exceptions: |" << e.what() << "|" << std::endl;
-	// }
+	try {
+		iarr_0_128.assign(0, 8);
+	}
+	catch(std::exception & e) {
+		std::cout << "Exceptions: |" << e.what() << "|" << std::endl;
+	}
 
-	// std::cout << "\narr: ";
-	// for (size_t i = 0; i < iarr_0_128.size(); ++i) {
-	//     if (i == 32 || i == 64 || i == 96)
-	//         std::cout << "     ";
-	//     std::setw(3);
-	//     std::cout << iarr_0_128[i] << " ";
-	//     if (i == 31 || i == 63 || i == 95)
-	//         std::cout << std::endl;
-	// }
-	// std::cout << "\n" << std::endl;
-	// std::cout << "size: " << iarr_0_128.size() << ", capacity: " << iarr_0_128.capacity() << std::endl;
+	std::cout << "\narr: ";
+	for (size_t i = 0; i < iarr_0_128.size(); ++i) {
+		if (i == 32 || i == 64 || i == 96)
+			std::cout << "     ";
+		std::setw(3);
+		std::cout << iarr_0_128[i] << " ";
+		if (i == 31 || i == 63 || i == 95)
+			std::cout << std::endl;
+	}
+	std::cout << "\n" << std::endl;
+	std::cout << "size: " << iarr_0_128.size() << ", capacity: " << iarr_0_128.capacity() << std::endl;
 
 
 	// std::cout << "\n---------------------\n" << std::endl;
 
 	// STD_ARR -----------------------------------------------------------------
 
-	// std::cout << "STD_ARR:" << std::endl;
+	std::cout << "STD_ARR:" << std::endl;
 
-	// std::vector<int> std_iarr_0_128(129);
-	// for (size_t i = 0; i < std_iarr_0_128.size(); ++i) {
-	//     std_iarr_0_128[i] = i;
-	// }
-	// std::cout << "\nstd_arr: ";
-	// for (size_t i = 0; i < std_iarr_0_128.size(); ++i) {
-	//     if (i == 32 || i == 64 || i == 96)
-	//         std::cout << "     ";
-	//     std::setw(3);
-	//     std::cout << std_iarr_0_128[i] << " ";
-	//     if (i == 31 || i == 63 || i == 95)
-	//         std::cout << std::endl;
-	// }
-	// std::cout << "\n" << std::endl;
-	// std::cout << "size: " << std_iarr_0_128.size() << ", capacity: " << std_iarr_0_128.capacity() << std::endl;
+	std::vector<int> std_iarr_0_128(129);
+	for (size_t i = 0; i < std_iarr_0_128.size(); ++i) {
+		std_iarr_0_128[i] = i;
+	}
+	std::cout << "\nstd_arr: ";
+	for (size_t i = 0; i < std_iarr_0_128.size(); ++i) {
+		if (i == 32 || i == 64 || i == 96)
+			std::cout << "     ";
+		std::setw(3);
+		std::cout << std_iarr_0_128[i] << " ";
+		if (i == 31 || i == 63 || i == 95)
+			std::cout << std::endl;
+	}
+	std::cout << "\n" << std::endl;
+	std::cout << "size: " << std_iarr_0_128.size() << ", capacity: " << std_iarr_0_128.capacity() << std::endl;
 
-	// std::cout << "\n---- assign()        \n" << std::endl;
+	std::cout << "\n---- assign()        \n" << std::endl;
 
 
-	// try {
-	//     std_iarr_0_128.assign(0, 8);
-	// }
-	// catch(std::exception & e) {
-	//     std::cout << "Exceptions: |" << e.what() << "|" << std::endl;
-	// }
+	try {
+		std_iarr_0_128.assign(0, 8);
+	}
+	catch(std::exception & e) {
+		std::cout << "Exceptions: |" << e.what() << "|" << std::endl;
+	}
 
-	// std::cout << "\nstd_arr: ";
-	// for (size_t i = 0; i < std_iarr_0_128.size(); ++i) {
-	//     if (i == 32 || i == 64 || i == 96)
-	//         std::cout << "     ";
-	//     std::setw(3);
-	//     std::cout << std_iarr_0_128[i] << " ";
-	//     if (i == 31 || i == 63 || i == 95)
-	//         std::cout << std::endl;
-	// }
-	// std::cout << "\n" << std::endl;
-	// std::cout << "size: " << std_iarr_0_128.size() << ", capacity: " << std_iarr_0_128.capacity() << std::endl;
+	std::cout << "\nstd_arr: ";
+	for (size_t i = 0; i < std_iarr_0_128.size(); ++i) {
+		if (i == 32 || i == 64 || i == 96)
+			std::cout << "     ";
+		std::setw(3);
+		std::cout << std_iarr_0_128[i] << " ";
+		if (i == 31 || i == 63 || i == 95)
+			std::cout << std::endl;
+	}
+	std::cout << "\n" << std::endl;
+	std::cout << "size: " << std_iarr_0_128.size() << ", capacity: " << std_iarr_0_128.capacity() << std::endl;
 
 	std::cout << "\n# Modifiers Test End#\n" << std::endl;
 }
@@ -653,6 +653,137 @@ void insert_pos_val_test() {
 	std::cout << std::endl;
 }
 
+void insert_pos_n_val_test() {
+
+	std::cout << "\n STD_ARR\n" << std::endl;
+	std::vector<int> arr1(10, 3);
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		arr1[i] = i;
+	}
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	arr1.insert(arr1.begin() + 5, 5, 998);
+	arr1.insert(arr1.begin(), 3, 997);
+	arr1.insert(arr1.end(), 3, 996);
+
+	// for (size_t i = 0; i < arr1.size(); ++i) {
+	//     std::cout << arr1[i] << " ";
+	// }
+	// std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+
+	std::cout << std::endl;
+
+	std::cout << "\n FT_ARR\n" << std::endl;
+
+	ft::Vector<int> ft_arr1(10, 3);
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		ft_arr1[i] = i;
+	}
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	ft_arr1.insert(ft_arr1.begin() + 5, 5, 998);
+	ft_arr1.insert(ft_arr1.begin(), 3, 997);
+	ft_arr1.insert(ft_arr1.end(), 3, 996);
+
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+
+	std::cout << "arr   : ";
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "ft_arr: ";
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+}
+
+void    insert_pos_iter_iter() {
+
+	std::vector<int> src(30);
+	for (size_t i = 0; i < src.size(); ++i) {
+		src[i] = i + 990;
+	}
+
+	std::cout << "\n STD_ARR\n" << std::endl;
+	std::vector<int> arr1(10, 3);
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		arr1[i] = i;
+	}
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+	arr1.insert(arr1.begin(), src.begin(), src.end());
+
+	// for (size_t i = 0; i < arr1.size(); ++i) {
+	//     std::cout << arr1[i] << " ";
+	// }
+	// std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << arr1.size()
+		<< ", arr1.capacity() = " << arr1.capacity() << std::endl;
+
+
+	std::cout << std::endl;
+
+	std::cout << "\n FT_ARR\n" << std::endl;
+
+	ft::Vector<int> ft_arr1(10, 3);
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		ft_arr1[i] = i;
+	}
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+	ft_arr1.insert(ft_arr1.begin(), src.begin(), src.end());
+
+
+	std::cout << "arr1.size() = " << ft_arr1.size()
+		<< ", arr1.capacity() = " << ft_arr1.capacity() << std::endl;
+
+
+	std::cout << "arr   : ";
+	for (size_t i = 0; i < arr1.size(); ++i) {
+		std::cout << arr1[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "ft_arr: ";
+	for (size_t i = 0; i < ft_arr1.size(); ++i) {
+		std::cout << ft_arr1[i] << " ";
+	}
+	std::cout << std::endl;
+}
+
 int     main(void)
 {
 	// constructors_iterator();
@@ -662,6 +793,7 @@ int     main(void)
 	// modifier_test();
 	// push_back_test();
 	// insert_pos_val_test();
+	insert_pos_iter_iter();
 
 
     return (0);
