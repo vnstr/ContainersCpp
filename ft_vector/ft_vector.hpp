@@ -74,14 +74,22 @@ struct enable_if <true, T> {
 		: arr_(0), begin_(0), size_(0), capacity_(0), alloc_(alloc) {}
 
 		explicit Vector
-		  (
-		   size_type n,
-		   const value_type& val = value_type(),
-		   const allocator_type& alloc = allocator_type()
-		  )
-		  : size_(n), capacity_(n), alloc_(alloc) {
+		(
+		 size_type n,
+		 const value_type& val = value_type(),
+		 const allocator_type& alloc = allocator_type()
+		) : size_(n), capacity_(n), alloc_(alloc) {
 
-			this->arr_   = this->alloc_.allocate(n);
+			try {
+				 this->arr_   = this->alloc_.allocate(n);
+			} catch (std::exception & e) {
+			this->arr_      = 0;
+			this->begin_    = 0;
+			this->size_     = 0;
+			this->capacity_ = 0;
+			throw Vector::LengthError();
+		}
+
 			this->begin_ = this->arr_;
 			for (size_type i = 0; i < n; ++i) {
 				this->alloc_.construct(this->arr_ + i, val);
@@ -100,7 +108,17 @@ struct enable_if <true, T> {
 
 			this->size_     = last - first;
 			this->capacity_ = this->size_;
-			this->arr_      = this->alloc_.allocate(this->size_);
+
+			try {
+				this->arr_ = this->alloc_.allocate(this->size_);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
+
 			this->begin_    = this->arr_;
 			for (size_type i = 0; i < this->size_; ++i) {
 				this->arr_[i] = *first;
@@ -111,7 +129,16 @@ struct enable_if <true, T> {
 		Vector(const Vector & x)
 		: size_(x.size_), capacity_(x.capacity_), alloc_(x.alloc_) {
 
-			this->arr_      = this->alloc_.allocate(x.capacity_);
+			try {
+				this->arr_ = this->alloc_.allocate(x.capacity_);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
+
 			this->begin_    = this->arr_;
 			this->size_     = x.size_;
 			this->capacity_ = x.capacity_;
@@ -141,10 +168,25 @@ struct enable_if <true, T> {
 			if (this == &x)
 				return (*this);
 
-			this->alloc_.deallocate(this->arr_, this->capacity_);
+			if (this->begin_ != 0) {
+				for (size_type i = 0; i < this->size_; ++i) {
+					this->alloc_.destroy(this->arr_ + i);
+				}
+				this->alloc_.deallocate(this->begin_, this->capacity_);
+			}
 
-			this->alloc_    = x.alloc_;
-			this->arr_      = this->alloc_.allocate(x.capacity_);
+			this->alloc_ = x.alloc_;
+
+			try {
+				this->arr_ = this->alloc_.allocate(x.capacity_);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
+
 			this->size_     = x.size_;
 			this->capacity_ = x.capacity_;
 
@@ -219,7 +261,17 @@ struct enable_if <true, T> {
 				this->size_ = n;
 			}
 			else {
-				pointer   new_arr = this->alloc_.allocate(n);
+				pointer new_arr;
+				try {
+					new_arr = this->alloc_.allocate(n);
+				} catch (std::exception & e) {
+					this->arr_      = 0;
+					this->begin_    = 0;
+					this->size_     = 0;
+					this->capacity_ = 0;
+					throw Vector::LengthError();
+				}
+
 
 				memcpy(new_arr, this->arr_, sizeof(value_type) * this->size_);
 
@@ -257,7 +309,16 @@ struct enable_if <true, T> {
 				return ;
 			}
 
-			pointer new_arr = this->alloc_.allocate(n);
+			pointer new_arr;
+			try {
+				new_arr = this->alloc_.allocate(n);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
 
 			memcpy(new_arr, this->arr_, sizeof(value_type) * this->size_);
 
@@ -363,7 +424,17 @@ struct enable_if <true, T> {
 				new_capacity = this->capacity_;
 			}
 
-			pointer   new_arr  = this->alloc_.allocate(new_capacity);
+			pointer new_arr ;
+			try {
+				new_arr = this->alloc_.allocate(new_capacity);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
+
 
 			std::copy(first, last, new_arr);
 
@@ -390,7 +461,17 @@ struct enable_if <true, T> {
 				new_capacity = this->capacity_;
 			}
 
-			pointer   new_arr  = this->alloc_.allocate(new_capacity);
+			pointer new_arr ;
+			try {
+				new_arr = this->alloc_.allocate(new_capacity);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
+
 
 			size_type i;
 			for (i = 0; i < new_size; ++i) {
@@ -418,7 +499,17 @@ struct enable_if <true, T> {
 			}
 
 			size_type new_capacity = this->capacity_ * 2;
-			pointer   new_arr      = this->alloc_.allocate(new_capacity);
+			pointer new_arr;
+			try {
+				new_arr = this->alloc_.allocate(new_capacity);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
+
 
 			memcpy(new_arr, this->arr_, sizeof(value_type) * this->size_);
 
@@ -457,7 +548,17 @@ struct enable_if <true, T> {
 			} else {
 				new_capacity = this->capacity_;
 			}
-			new_arr = this->alloc_.allocate(new_capacity);
+
+			try {
+				new_arr = this->alloc_.allocate(new_capacity);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
+
 
 			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
 			this->alloc_.construct(new_arr + before, val);
@@ -491,7 +592,16 @@ struct enable_if <true, T> {
 			while (this->size_ + n > new_capacity) {
 				new_capacity *= 2;
 			}
-			new_arr = this->alloc_.allocate(new_capacity);
+
+			try {
+				new_arr = this->alloc_.allocate(new_capacity);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
 
 			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
 			size_type i;
@@ -543,7 +653,15 @@ struct enable_if <true, T> {
 				new_capacity = this->size_ + n;
 			}
 
-			new_arr = this->alloc_.allocate(new_capacity);
+			try {
+				new_arr = this->alloc_.allocate(new_capacity);
+			} catch (std::exception & e) {
+				this->arr_      = 0;
+				this->begin_    = 0;
+				this->size_     = 0;
+				this->capacity_ = 0;
+				throw Vector::LengthError();
+			}
 
 			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
 
