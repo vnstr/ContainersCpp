@@ -243,7 +243,7 @@ void    capacity_test() {
 	std::cout << "\n---- resize()        \n" << std::endl;
 
 	// Less
-	std::vector<Test> arr(10, 7);
+	ft::Vector<Test> arr(10, 7);
 	std::cout << arr[9].some << std::endl;
 	for (int i = 0; i < 10; ++i) {
 		arr[i].alloc();
@@ -257,7 +257,7 @@ void    capacity_test() {
 	std::cout << "after resize(0) "<< std::endl;
 
 	// More
-	std::vector<Test> arr2(10, 7);
+	ft::Vector<Test> arr2(10, 7);
 	for (int i = 0; i < 10; ++i) {
 		arr2[i].alloc();
 	}

@@ -1,12 +1,10 @@
 #ifndef FT_VECTOR_HPP
 # define FT_VECTOR_HPP
 
-// NOTES:
-// 1) Add exception for allocate();
-
 // ============================ STD-LIBS =======================================
 
 # include <iostream>
+# include <cstddef>   // size_t, ptrdiff_t ...
 # include <cstring>   // memcpy();
 # include <memory>    // allocator
 # include <cstddef>   // ptrdiff_t
@@ -59,8 +57,8 @@ struct enable_if <true, T> {
 		typedef ft::RandomAccessIterator<T, T*, T& >            iterator;
 		typedef ft::RandomAccessIterator<T, const T*, const T&> const_iterator;
 
-		typedef ft::ReverseIterator<iterator>                   reverse_iterator;
-		typedef ft::ReverseIterator<const_iterator>             const_reverse_iterator;
+		typedef ft::ReverseIterator<iterator>                  reverse_iterator;
+		typedef ft::ReverseIterator<const_iterator>      const_reverse_iterator;
 
 		typedef typename RandomAccessIterator<T, T*, T&>::difference_type
                                                                 difference_type;
@@ -95,7 +93,7 @@ struct enable_if <true, T> {
 			for (size_type i = 0; i < n; ++i) {
 				this->alloc_.construct(this->arr_ + i, val);
 			}
-		  }
+		}
 
 		template <class InputIterator>
 		Vector
@@ -120,9 +118,9 @@ struct enable_if <true, T> {
 				throw Vector::LengthError();
 			}
 
-			this->begin_    = this->arr_;
+			this->begin_ = this->arr_;
 			for (size_type i = 0; i < this->size_; ++i) {
-				this->arr_[i] = *first;
+				this->alloc_.construct(this->arr_ + i, *first);
 				++first;
 			}
 		}
@@ -188,12 +186,11 @@ struct enable_if <true, T> {
 				throw Vector::LengthError();
 			}
 
+			this->begin_    = this->arr_;
 			this->size_     = x.size_;
 			this->capacity_ = x.capacity_;
 
-			for (size_type i = 0; i < x.size_; ++i) {
-				this->arr_[i] = x.arr_[i];
-			}
+			memcpy(this->arr_, x.arr_, sizeof(value_type) * this->size_);
 			return *this;
 		}
 
@@ -525,8 +522,15 @@ struct enable_if <true, T> {
 				return ;
 			}
 
-			size_type new_capacity = this->capacity_ * 2;
-			pointer new_arr;
+			size_type new_capacity;
+			pointer   new_arr;
+
+			if (this->capacity_ == 0) {
+				new_capacity = 1;
+			} else {
+				new_capacity = this->capacity_ * 2;
+			}
+
 			try {
 				new_arr = this->alloc_.allocate(new_capacity);
 			} catch (std::exception & e) {
@@ -586,7 +590,6 @@ struct enable_if <true, T> {
 				throw Vector::LengthError();
 			}
 
-
 			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
 			this->alloc_.construct(new_arr + before, val);
 			memcpy
@@ -613,8 +616,14 @@ struct enable_if <true, T> {
 		void     insert(iterator position, size_type n, const value_type& val) {
 
 			pointer         new_arr;
-			size_t          new_capacity = this->capacity_;
+			size_t          new_capacity;
 			difference_type before       = position - this->begin();
+
+			if (this->capacity_ == 0) {
+				new_capacity = this->size_ + n;
+			} else {
+				new_capacity = this->capacity_;
+			}
 
 			while (this->size_ + n > new_capacity) {
 				new_capacity *= 2;
@@ -666,7 +675,7 @@ struct enable_if <true, T> {
 		 ) {
 
 			pointer         new_arr;
-			difference_type n = last - first;
+			difference_type n            = last - first;
 			size_t          new_capacity = this->capacity_;
 			difference_type before       = position - this->begin();
 
@@ -711,7 +720,6 @@ struct enable_if <true, T> {
 			this->arr_      = new_arr;
 			this->begin_    = new_arr;
 			this->capacity_ = new_capacity;
-
 		}
 
 		iterator erase(iterator position) {
@@ -728,7 +736,6 @@ struct enable_if <true, T> {
 				 );
 
 			return iterator(this->arr_ + index);
-
 		}
 
 		iterator erase(iterator first, iterator last) {
@@ -803,6 +810,8 @@ struct enable_if <true, T> {
 		size_type        capacity_;
 		allocator_type   alloc_;
   };
+
+// =============================================================================
 
 // Relational operators ========================================================
 

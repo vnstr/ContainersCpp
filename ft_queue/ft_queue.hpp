@@ -39,7 +39,7 @@ namespace ft {
 
 		// Constructor - Destructor --------------------------------------------
 
-		explicit queue(const container_type & ctnr = container_type())
+		explicit Queue(const container_type & ctnr = container_type())
 		: c_(ctnr) {}
 
 		// ---------------------------------------------------------------------
@@ -68,17 +68,17 @@ namespace ft {
 
 		value_type &       back() {
 
-			return this->back();
+			return this->c_.back();
 		}
 
 		const value_type & back() const {
 
-			return this->back();
+			return this->c_.back();
 		}
 
 		void               push (const value_type & val) {
 
-			return this->push_back(val);
+			return this->c_.push_back(val);
 		}
 
 		void               pop() {
