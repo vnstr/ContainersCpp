@@ -1,0 +1,2 @@
+1) capacity_test() double free !
+2) try/cath for allocate: in cath need call destructor !
