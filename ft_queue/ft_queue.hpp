@@ -6,7 +6,7 @@
 
 // ============================ STD-LIBS =======================================
 
-# include <cstddef>   // size_t, ptrdiff_t ...
+# include <cstddef> // size_t, ptrdiff_t ...
 
 // =============================================================================
 
@@ -90,7 +90,7 @@ namespace ft {
 
 		// Getters -------------------------------------------------------------
 
-		container_type get_container() {
+		container_type get_container() const {
 
 			return this->c_;
 		}
