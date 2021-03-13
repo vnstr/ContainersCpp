@@ -75,8 +75,8 @@ struct enable_if <true, T> {
 		explicit Vector
 		(
 		 size_type n,
-		 const value_type& val = value_type(),
-		 const allocator_type& alloc = allocator_type()
+		 const value_type & val = value_type(),
+		 const allocator_type & alloc = allocator_type()
 		) : size_(n), capacity_(n), alloc_(alloc) {
 
 			try {
@@ -156,6 +156,11 @@ struct enable_if <true, T> {
 				this->alloc_.destroy(this->arr_ + i);
 			}
 			this->alloc_.deallocate(this->begin_, this->capacity_);
+
+			this->arr_      = 0;
+			this->begin_    = 0;
+			this->size_     = 0;
+			this->capacity_ = 0;
 		}
 
 		// ---------------------------------------------------------------------
@@ -167,13 +172,7 @@ struct enable_if <true, T> {
 			if (this == &x)
 				return (*this);
 
-			if (this->begin_ != 0) {
-				for (size_type i = 0; i < this->size_; ++i) {
-					this->alloc_.destroy(this->arr_ + i);
-				}
-				this->alloc_.deallocate(this->begin_, this->capacity_);
-			}
-
+			this->~Vector();
 			this->alloc_ = x.alloc_;
 
 			try {
@@ -186,11 +185,14 @@ struct enable_if <true, T> {
 				throw Vector::LengthError();
 			}
 
+			for (size_type i = 0; i < x.size_; ++i) {
+				this->arr_[i] = x[i];
+			}
+
 			this->begin_    = this->arr_;
 			this->size_     = x.size_;
 			this->capacity_ = x.capacity_;
 
-			memcpy(this->arr_, x.arr_, sizeof(value_type) * this->size_);
 			return *this;
 		}
 
@@ -289,24 +291,15 @@ struct enable_if <true, T> {
 				try {
 					new_arr = this->alloc_.allocate(n);
 				} catch (std::exception & e) {
-					this->arr_      = 0;
-					this->begin_    = 0;
-					this->size_     = 0;
-					this->capacity_ = 0;
 					throw Vector::LengthError();
 				}
 
-
 				memcpy(new_arr, this->arr_, sizeof(value_type) * this->size_);
-
 				for (i = this->size_; i < n; ++i) {
 					this->alloc_.construct(new_arr + i, val);
 				}
 
 				if (this->begin_ != 0) {
-					for (i = 0; i < this->size_; ++i) {
-						this->alloc_.destroy(this->arr_ + i);
-					}
 					this->alloc_.deallocate(this->begin_, this->capacity_);
 				}
 
@@ -333,23 +326,10 @@ struct enable_if <true, T> {
 				return ;
 			}
 
-			pointer new_arr;
-			try {
-				new_arr = this->alloc_.allocate(n);
-			} catch (std::exception & e) {
-				this->arr_      = 0;
-				this->begin_    = 0;
-				this->size_     = 0;
-				this->capacity_ = 0;
-				throw Vector::LengthError();
-			}
-
+			pointer new_arr = this->alloc_.allocate(n);;
 			memcpy(new_arr, this->arr_, sizeof(value_type) * this->size_);
 
 			if (this->begin_ != 0) {
-				for (size_type i = 0; i < this->size_; ++i) {
-					this->alloc_.destroy(this->arr_ + i);
-				}
 				this->alloc_.deallocate(this->begin_, this->capacity_);
 			}
 
@@ -426,92 +406,65 @@ struct enable_if <true, T> {
 		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
 		)
 		{
-			if (last - first < 0) {
-				// EXCEPTION
-				for (size_type i = 0; i < this->size_; ++i) {
-					this->alloc_.destroy(this->arr_ + i);
-				}
-				this->alloc_.deallocate(this->begin_, this->capacity_);
-				this->arr_      = 0;
-				this->begin_    = 0;
-				this->size_     = 0;
-				this->capacity_ = 0;
+			if
+			(
+			 last - first < 0 ||
+			 static_cast<size_type>(last - first) > this->max_size()
+			)
+			{
+				this->~Vector();
 				throw Vector::LengthError();
 			}
 
-			size_type new_capacity;
 			size_type new_size = static_cast<size_type>(last - first);
+			size_type  i = 0;
 
-			if (new_size > this->capacity_) {
-				new_capacity = new_size;
-			} else {
-				new_capacity = this->capacity_;
-			}
-
-			pointer new_arr ;
-			try {
-				new_arr = this->alloc_.allocate(new_capacity);
-			} catch (std::exception & e) {
-				this->arr_      = 0;
-				this->begin_    = 0;
-				this->size_     = 0;
-				this->capacity_ = 0;
-				throw Vector::LengthError();
-			}
-
-
-			std::copy(first, last, new_arr);
-
-			if (this->begin_ != 0) {
-				for (size_type i = 0; i < this->size_; ++i) {
+			if (this->capacity_ > new_size) {
+				for (i = 0; i < new_size; ++i, ++first) {
+					this->arr_[i] = *first;
+				}
+				for (; i < this->size_; ++i) {
 					this->alloc_.destroy(this->arr_ + i);
 				}
-				this->alloc_.deallocate(this->begin_, this->capacity_);
+				this->size_ = new_size;
+			} else {
+				pointer new_arr = this->alloc_.allocate(new_size);
+
+				for (i = 0; i < new_size; ++i, ++first) {
+					this->alloc_.construct(new_arr + i, *first);
+				}
+				this->~Vector();
+				this->arr_      = new_arr;
+				this->begin_    = new_arr;
+				this->size_     = new_size;
+				this->capacity_ = new_size;
 			}
-			this->size_     = new_size;
-			this->capacity_ = new_capacity;
-			this->arr_      = new_arr;
-			this->begin_    = new_arr;
 		}
 
 		void     assign(size_type n, const value_type& val) {
 
-			size_type new_capacity;
-			size_type new_size = n;
+			size_type  i = 0;
 
-			if (new_size > this->capacity_) {
-				new_capacity = new_size;
-			} else {
-				new_capacity = this->capacity_;
-			}
-
-			pointer new_arr ;
-			try {
-				new_arr = this->alloc_.allocate(new_capacity);
-			} catch (std::exception & e) {
-				this->arr_      = 0;
-				this->begin_    = 0;
-				this->size_     = 0;
-				this->capacity_ = 0;
-				throw Vector::LengthError();
-			}
-
-
-			size_type i;
-			for (i = 0; i < new_size; ++i) {
-				this->alloc_.construct(new_arr + i, val);
-			}
-
-			if (this->begin_ != 0) {
-				for (i = 0; i < this->size_; ++i) {
+			if (this->capacity_ > n) {
+				for (i = 0; i < n; ++i) {
+					this->arr_[i] = val;
+				}
+				for (; i < this->size_; ++i) {
 					this->alloc_.destroy(this->arr_ + i);
 				}
-				this->alloc_.deallocate(this->begin_, this->capacity_);
+				this->size_ = n;
+			} else {
+				pointer new_arr = this->alloc_.allocate(n);
+
+				for (i = 0; i < n; ++i) {
+					this->alloc_.construct(new_arr + i, val);
+				}
+				this->~Vector();
+				this->arr_      = new_arr;
+				this->begin_    = new_arr;
+				this->size_     = n;
+				this->capacity_ = n;
 			}
-			this->size_     = new_size;
-			this->capacity_ = new_capacity;
-			this->arr_      = new_arr;
-			this->begin_    = new_arr;
 		}
 
 		void     push_back(const value_type & val) {
