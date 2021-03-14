@@ -11,7 +11,7 @@
 # include <iterator>  // std::random_access_iterator_tag
 # include <limits>    // std::numeric_limits
 # include <exception> // std::exception
-# include <algorithm> // std::swap(); std::equal();
+# include <algorithm> // std::swap(); std::equal(); std::rotate();
 
 // =============================================================================
 
@@ -474,7 +474,6 @@ struct enable_if <true, T> {
 				++this->size_;
 				return ;
 			}
-
 			size_type new_capacity;
 			pointer   new_arr;
 
@@ -483,29 +482,16 @@ struct enable_if <true, T> {
 			} else {
 				new_capacity = this->capacity_ * 2;
 			}
-
 			try {
 				new_arr = this->alloc_.allocate(new_capacity);
 			} catch (std::exception & e) {
-				this->arr_      = 0;
-				this->begin_    = 0;
-				this->size_     = 0;
-				this->capacity_ = 0;
 				throw Vector::LengthError();
 			}
-
-
 			memcpy(new_arr, this->arr_, sizeof(value_type) * this->size_);
-
 			this->alloc_.construct(new_arr + this->size_, val);
-
 			if (this->begin_ != 0) {
-				for (size_type i = 0; i < this->size_; ++i) {
-					this->alloc_.destroy(this->arr_ + i);
-				}
 				this->alloc_.deallocate(this->begin_, this->capacity_);
 			}
-
 			++this->size_;
 			this->arr_      = new_arr;
 			this->begin_    = new_arr;
@@ -514,107 +500,64 @@ struct enable_if <true, T> {
 
 		void     pop_back() {
 
-			if (this->size_ == 0) {
-				return ;
-			}
 			this->alloc_.destroy(this->arr_ + this->size_ - 1);
 			--this->size_;
 		}
 
 		iterator insert(iterator position, const value_type& val) {
 
-			pointer         new_arr;
-			size_t          new_capacity;
-			difference_type before = position - this->begin();
+			size_type before = static_cast<size_type>(position - this->begin());
 
-			if (this->size_ + 1 > capacity_) {
-				new_capacity = this->capacity_ * 2;
-			} else {
-				new_capacity = this->capacity_;
-			}
-
-			try {
-				new_arr = this->alloc_.allocate(new_capacity);
-			} catch (std::exception & e) {
-				this->arr_      = 0;
-				this->begin_    = 0;
-				this->size_     = 0;
-				this->capacity_ = 0;
-				throw Vector::LengthError();
-			}
-
-			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
-			this->alloc_.construct(new_arr + before, val);
-			memcpy
-				(
-				 new_arr + before + 1,
-				 this->arr_ + before,
-				 sizeof(value_type) * (this->size_ - before)
-				 );
-
-			if (this->begin_ != 0) {
-				for (size_type i = 0; i < this->size_; ++i) {
-					this->alloc_.destroy(this->arr_ + i);
-				}
-				this->alloc_.deallocate(this->begin_, this->capacity_);
-			}
-
-			++this->size_;
-			this->arr_      = new_arr;
-			this->begin_    = new_arr;
-			this->capacity_ = new_capacity;
-			return (this->begin() + before);
+			this->insert(position, 1, val);
+			return iterator(this->arr_ + before);
 		}
 
 		void     insert(iterator position, size_type n, const value_type& val) {
 
-			pointer         new_arr;
-			size_t          new_capacity;
-			difference_type before       = position - this->begin();
+			size_type before = static_cast<size_type>(position - this->begin());
 
-			if (this->capacity_ == 0) {
-				new_capacity = this->size_ + n;
+			if (this->capacity_ > this->size_ + n) {
+				size_type last = (this->size_ == 0) ? 0 : this->size_ - 1;
+
+				for (size_type i = before; i < this->size_; ++i, --last) {
+					memmove
+					(
+					 this->arr_ + last + n,
+					 this->arr_ + last,
+					 sizeof(value_type)
+					);
+				}
+				for (size_type i = 0; i < n; ++i) {
+					this->alloc_.construct(this->arr_ + before + i, val);
+				}
+				this->size_ += n;
 			} else {
-				new_capacity = this->capacity_;
-			}
+				size_type new_capacity = this->capacity_ * 2;
 
-			while (this->size_ + n > new_capacity) {
-				new_capacity *= 2;
-			}
+				if (new_capacity < this->size_ + n) {
+					new_capacity += (this->size_ + n - new_capacity);
+				}
 
-			try {
-				new_arr = this->alloc_.allocate(new_capacity);
-			} catch (std::exception & e) {
-				this->arr_      = 0;
-				this->begin_    = 0;
-				this->size_     = 0;
-				this->capacity_ = 0;
-				throw Vector::LengthError();
-			}
+				pointer   new_arr = this->alloc_.allocate(new_capacity);
 
-			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
-			size_type i;
-			for (i = 0; i < n; ++i) {
-				this->alloc_.construct(new_arr + before + i, val);
-			}
-			memcpy
-				(
-				 new_arr + before + n,
+				memcpy(new_arr, this->arr_, sizeof(value_type) * before);
+				for (size_type i = 0; i < n; ++i) {
+					this->alloc_.construct(new_arr + before + i, val);
+				}
+				memcpy
+				(new_arr + before + n,
 				 this->arr_ + before,
 				 sizeof(value_type) * (this->size_ - before)
-				 );
+				);
 
-			if (this->begin_ != 0) {
-				for (i = 0; i < this->size_; ++i) {
-					this->alloc_.destroy(this->arr_ + i);
+				if (this->begin_ != 0) {
+					this->alloc_.deallocate(this->begin_, this->capacity_);
 				}
-				this->alloc_.deallocate(this->begin_, this->capacity_);
+				this->size_     += n;
+				this->arr_      = new_arr;
+				this->begin_    = new_arr;
+				this->capacity_ = new_capacity;
 			}
-
-			this->size_    += n;
-			this->arr_      = new_arr;
-			this->begin_    = new_arr;
-			this->capacity_ = new_capacity;
 		}
 
 		template <class InputIterator>
@@ -627,52 +570,47 @@ struct enable_if <true, T> {
 		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
 		 ) {
 
-			pointer         new_arr;
-			difference_type n            = last - first;
-			size_t          new_capacity = this->capacity_;
-			difference_type before       = position - this->begin();
+			difference_type n      = last - first;
+			difference_type before = position - this->begin();
 
-			if (n <= 0) {
+			if (n <= 0)
 				return ;
-			} else if (this->size_ + n > new_capacity) {
-				new_capacity *= 2;
-			}
 
-			if (this->size_ + n > new_capacity) {
-				new_capacity = this->size_ + n;
-			}
-
-			try {
-				new_arr = this->alloc_.allocate(new_capacity);
-			} catch (std::exception & e) {
-				this->arr_      = 0;
-				this->begin_    = 0;
-				this->size_     = 0;
-				this->capacity_ = 0;
-				throw Vector::LengthError();
-			}
-
-			memcpy(new_arr, this->arr_, sizeof(value_type) * before);
-
-			std::copy(first, last, new_arr + before);
-			memcpy
-				(
-				 new_arr + before + n,
-				 this->arr_ + before,
-				 sizeof(value_type) * (this->size_ - before)
-				 );
-
-			if (this->begin_ != 0) {
-				for (size_type i = 0; i < this->size_; ++i) {
-					this->alloc_.destroy(this->arr_ + i);
+			if (this->capacity_ > this->size_ + n) {
+				while (first != last) {
+					insert(position, *first);
+					++first;
+					++position;
 				}
-				this->alloc_.deallocate(this->begin_, this->capacity_);
+			} else {
+				pointer new_arr;
+				size_t  new_capacity = this->capacity_ * 2;
+
+				if (this->size_ + n > new_capacity) {
+					new_capacity = this->size_ + n;
+				}
+
+				new_arr = this->alloc_.allocate(new_capacity);
+
+				memcpy(new_arr, this->arr_, sizeof(value_type) * before);
+				std::copy(first, last, new_arr + before);
+				memcpy
+					(
+					 new_arr + before + n,
+					 this->arr_ + before,
+					 sizeof(value_type) * (this->size_ - before)
+					 );
+
+				if (this->begin_ != 0) {
+					this->alloc_.deallocate(this->begin_, this->capacity_);
+				}
+
+				this->size_     += n;
+				this->arr_      = new_arr;
+				this->begin_    = new_arr;
+				this->capacity_ = new_capacity;
 			}
 
-			this->size_     += n;
-			this->arr_      = new_arr;
-			this->begin_    = new_arr;
-			this->capacity_ = new_capacity;
 		}
 
 		iterator erase(iterator position) {
@@ -696,8 +634,8 @@ struct enable_if <true, T> {
 			size_type n     = last - first;
 			size_type start = first - this->begin();
 
-			for (size_type i = start ; i < n; ++i) {
-				this->alloc_.destroy(this->arr_ + i);
+			for (size_type i = 0 ; i < n; ++i) {
+				this->alloc_.destroy(this->arr_ + start + i);
 				--this->size_;
 			}
 			memmove
