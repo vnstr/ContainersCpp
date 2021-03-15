@@ -24,7 +24,6 @@ namespace ft {
 		typedef R                               reference;
 		typedef std::random_access_iterator_tag iterator_category;
 
-
 		// ---------------------------------------------------------------------
 
 		// Constructor - Destructor --------------------------------------------

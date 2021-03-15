@@ -394,19 +394,19 @@ void ft_el_access_test() {
 
 void ft_assign_iter_iter_leaks_test() {
 	std::cout << "\nstd_assign_iter_iter\n" << std::endl;
-	std::vector<Test> mouse(128);
-	std::vector<Test> empty;
-	std::vector<Test> empty2;
+	ft::Vector<Test> mouse(128);
+	ft::Vector<Test> empty;
+	ft::Vector<Test> empty2;
 	empty2.reserve(1023);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
-	std::vector<Test> fat_mouse(344);
+	ft::Vector<Test> fat_mouse(344);
 	for (size_t i = 0; i < fat_mouse.size(); ++i) {
 		fat_mouse[i].some_ = i + 1000;
 	}
 
-	std::vector<Test> small_mouse(5);
+	ft::Vector<Test> small_mouse(5);
 	for (size_t i = 0; i < small_mouse.size(); ++i) {
 		small_mouse[i].some_ = i + 500;
 	}
