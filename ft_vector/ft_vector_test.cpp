@@ -779,7 +779,6 @@ void ft_insert_iter_val_test() {
 	}
 	std::cout << std::endl;
 }
-
 void ft_insert_iter_n_val_test() {
 	std::cout << "\nstd_insert_iter_n_val\n" << std::endl;
 	ft::Vector<Test> mouse(128);
@@ -1163,6 +1162,148 @@ void ft_swap_test() {
 	std::cout << std::endl;
 }
 
+void ft_clear_test() {
+	ft::Vector<Test> empty;
+	ft::Vector<Test> big_empty;
+	ft::Vector<Test> mouse(129);
+	for (size_t i = 0; i < mouse.size(); ++i) {
+		mouse[i].some_ = i;
+	}
+	ft::Vector<Test> big_mouse(1023);
+	for (size_t i = 0; i < big_mouse.size(); ++i) {
+		big_mouse[i].some_ = i + 1000;
+	}
+	big_empty.reserve(190);
+
+	std::cout << "size    : " << empty.size()     << std::endl;
+	std::cout << "capacity: " << empty.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < empty.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << empty.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << big_empty.size()     << std::endl;
+	std::cout << "capacity: " << big_empty.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < big_empty.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << big_empty.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << mouse.size()     << std::endl;
+	std::cout << "capacity: " << mouse.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < mouse.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << mouse.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << big_mouse.size()     << std::endl;
+	std::cout << "capacity: " << big_mouse.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < big_mouse.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << big_mouse.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	empty.clear();
+	big_empty.clear();
+	mouse.clear();
+	big_mouse.clear();
+
+	std::cout << "size    : " << empty.size()     << std::endl;
+	std::cout << "capacity: " << empty.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < empty.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << empty.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << big_empty.size()     << std::endl;
+	std::cout << "capacity: " << big_empty.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < big_empty.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << big_empty.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << mouse.size()     << std::endl;
+	std::cout << "capacity: " << mouse.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < mouse.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << mouse.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << big_mouse.size()     << std::endl;
+	std::cout << "capacity: " << big_mouse.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < big_mouse.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << big_mouse.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+}
+
+void ft_relational_operators() {
+	ft::Vector<int> empty;
+	ft::Vector<int> big_empty;
+	ft::Vector<int> mouse(129);
+	for (size_t i = 0; i < mouse.size(); ++i) {
+		mouse[i] = i;
+	}
+	ft::Vector<int> big_mouse(1023);
+	for (size_t i = 0; i < big_mouse.size(); ++i) {
+		big_mouse[i] = i + 1000;
+	}
+	big_empty.reserve(190);
+	std::cout << (empty     == empty)     << std::endl;
+	std::cout << (big_empty == big_empty) << std::endl;
+	std::cout << (mouse     == mouse)     << std::endl;
+	std::cout << (big_mouse == big_mouse) << std::endl;
+
+	std::cout << (empty     != empty)     << std::endl;
+	std::cout << (big_empty != big_empty) << std::endl;
+	std::cout << (mouse     != mouse)     << std::endl;
+	std::cout << (big_mouse != big_mouse) << std::endl;
+
+	std::cout << (empty     > big_empty)     << std::endl;
+	std::cout << (big_empty > empty) << std::endl;
+	std::cout << (mouse     > big_mouse)     << std::endl;
+	std::cout << (big_mouse > mouse) << std::endl;
+
+	std::cout << (empty     < big_empty)     << std::endl;
+	std::cout << (big_empty < empty) << std::endl;
+	std::cout << (mouse     < big_mouse)     << std::endl;
+	std::cout << (big_mouse < mouse) << std::endl;
+
+	std::cout << (empty     >= big_empty)     << std::endl;
+	std::cout << (big_empty >= empty) << std::endl;
+	std::cout << (mouse     >= big_mouse)     << std::endl;
+	std::cout << (big_mouse >= mouse) << std::endl;
+
+	std::cout << (empty     <= big_empty)     << std::endl;
+	std::cout << (big_empty <= empty) << std::endl;
+	std::cout << (mouse     <= big_mouse)     << std::endl;
+	std::cout << (big_mouse <= mouse) << std::endl;
+}
+
 void ft_modifiers_test() {
 	ft_assign_iter_iter_leaks_test();
 	// ft_assign_iter_iter_1280b_leaks_test();
@@ -1177,6 +1318,8 @@ void ft_modifiers_test() {
 
 	// ft_erase_2540_leaks_test();
 	ft_swap_test();
+	ft_clear_test();
+	ft_relational_operators();
 }
 
 // =============================================================================

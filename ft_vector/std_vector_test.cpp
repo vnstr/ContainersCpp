@@ -1100,7 +1100,7 @@ void std_erase_2540_leaks_test() {
 	std::cout << "capacity: " << big_mouse.capacity() << std::endl;
 	std::cout << "arr     :" << std::endl;
 	for (size_t i = 0; i < big_mouse.size(); ++i) {
-		if (i != 0 && i % 32 == 0)
+		// if (i != 0 && i % 32 == 0)
 			std::cout << std::endl;
 		std::cout << big_mouse.at(i).some_ << " ";
 	}
@@ -1162,6 +1162,148 @@ void std_swap_test() {
 	std::cout << std::endl;
 }
 
+void std_clear_test() {
+	std::vector<Test> empty;
+	std::vector<Test> big_empty;
+	std::vector<Test> mouse(129);
+	for (size_t i = 0; i < mouse.size(); ++i) {
+		mouse[i].some_ = i;
+	}
+	std::vector<Test> big_mouse(1023);
+	for (size_t i = 0; i < big_mouse.size(); ++i) {
+		big_mouse[i].some_ = i + 1000;
+	}
+	big_empty.reserve(190);
+
+	std::cout << "size    : " << empty.size()     << std::endl;
+	std::cout << "capacity: " << empty.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < empty.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << empty.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << big_empty.size()     << std::endl;
+	std::cout << "capacity: " << big_empty.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < big_empty.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << big_empty.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << mouse.size()     << std::endl;
+	std::cout << "capacity: " << mouse.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < mouse.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << mouse.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << big_mouse.size()     << std::endl;
+	std::cout << "capacity: " << big_mouse.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < big_mouse.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << big_mouse.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	empty.clear();
+	big_empty.clear();
+	mouse.clear();
+	big_mouse.clear();
+
+	std::cout << "size    : " << empty.size()     << std::endl;
+	std::cout << "capacity: " << empty.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < empty.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << empty.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << big_empty.size()     << std::endl;
+	std::cout << "capacity: " << big_empty.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < big_empty.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << big_empty.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << mouse.size()     << std::endl;
+	std::cout << "capacity: " << mouse.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < mouse.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << mouse.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << "size    : " << big_mouse.size()     << std::endl;
+	std::cout << "capacity: " << big_mouse.capacity() << std::endl;
+	std::cout << "arr     :" << std::endl;
+	for (size_t i = 0; i < big_mouse.size(); ++i) {
+		if (i != 0 && i % 32 == 0)
+			std::cout << std::endl;
+		std::cout << big_mouse.at(i).some_ << " ";
+	}
+	std::cout << std::endl;
+}
+
+void std_relational_operators() {
+	std::vector<int> empty;
+	std::vector<int> big_empty;
+	std::vector<int> mouse(129);
+	for (size_t i = 0; i < mouse.size(); ++i) {
+		mouse[i] = i;
+	}
+	std::vector<int> big_mouse(1023);
+	for (size_t i = 0; i < big_mouse.size(); ++i) {
+		big_mouse[i] = i + 1000;
+	}
+	big_empty.reserve(190);
+	std::cout << (empty     == empty)     << std::endl;
+	std::cout << (big_empty == big_empty) << std::endl;
+	std::cout << (mouse     == mouse)     << std::endl;
+	std::cout << (big_mouse == big_mouse) << std::endl;
+
+	std::cout << (empty     != empty)     << std::endl;
+	std::cout << (big_empty != big_empty) << std::endl;
+	std::cout << (mouse     != mouse)     << std::endl;
+	std::cout << (big_mouse != big_mouse) << std::endl;
+
+	std::cout << (empty     > big_empty)     << std::endl;
+	std::cout << (big_empty > empty) << std::endl;
+	std::cout << (mouse     > big_mouse)     << std::endl;
+	std::cout << (big_mouse > mouse) << std::endl;
+
+	std::cout << (empty     < big_empty)     << std::endl;
+	std::cout << (big_empty < empty) << std::endl;
+	std::cout << (mouse     < big_mouse)     << std::endl;
+	std::cout << (big_mouse < mouse) << std::endl;
+
+	std::cout << (empty     >= big_empty)     << std::endl;
+	std::cout << (big_empty >= empty) << std::endl;
+	std::cout << (mouse     >= big_mouse)     << std::endl;
+	std::cout << (big_mouse >= mouse) << std::endl;
+
+	std::cout << (empty     <= big_empty)     << std::endl;
+	std::cout << (big_empty <= empty) << std::endl;
+	std::cout << (mouse     <= big_mouse)     << std::endl;
+	std::cout << (big_mouse <= mouse) << std::endl;
+}
+
 void std_modifiers_test() {
 	std_assign_iter_iter_leaks_test();
 	// std_assign_iter_iter_1280b_leaks_test();
@@ -1176,6 +1318,8 @@ void std_modifiers_test() {
 
 	// std_erase_2540_leaks_test(); // <- I don't know why leaks.
 	std_swap_test();
+	std_clear_test();
+	std_relational_operators();
 }
 
 // =============================================================================

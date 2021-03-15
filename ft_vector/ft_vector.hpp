@@ -512,7 +512,7 @@ struct enable_if <true, T> {
 			return iterator(this->arr_ + before);
 		}
 
-		void     insert(iterator position, size_type n, const value_type& val) {
+		iterator insert(iterator position, size_type n, const value_type& val) {
 
 			size_type before = static_cast<size_type>(position - this->begin());
 
@@ -558,6 +558,7 @@ struct enable_if <true, T> {
 				this->begin_    = new_arr;
 				this->capacity_ = new_capacity;
 			}
+			return iterator(this->arr_ + before);
 		}
 
 		template <class InputIterator>
