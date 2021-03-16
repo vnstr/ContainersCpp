@@ -35,6 +35,9 @@ public:
 		return (*this);
 	}
 
+	bool operator==(const Test & x) {
+		return this->some_ == x.some_;
+	}
 	int   some_;
 	char* str_;
 

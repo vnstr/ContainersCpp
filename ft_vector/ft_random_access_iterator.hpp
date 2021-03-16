@@ -41,7 +41,7 @@ namespace ft {
 		// Operators -----------------------------------------------------------
 
 		// '='
-		RandomAccessIterator operator=(RandomAccessIterator const & x) {
+		RandomAccessIterator &operator=(RandomAccessIterator const & x) {
 
 			if (this == &x)
 				return *this;

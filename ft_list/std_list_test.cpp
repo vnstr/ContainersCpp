@@ -11,7 +11,6 @@ void std_default_constructor_test() {
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
 	std::cout << "size    : " << useless.size()     << std::endl;
-	std::cout << "max_size: " << useless.max_size() << std::endl;
 }
 
 void std_n_val_constructor_test() {
@@ -20,7 +19,6 @@ void std_n_val_constructor_test() {
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
 	std::cout << "size    : " << useless.size()     << std::endl;
-	std::cout << "max_size: " << useless.max_size() << std::endl;
 
 	std::list<Test>::iterator first = useless.begin();
 
@@ -47,7 +45,6 @@ void std_iter_iter_constructor_test() {
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
 	std::cout << "size    : " << useless.size()     << std::endl;
-	std::cout << "max_size: " << useless.max_size() << std::endl;
 	for (i = 0; first != useless.end(); ++i, ++first) {
 		if (i % 32 == 0 && i != 0)
 			std::cout << std::endl;
@@ -71,7 +68,6 @@ void std_copy_constructor_test() {
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
 	std::cout << "size    : " << useless.size()     << std::endl;
-	std::cout << "max_size: " << useless.max_size() << std::endl;
 	for (i = 0; first != useless.end(); ++i, ++first) {
 		if (i % 32 == 0 && i != 0)
 			std::cout << std::endl;
@@ -89,7 +85,34 @@ void std_constructors_capacity_test() {
 
 // =============================================================================
 
+// Iterator ====================================================================
+
+void std_iterator_test() {
+	std::cout << "\niterator_test()\n" << std::endl;
+	std::list<int>           mouse(10, 5);
+	std::list<int>           fat_mouse(1000, 9);
+	std::list<int>::iterator begin;
+	std::list<int>::iterator fat_end;
+
+	begin    = mouse.begin();
+	fat_end  = fat_mouse.end();
+
+	std::cout << (begin++ == begin)     << std::endl;
+	std::cout << (begin   == ++begin)   << std::endl;
+	std::cout << (begin   == --fat_end) << std::endl;
+
+	std::cout << (begin   != begin)     << std::endl;
+	std::cout << (begin   != begin--)   << std::endl;
+	std::cout << (--begin != begin)     << std::endl;
+	std::cout << (begin   != --fat_end) << std::endl;
+
+	std::cout << *begin << std::endl;
+}
+
+// =============================================================================
+
 int main() {
+	std_iterator_test();
 	std_constructors_capacity_test();
 	return 0;
 }
