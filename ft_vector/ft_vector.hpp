@@ -1,3 +1,5 @@
+// TODO fix input-iterators
+
 #ifndef FT_VECTOR_HPP
 # define FT_VECTOR_HPP
 
@@ -100,9 +102,9 @@ namespace ft {
 		(
 		 InputIterator first,
 		 InputIterator last,
+		 const allocator_type& alloc = allocator_type(),
 		 typename enable_if
-		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0,
-		 const allocator_type& alloc = allocator_type()
+		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
 		) : alloc_(alloc) {
 
 			this->size_     = last - first;
