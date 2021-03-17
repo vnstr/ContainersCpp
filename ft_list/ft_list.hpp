@@ -1,3 +1,11 @@
+
+
+
+// TODO
+// 1) ReverseIterator;
+
+
+
 #ifndef FT_LIST_HPP
 # define FT_LIST_HPP
 
@@ -6,6 +14,7 @@
 # include <cstddef>   // size_t, ptrdiff_t ...
 # include <memory>    // allocator
 # include <cstddef>   // ptrdiff_t
+# include <algorithm> // std::swap(); std::equal(); std::rotate();
 
 // =============================================================================
 
@@ -103,9 +112,9 @@ namespace ft {
 		(
 		 InputIterator first,
 		 InputIterator last,
+		 const allocator_type& alloc = allocator_type(),
 		 typename enable_if
-		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0,
-		 const allocator_type& alloc = allocator_type()
+		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
 		) : size_(0), alloc_(alloc) {
 			this->end_node_ = allocate_node();
 			while (first != last) {
@@ -166,7 +175,58 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
+		// Element access ------------------------------------------------------
+
+		reference       front() {
+			return this->end_node_->next->data;
+		}
+
+		const_reference front() const {
+			return this->end_node_->next->data;
+		}
+
+		reference       back() {
+			return this->end_node_->prev->data;
+		}
+
+		const_reference back() const {
+			return this->end_node_->prev->data;
+		}
+
+		// ---------------------------------------------------------------------
+
 		// Modifiers -----------------------------------------------------------
+
+		template <class InputIterator>
+		void assign (InputIterator first, InputIterator last) {
+			List new_list(first, last, allocator_type());
+			this->swap(new_list);
+		}
+
+		void assign (size_type n, const value_type & val) {
+			List new_list(n, val, allocator_type());
+			this->swap(new_list);
+		}
+
+		void push_front(const value_type & val) {
+			Node* node;
+
+			node                         = construct_node(val);
+			node->next                   = this->end_node_->next;
+			node->prev                   = this->end_node_;
+			this->end_node_->next->prev  = node;
+			this->end_node_->next        = node;
+			++this->size_;
+		}
+
+		void pop_front() {
+			Node* tmp;
+
+			tmp = this->end_node_->next->next;
+			destroy_node(this->end_node_->next);
+			this->end_node_->next = tmp;
+			--this->size_;
+		}
 
 		void push_back(value_type const & val) {
 			Node* node;
@@ -184,20 +244,94 @@ namespace ft {
 
 			tmp = this->end_node_->prev->prev;
 			destroy_node(this->end_node_->prev);
-			--this->size_;
 			this->end_node_->prev = tmp;
+			--this->size_;
+		}
+
+		iterator insert(iterator position, const value_type & val) {
+			Node* new_node;
+
+			new_node                        = construct_node(val);
+			new_node->next                  = position.get_node();
+			new_node->prev                  = position.get_node()->prev;
+			position.get_node()->prev->next = new_node;
+			position.get_node()->prev       = new_node;
+			++this->size_;
+			return iterator(new_node);
+		}
+
+		void insert(iterator position, size_type n, const value_type & val) {
+			for (size_type i = 0; i < n; ++i) {
+				position = insert(position, val);
+			}
+		}
+
+		template <class InputIterator>
+		void insert
+		(
+		 iterator position,
+		 InputIterator first,
+		 InputIterator last,
+		 typename enable_if
+		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
+		) {
+			while (first != last) {
+				position = insert(position, *first);
+				++position;
+				++first;
+			}
+		}
+
+		iterator erase(iterator position) {
+			Node* next;
+
+			next = position.get_node()->next;
+			destroy_node(position.get_node());
+			--this->size_;
+			return iterator(next);
+		}
+
+		iterator erase (iterator first, iterator last) {
+			iterator current;
+			while (first != last) {
+				current = first;
+				++first;
+				destroy_node(current.get_node());
+				--this->size_;
+			}
+			return last;
+		}
+
+		void     swap(List & x) {
+			std::swap(this->end_node_, x.end_node_);
+			std::swap(this->size_, x.size_);
+			std::swap(this->alloc_, x.alloc_);
+			std::swap(this->node_alloc_, x.node_alloc_);
+		}
+
+		void resize(size_type n, value_type val = value_type()) {
+			for (size_type i = n; i < this->size_; ++i) {
+				this->push_back(val);
+			}
+			for (size_type i = n; i > this->size_; --i) {
+				this->pop_back();
+			}
+		}
+
+		void clear() {
+			while (this->size_ > 0) {
+				pop_back();
+			}
 		}
 
 		// ---------------------------------------------------------------------
 
-	// private:
+	private:
 
 		Node*                end_node_;
 		size_type            size_;
 		allocator_type       alloc_;
 		std::allocator<Node> node_alloc_;
-
-		typedef Node                                            node_type;
 
 	protected:
 		Node* allocate_node() {
