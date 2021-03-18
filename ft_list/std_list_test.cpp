@@ -455,7 +455,7 @@ void std_clear_test() {
 }
 
 void std_insert_iter_val_test() {
-	std::cout << "\nstd_insert_iter_val_test()\n" << std::endl;
+	std::cout << "\ninsert_iter_val_test()\n" << std::endl;
 	std::list<Test>           empty_mouse;
 	std::list<Test>           mouse;
 	std::list<Test>           fat_mouse;
@@ -512,7 +512,7 @@ void std_insert_iter_val_test() {
 }
 
 void std_insert_iter_n_val_test() {
-	std::cout << "\nstd_insert_iter_val_test()\n" << std::endl;
+	std::cout << "\ninsert_iter_val_test()\n" << std::endl;
 	std::list<Test>           empty_mouse;
 	std::list<Test>           mouse;
 	std::list<Test>           fat_mouse;
@@ -569,7 +569,7 @@ void std_insert_iter_n_val_test() {
 }
 
 void std_insert_iter_iter_iter_test() {
-	std::cout << "\nstd_insert_iter_iter_iter_test()\n" << std::endl;
+	std::cout << "\ninsert_iter_iter_iter_test()\n" << std::endl;
 	std::list<Test>           empty_mouse;
 	std::list<Test>           mouse;
 	std::list<Test>           fat_mouse;
@@ -636,7 +636,7 @@ void std_insert_iter_iter_iter_test() {
 }
 
 void std_assign_iter_iter_test() {
-	std::cout << "\nstd_assign_iter_iter_test()\n" << std::endl;
+	std::cout << "\nassign_iter_iter_test()\n" << std::endl;
 	std::list<Test>           empty_mouse;
 	std::list<Test>           mouse;
 	std::list<Test>           fat_mouse;
@@ -703,7 +703,7 @@ void std_assign_iter_iter_test() {
 }
 
 void std_assign_n_val_test() {
-	std::cout << "\nstd_assign_iter_iter_test()\n" << std::endl;
+	std::cout << "\nassign_iter_iter_test()\n" << std::endl;
 	std::list<Test>           empty_mouse;
 	std::list<Test>           mouse;
 	std::list<Test>           fat_mouse;
@@ -755,25 +755,140 @@ void std_assign_n_val_test() {
 
 // =============================================================================
 
+// Operations ==================================================================
+
+void std_merge_x_test() {
+	std::cout << "\nmerge_x_test()\n" << std::endl;
+	std::list<int> mouse;
+	mouse.push_back(10);
+	mouse.push_back(20);
+	mouse.push_back(60);
+	mouse.push_back(90);
+	mouse.push_back(200);
+
+	std::list<int> copy_mouse(mouse);
+
+	std::list<int> fat_mouse;
+	fat_mouse.push_back(5);
+	fat_mouse.push_back(25);
+	fat_mouse.push_back(45);
+	fat_mouse.push_back(75);
+	fat_mouse.push_back(85);
+	fat_mouse.push_back(105);
+	fat_mouse.push_back(115);
+	fat_mouse.push_back(205);
+
+	mouse.merge(fat_mouse);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	mouse.merge(copy_mouse);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	mouse.merge(mouse);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+}
+
+bool compare(int a, int b) {
+	return a < b;
+}
+
+void std_merge_x_compare_test() {
+	std::cout << "\nmerge_x_test()\n" << std::endl;
+	std::list<int> mouse;
+	mouse.push_back(10);
+	mouse.push_back(20);
+	mouse.push_back(60);
+	mouse.push_back(90);
+	mouse.push_back(200);
+
+	std::list<int> copy_mouse(mouse);
+
+	std::list<int> fat_mouse;
+	fat_mouse.push_back(5);
+	fat_mouse.push_back(25);
+	fat_mouse.push_back(45);
+	fat_mouse.push_back(75);
+	fat_mouse.push_back(85);
+	fat_mouse.push_back(105);
+	fat_mouse.push_back(115);
+	fat_mouse.push_back(205);
+
+	mouse.merge(fat_mouse, compare);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	mouse.merge(copy_mouse, compare);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	mouse.merge(mouse, compare);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+}
+
+// =============================================================================
+
 int main() {
-	std_iterator_test();
-	std_constructors_capacity_test();
-	std_element_access_test();
+	// std_iterator_test();
+	// std_constructors_capacity_test();
+	// std_element_access_test();
 
-	// Modifiers
+	// // Modifiers
 
-	std_push_front_test();
-	std_pop_front_test();
-	std_erase_position_test();
-	std_erase_iter_iter_test();
-	std_swap_test();
-	std_resize_test();
-	std_clear_test();
-	std_insert_iter_val_test();
-	std_insert_iter_n_val_test();
-	std_insert_iter_iter_iter_test();
-	std_assign_iter_iter_test(); // WTF 10,040 leaks
-	std_assign_n_val_test(); // WTF 240 leaks;
+	// std_push_front_test();
+	// std_pop_front_test();
+	// std_erase_position_test();
+	// std_erase_iter_iter_test();
+	// std_swap_test();
+	// std_resize_test();
+	// std_clear_test();
+	// std_insert_iter_val_test();
+	// std_insert_iter_n_val_test();
+	// std_insert_iter_iter_iter_test();
+	// std_assign_iter_iter_test(); // WTF 10,040 leaks
+	// std_assign_n_val_test(); // WTF 240 leaks;
+	// std_merge_x_test();
+	// std_merge_x_compare_test();
 
 	// ---------
 	return 0;

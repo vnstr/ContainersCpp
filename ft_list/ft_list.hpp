@@ -326,6 +326,73 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
+		// Operations ----------------------------------------------------------
+
+		void merge(List & x) {
+			if (this == &x) {
+				return ;
+			}
+
+			iterator this_begin;
+			iterator x_begin;
+
+			this_begin = this->begin();
+			x_begin    = x.begin();
+
+			while (this_begin != this->end() && x_begin != x.end()) {
+				if (*this_begin > *x_begin) {
+					++x_begin;
+					put(this_begin, x_begin.get_node()->prev);
+				} else {
+					++this_begin;
+				}
+			}
+			while (x_begin != x.end()) {
+				++x_begin;
+				put(this_begin, x_begin.get_node()->prev);
+			}
+			this->size_      += x.size_;
+			x.size_           = 0;
+			x.end_node_->next = x.end_node_;
+			x.end_node_->prev = x.end_node_;
+		}
+
+		template <class Compare>
+		void merge (List & x, Compare comp) {
+			if (this == &x) {
+				return ;
+			}
+
+			iterator this_begin;
+			iterator x_begin;
+
+			this_begin = this->begin();
+			x_begin    = x.begin();
+
+			while (this_begin != this->end() && x_begin != x.end()) {
+				if (!comp(*this_begin, *x_begin)) {
+					++x_begin;
+					put(this_begin, x_begin.get_node()->prev);
+				} else {
+					++this_begin;
+				}
+			}
+			while (x_begin != x.end()) {
+				++x_begin;
+				put(this_begin, x_begin.get_node()->prev);
+			}
+			this->size_      += x.size_;
+			x.size_           = 0;
+			x.end_node_->next = x.end_node_;
+			x.end_node_->prev = x.end_node_;
+		}
+
+		void sort() {
+			merge_sort(this->begin(), this->end());
+		}
+
+		// ---------------------------------------------------------------------
+
 	private:
 
 		Node*                end_node_;
@@ -334,6 +401,75 @@ namespace ft {
 		std::allocator<Node> node_alloc_;
 
 	protected:
+		iterator half_split(iterator first, iterator last) {
+			iterator slow;
+			iterator fast;
+
+			slow = first;
+			fast = first;
+
+			while
+			(
+			 fast.get_node()->next != last.get_node() &&
+			 fast.get_node()->next->next != last.get_node()
+			) {
+				++slow;
+				++fast;
+				++fast;
+			}
+			return (++slow);
+		}
+
+		iterator merge_by_iters
+		(
+		 iterator first1,
+		 iterator last1,
+		 iterator first2,
+		 iterator last2
+		) {
+			Node*    node1;
+			Node*    node2;
+			iterator ret(first1);
+
+			while (first2 != last2) {
+				if (*first2 < *first1) {
+					if (ret == first1) {
+						ret = first2;
+					}
+					node1 = first1.get_node();
+					node2 = first2.get_node();
+					node2->next->prev = node2->prev;
+					node2->prev->next = node2->next;
+					node1->prev->next = node2;
+					node2->prev = node1->prev;
+					node1->prev = node2;
+					node2->next = node1;
+					if (first2++ == last1) {
+						last1 = first2;
+					}
+				} else if (first1 != last1) {
+					++first1;
+				} else {
+					++first2;
+				}
+			}
+			return ret;
+}
+
+		iterator merge_sort(iterator first, iterator last) {
+			iterator half;
+
+			half = half_split(first, last);
+
+			if (half == last)
+				return first;
+
+			first = merge_sort(first, half);
+			half  = merge_sort(half, last);
+			first = merge_by_iters(first, half, half, last);
+			return first;
+		}
+
 		Node* allocate_node() {
 			Node* node;
 
@@ -350,6 +486,14 @@ namespace ft {
 			this->alloc_.construct(&node->data, val);
 			return node;
 		}
+					// node2->next->prev = node2->prev;
+					// node2->prev->next = node2->next;
+
+					// node1->prev->next = node2;
+					// node2->prev = node1->prev;
+
+					// node1->prev = node2;
+					// node2->next = node1;
 
 		void  deallocate_node(Node* node) {
 			node->prev->next = node->next;
@@ -360,6 +504,13 @@ namespace ft {
 		void   destroy_node(Node* node) {
 			this->alloc_.destroy(&node->data);
 			deallocate_node(node);
+		}
+
+		void   put(iterator position, Node* node) {
+			node->prev                    = position.get_node()->prev;
+			node->next                    = position.get_node();
+			position.get_node()->prev->next = node;
+			position.get_node()->prev     = node;
 		}
 
 	};
