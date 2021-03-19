@@ -866,6 +866,45 @@ void std_merge_x_compare_test() {
 
 }
 
+void std_sort_test() {
+	std::cout << "sort_test" << std::endl;
+	std::list<int> mouse;
+	mouse.push_back(7);
+	mouse.push_back(3);
+	mouse.push_back(5);
+	mouse.push_back(13);
+	mouse.push_back(9);
+	mouse.push_back(6);
+
+	mouse.sort();
+	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	std::list<int> empty;
+
+	empty.sort();
+	for (std::list<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	std::list<int> reverse;
+	mouse.push_back(10);
+	mouse.push_back(9);
+	mouse.push_back(8);
+	mouse.push_back(7);
+	mouse.push_back(6);
+	mouse.push_back(5);
+
+	reverse.sort();
+	for (std::list<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+}
+
 // =============================================================================
 
 int main() {
@@ -887,8 +926,14 @@ int main() {
 	// std_insert_iter_iter_iter_test();
 	// std_assign_iter_iter_test(); // WTF 10,040 leaks
 	// std_assign_n_val_test(); // WTF 240 leaks;
-	// std_merge_x_test();
-	// std_merge_x_compare_test();
+
+	// ---------
+
+    // Operations
+
+	std_merge_x_test();
+	std_merge_x_compare_test();
+	std_sort_test();
 
 	// ---------
 	return 0;

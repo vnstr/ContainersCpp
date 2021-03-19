@@ -42,3 +42,8 @@ logs
 bin
 user_bin
 user_bin_for_leaks
+
+# Clion
+
+.idea
+cmake-build-debug/

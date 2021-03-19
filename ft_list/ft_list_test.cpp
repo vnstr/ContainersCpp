@@ -867,9 +867,46 @@ void ft_merge_x_compare_test() {
 
 }
 
-// =============================================================================
+void ft_sort_test() {
+    std::cout << "sort_test" << std::endl;
+    ft::List<int> mouse;
+    mouse.push_back(7);
+    mouse.push_back(3);
+    mouse.push_back(5);
+    mouse.push_back(13);
+    mouse.push_back(9);
+    mouse.push_back(6);
 
-#include <ctime>
+    mouse.sort();
+    for (ft::List<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    ft::List<int> empty;
+
+    empty.sort();
+    for (ft::List<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    ft::List<int> reverse;
+    mouse.push_back(10);
+    mouse.push_back(9);
+    mouse.push_back(8);
+    mouse.push_back(7);
+    mouse.push_back(6);
+    mouse.push_back(5);
+
+    reverse.sort();
+    for (ft::List<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+}
+
+// =============================================================================
 
 int main() {
 	// ft_iterator_test();
@@ -891,53 +928,14 @@ int main() {
 	// ft_assign_iter_iter_test();
 	// ft_assign_n_val_test();
 
-	// // ---------
+	 // ---------
 
-	// // Operations
+	 // Operations
 
-	// ft_merge_x_test();
-	// ft_merge_x_compare_test();
+	 ft_merge_x_test();
+	 ft_merge_x_compare_test();
+	 ft_sort_test();
 
-	// // ----------
-
-	ft::List<int>           list;
-	ft::List<int>::iterator iter;
-
-	list.push_back(9);
-	list.push_back(8);
-	list.push_back(7);
-	list.push_back(6);
-	list.push_back(5);
-	list.push_back(4);
-
-	uint32_t time;
-	time = clock();
-	list.sort();
-	std::cout << "start end: " << clock() - time << std::endl;
-
-	for (iter = list.begin(); iter != list.end(); ++iter) {
-		std::cout << *iter << " ";
-	}
-	std::cout << std::endl ;
-
-	std::list<int>           std_list;
-	std::list<int>::iterator std_iter;
-
-	std_list.push_back(3);
-	std_list.push_back(0);
-	std_list.push_back(8);
-	std_list.push_back(7);
-	std_list.push_back(6);
-	std_list.push_back(13);
-
-	time = clock();
-	std_list.sort();
-	std::cout << "start end: " << clock() - time << std::endl;
-
-	for (std_iter = std_list.begin(); std_iter != std_list.end(); ++std_iter) {
-		std::cout << *std_iter << " ";
-	}
-	std::cout << std::endl ;
-
+    // ------------
 	return 0;
 }

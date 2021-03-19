@@ -420,7 +420,7 @@ namespace ft {
 			return (++slow);
 		}
 
-		iterator merge_by_iters
+		iterator merge_by_it
 		(
 		 iterator first1,
 		 iterator last1,
@@ -466,7 +466,7 @@ namespace ft {
 
 			first = merge_sort(first, half);
 			half  = merge_sort(half, last);
-			first = merge_by_iters(first, half, half, last);
+			first = merge_by_it(first, half, half, last);
 			return first;
 		}
 
@@ -486,14 +486,6 @@ namespace ft {
 			this->alloc_.construct(&node->data, val);
 			return node;
 		}
-					// node2->next->prev = node2->prev;
-					// node2->prev->next = node2->next;
-
-					// node1->prev->next = node2;
-					// node2->prev = node1->prev;
-
-					// node1->prev = node2;
-					// node2->next = node1;
 
 		void  deallocate_node(Node* node) {
 			node->prev->next = node->next;
@@ -507,17 +499,17 @@ namespace ft {
 		}
 
 		void   put(iterator position, Node* node) {
-			node->prev                    = position.get_node()->prev;
-			node->next                    = position.get_node();
+			node->prev                      = position.get_node()->prev;
+			node->next                      = position.get_node();
 			position.get_node()->prev->next = node;
-			position.get_node()->prev     = node;
+			position.get_node()->prev       = node;
 		}
 
 	};
 
 // =============================================================================
 
-};
+}
 
 // =============================================================================
 
