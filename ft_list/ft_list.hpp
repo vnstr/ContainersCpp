@@ -1,8 +1,8 @@
 
 
 
-// TODO
-// 1) ReverseIterator;
+// TODO 1) ReverseIterator;
+// TODO 2)swap;
 
 
 
@@ -39,6 +39,11 @@ namespace ft {
 	};
 
 // ----------------------------------------------------------------------------
+
+	template<class T>
+	bool ft_comp(T &a, T &b) {
+		return a < b;
+	}
 
 // =============================== LIST ========================================
 
@@ -328,6 +333,60 @@ namespace ft {
 
 		// Operations ----------------------------------------------------------
 
+		void splice(iterator position, List & x) {
+			if (x.size_ == 0) {
+				return ;
+			}
+			Node* pos  = position.get_node();
+			Node* prev = pos->prev;
+
+			pos->prev         = x.end_node_->prev;
+			pos->prev->next   = pos;
+			prev->next        = x.end_node_->next;
+			prev->next->prev  = prev;
+			this->size_      += x.size_;
+			x.size_           = 0;
+			x.end_node_->next = x.end_node_;
+			x.end_node_->prev = x.end_node_;
+		}
+
+		void splice(iterator position, List & x, iterator i) {
+			Node* pos    = position.get_node();
+			Node* prev   = pos->prev;
+			Node* from_x = i.get_node();
+
+			from_x->prev->next = from_x->next;
+			from_x->next->prev = from_x->prev;
+			from_x->prev       = prev;
+			from_x->next       = pos;
+			pos->prev          = from_x;
+			prev->next         = from_x;
+			++this->size_;
+			--x.size_;
+		}
+
+		void splice
+		(
+		 iterator position,
+		 List & x,
+		 iterator first,
+		 iterator last
+		) {
+			List from_x(first, last);
+			Node* f = first.get_node();
+			Node* l = last.get_node();
+
+			this->splice(position, from_x);
+			f->prev->next = l;
+			l->prev       = f->prev;
+			while(first != last) {
+				f = first.get_node();
+				--x.size_;
+				++first;
+				destroy_node(f);
+			}
+		}
+
 		void merge(List & x) {
 			if (this == &x) {
 				return ;
@@ -388,7 +447,35 @@ namespace ft {
 		}
 
 		void sort() {
-			merge_sort(this->begin(), this->end());
+			merge_sort(this->begin(), this->end(), ft_comp<value_type>);
+		}
+		template <class Compare>
+		void sort (Compare comp) {
+			merge_sort<Compare>(this->begin(), this->end(), comp);
+		}
+
+		void reverse() {
+			if (this->size_ <= 1)
+				return ;
+			Node* begin = this->end_node_->next;
+			Node* end   = this->end_node_->prev;
+			Node* begin_prev;
+			Node* begin_next;
+			Node* end_prev;
+			Node* end_next;
+
+			while (begin != end) {
+				begin_prev = begin->prev;
+				begin_next = begin->next;
+				end_prev   = end->prev;
+				end_next   = end->next;
+				std::swap(begin_prev->next, end_prev->next);
+				std::swap(begin->next, end->next);
+				std::swap(begin->prev, end->prev);
+				std::swap(begin_next->prev, end_next->prev);
+				begin = begin_next;
+				end   = end_prev;
+			}
 		}
 
 		// ---------------------------------------------------------------------
@@ -401,6 +488,9 @@ namespace ft {
 		std::allocator<Node> node_alloc_;
 
 	protected:
+
+		// Merge-sort ----------------------------------------------------------
+
 		iterator half_split(iterator first, iterator last) {
 			iterator slow;
 			iterator fast;
@@ -420,19 +510,21 @@ namespace ft {
 			return (++slow);
 		}
 
+		template<class Compare>
 		iterator merge_by_it
 		(
 		 iterator first1,
 		 iterator last1,
 		 iterator first2,
-		 iterator last2
+		 iterator last2,
+		 Compare comp
 		) {
 			Node*    node1;
 			Node*    node2;
 			iterator ret(first1);
 
 			while (first2 != last2) {
-				if (*first2 < *first1) {
+				if (comp (*first2, *first1)) {
 					if (ret == first1) {
 						ret = first2;
 					}
@@ -456,7 +548,8 @@ namespace ft {
 			return ret;
 }
 
-		iterator merge_sort(iterator first, iterator last) {
+		template<class Compare>
+		iterator merge_sort(iterator first, iterator last, Compare comp) {
 			iterator half;
 
 			half = half_split(first, last);
@@ -464,11 +557,13 @@ namespace ft {
 			if (half == last)
 				return first;
 
-			first = merge_sort(first, half);
-			half  = merge_sort(half, last);
-			first = merge_by_it(first, half, half, last);
+			first = merge_sort(first, half, comp);
+			half  = merge_sort(half, last, comp);
+			first = merge_by_it(first, half, half, last, comp);
 			return first;
 		}
+
+		// ---------------------------------------------------------------------
 
 		Node* allocate_node() {
 			Node* node;

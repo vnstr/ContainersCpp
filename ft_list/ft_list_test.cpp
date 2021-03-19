@@ -892,12 +892,12 @@ void ft_sort_test() {
     std::cout << std::endl;
 
     ft::List<int> reverse;
-    mouse.push_back(10);
-    mouse.push_back(9);
-    mouse.push_back(8);
-    mouse.push_back(7);
-    mouse.push_back(6);
-    mouse.push_back(5);
+    reverse.push_back(10);
+    reverse.push_back(9);
+    reverse.push_back(8);
+    reverse.push_back(7);
+    reverse.push_back(6);
+    reverse.push_back(5);
 
     reverse.sort();
     for (ft::List<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
@@ -906,27 +906,336 @@ void ft_sort_test() {
     std::cout << std::endl;
 }
 
+bool comp(int a, int b) {
+	return a < b;
+}
+
+void ft_sort_comp_test() {
+	std::cout << "sort_comp_test" << std::endl;
+	ft::List<int> mouse;
+	mouse.push_back(7);
+	mouse.push_back(3);
+	mouse.push_back(5);
+	mouse.push_back(13);
+	mouse.push_back(9);
+	mouse.push_back(6);
+
+	mouse.sort(comp);
+	for (ft::List<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	ft::List<int> empty;
+
+	empty.sort(comp);
+	for (ft::List<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	ft::List<int> reverse;
+	reverse.push_back(10);
+	reverse.push_back(9);
+	reverse.push_back(8);
+	reverse.push_back(7);
+	reverse.push_back(6);
+	reverse.push_back(5);
+
+	reverse.sort(comp);
+	for (ft::List<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+}
+
+void ft_reverse_test() {
+	ft::List<int> empty;
+	ft::List<int> reverse;
+	reverse.push_back(10);
+	reverse.push_back(9);
+	reverse.push_back(8);
+	reverse.push_back(7);
+	reverse.push_back(6);
+	reverse.push_back(5);
+
+	reverse.reverse();
+	for (ft::List<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << reverse.size()  << std::endl;
+	std::cout << "empty:" << reverse.empty() << std::endl;
+
+	empty.reverse();
+	for (ft::List<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << empty.size()  << std::endl;
+	std::cout << "empty:" << empty.empty() << std::endl;
+}
+
+void ft_splice_pos_lst_test() {
+	ft::List<Test>           empty;
+	ft::List<Test>           mouse;
+	ft::List<Test>           fat_mouse;
+	ft::List<Test>::iterator it;
+	for (int i = 0; i < 10; ++i) {
+		mouse.push_back(i + 10);
+	}
+	for (int i = 0; i < 5; ++i) {
+		fat_mouse.push_back(i + 100);
+	}
+	it = mouse.begin();
+	++it; ++it;
+
+	mouse.splice(it, fat_mouse);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "fat_mouse:" << std::endl;
+	std::cout << "size:"  << fat_mouse.size()  << std::endl;
+	std::cout << "empty:" << fat_mouse.empty() << std::endl;
+	for (it = fat_mouse.begin(); it != fat_mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+
+	for (int i = 0; i < 20; ++i) {
+		fat_mouse.push_back(i + 100);
+	}
+
+	mouse.splice(mouse.begin(), fat_mouse);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "fat_mouse:" << std::endl;
+	std::cout << "size:"  << fat_mouse.size()  << std::endl;
+	std::cout << "empty:" << fat_mouse.empty() << std::endl;
+	for (it = fat_mouse.begin(); it != fat_mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+
+	for (int i = 0; i < 5; ++i) {
+		fat_mouse.push_back(i + 100);
+	}
+
+	mouse.splice(mouse.end(), fat_mouse);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "fat_mouse:" << std::endl;
+	std::cout << "size:"  << fat_mouse.size()  << std::endl;
+	std::cout << "empty:" << fat_mouse.empty() << std::endl;
+	for (it = fat_mouse.begin(); it != fat_mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+
+	mouse.splice(mouse.begin(), empty);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+}
+
+void ft_splice_pos_lst_i_test() {
+	ft::List<Test>           mouse;
+	ft::List<Test>           fat_mouse;
+	ft::List<Test>::iterator it;
+	for (int i = 0; i < 10; ++i) {
+		mouse.push_back(i + 10);
+	}
+	for (int i = 0; i < 5; ++i) {
+		fat_mouse.push_back(i + 100);
+	}
+	it = mouse.begin();
+	++it; ++it;
+
+	mouse.splice(it, fat_mouse, fat_mouse.begin());
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "fat_mouse:" << std::endl;
+	std::cout << "size:"  << fat_mouse.size()  << std::endl;
+	std::cout << "empty:" << fat_mouse.empty() << std::endl;
+	for (it = fat_mouse.begin(); it != fat_mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+
+	for (int i = 0; i < 20; ++i) {
+		fat_mouse.push_back(i + 100);
+	}
+
+	mouse.splice(mouse.begin(), fat_mouse, fat_mouse.begin());
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "fat_mouse:" << std::endl;
+	std::cout << "size:"  << fat_mouse.size()  << std::endl;
+	std::cout << "empty:" << fat_mouse.empty() << std::endl;
+	for (it = fat_mouse.begin(); it != fat_mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+
+	for (int i = 0; i < 5; ++i) {
+		fat_mouse.push_back(i + 100);
+	}
+
+	mouse.splice(mouse.end(), fat_mouse, fat_mouse.begin());
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "fat_mouse:" << std::endl;
+	std::cout << "size:"  << fat_mouse.size()  << std::endl;
+	std::cout << "empty:" << fat_mouse.empty() << std::endl;
+	for (it = fat_mouse.begin(); it != fat_mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+}
+
+void ft_splice_pos_lst_first_last_test() {
+	ft::List<Test>           mouse;
+	ft::List<Test>           fat_mouse;
+	ft::List<Test>::iterator it;
+	ft::List<Test>::iterator it2;
+	for (int i = 0; i < 10; ++i) {
+		mouse.push_back(i + 10);
+	}
+	for (int i = 0; i < 5; ++i) {
+		fat_mouse.push_back(i + 100);
+	}
+	it = mouse.begin();
+	++it; ++it;
+	it2 = fat_mouse.end();
+	--it2; --it2;
+
+	mouse.splice(it, fat_mouse, fat_mouse.begin(), it2);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "fat_mouse:" << std::endl;
+	std::cout << "size:"  << fat_mouse.size()  << std::endl;
+	std::cout << "empty:" << fat_mouse.empty() << std::endl;
+	for (it = fat_mouse.begin(); it != fat_mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+
+	for (int i = 0; i < 20; ++i) {
+		fat_mouse.push_back(i + 100);
+	}
+
+	mouse.splice(mouse.begin(), fat_mouse, fat_mouse.begin(), fat_mouse.end());
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "fat_mouse:" << std::endl;
+	std::cout << "size:"  << fat_mouse.size()  << std::endl;
+	std::cout << "empty:" << fat_mouse.empty() << std::endl;
+	for (it = fat_mouse.begin(); it != fat_mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+
+	for (int i = 0; i < 5; ++i) {
+		fat_mouse.push_back(i + 100);
+	}
+	it2 = fat_mouse.end();
+	--it2; --it2;
+
+	mouse.splice(mouse.end(), fat_mouse, fat_mouse.begin(), it2);
+
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "fat_mouse:" << std::endl;
+	std::cout << "size:"  << fat_mouse.size()  << std::endl;
+	std::cout << "empty:" << fat_mouse.empty() << std::endl;
+	for (it = fat_mouse.begin(); it != fat_mouse.end(); ++it) {
+		std::cout << it->some_ << " ";
+	}
+	std::cout << std::endl;
+}
+
 // =============================================================================
 
+#include <ctime>
+
 int main() {
-	// ft_iterator_test();
-	// ft_constructors_capacity_test();
-	// ft_element_access_test();
+	ft_iterator_test();
+	ft_constructors_capacity_test();
+	ft_element_access_test();
 
 	// // Modifiers
 
-	// ft_push_front_test();
-	// ft_pop_front_test();
-	// ft_erase_position_test();
-	// ft_erase_iter_iter_test();
-	// ft_swap_test();
-	// ft_resize_test();
-	// ft_clear_test();
-	// ft_insert_iter_val_test();
-	// ft_insert_iter_n_val_test();
-	// ft_insert_iter_iter_iter_test();
-	// ft_assign_iter_iter_test();
-	// ft_assign_n_val_test();
+	ft_push_front_test();
+	ft_pop_front_test();
+	ft_erase_position_test();
+	ft_erase_iter_iter_test();
+	ft_swap_test();
+	ft_resize_test();
+	ft_clear_test();
+	ft_insert_iter_val_test();
+	ft_insert_iter_n_val_test();
+	ft_insert_iter_iter_iter_test();
+	ft_assign_iter_iter_test();
+	ft_assign_n_val_test();
 
 	 // ---------
 
@@ -935,6 +1244,11 @@ int main() {
 	 ft_merge_x_test();
 	 ft_merge_x_compare_test();
 	 ft_sort_test();
+	 ft_sort_comp_test();
+	 ft_reverse_test();
+	 ft_splice_pos_lst_test();
+	 ft_splice_pos_lst_i_test();
+	 ft_splice_pos_lst_first_last_test();
 
     // ------------
 	return 0;
