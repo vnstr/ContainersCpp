@@ -6,8 +6,12 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(ft_list)
 
 add_executable(containers_cpp
-        ft_list/ft_bidirectional_iterator.hpp
-        ft_list/ft_list.hpp
-        ft_list/ft_list_test.cpp
-#        ft_list/std_list_test.cpp
-        ft_list/test.hpp)
+        ft_vector/ft_vector.hpp
+        ft_vector/ft_vector_test.cpp
+        ft_vector/ft_random_access_iterator.hpp utils.hpp)
+        #ft_list/std_list_test.cpp
+        #ft_list/ft_bidirectional_iterator.hpp
+        #ft_list/ft_list.hpp
+        #ft_list/ft_list_test.cpp
+        #ft_list/std_list_test.cpp
+        #ft_list/test.hpp)

@@ -21,6 +21,7 @@
 
 # include "ft_random_access_iterator.hpp"
 # include "ft_reverse_iterator.hpp"
+# include "../utils.hpp"
 
 // =============================================================================
 
@@ -54,6 +55,7 @@ namespace ft {
 		typedef typename allocator_type::reference              reference;
 		typedef typename allocator_type::const_reference        const_reference;
 		typedef typename allocator_type::pointer                pointer;
+		typedef typename allocator_type::const_pointer          const_pointer;
 
 		typedef ft::RandomAccessIterator<T, T*, T& >            iterator;
 		typedef ft::RandomAccessIterator<T, const T*, const T&> const_iterator;
@@ -103,7 +105,7 @@ namespace ft {
 		 typename enable_if
 		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
 		) : alloc_(alloc) {
-			this->size_     = last - first;
+			this->size_     = std::distance(first, last);
 			this->capacity_ = this->size_;
 
 			try {
@@ -370,14 +372,14 @@ namespace ft {
 		{
 			if
 			(
-			 last - first < 0 ||
-			 static_cast<size_type>(last - first) > this->max_size()
+			 std::distance(first, last) < 0 ||
+			 static_cast<size_type>(std::distance(first, last)) > this->max_size()
 			) {
 				this->~Vector();
 				throw Vector::LengthError();
 			}
 
-			size_type new_size = last - first;
+			size_type new_size = std::distance(first, last);
 			Vector    save(first, last);
 			this->clear();
 			this->reserve(new_size);
@@ -452,7 +454,7 @@ namespace ft {
 		 typename enable_if
 		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
 		 ) {
-			difference_type n      = last - first;
+			difference_type n      = std::distance(first, last);
 			difference_type before = position - this->begin();
 
 			if (n <= 0)
@@ -524,11 +526,11 @@ namespace ft {
 		}
 
 		void     swap (Vector & x) {
-			std::swap(this->arr_, x.arr_);
-			std::swap(this->begin_, x.begin_);
-			std::swap(this->size_, x.size_);
-			std::swap(this->capacity_, x.capacity_);
-			std::swap(this->alloc_, x.alloc_);
+			ft::swap(this->arr_, x.arr_);
+			ft::swap(this->begin_, x.begin_);
+			ft::swap(this->size_, x.size_);
+			ft::swap(this->capacity_, x.capacity_);
+			ft::swap(this->alloc_, x.alloc_);
 		}
 
 		void     clear() {

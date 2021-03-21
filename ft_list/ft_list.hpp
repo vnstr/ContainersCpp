@@ -2,7 +2,6 @@
 
 
 // TODO 1) ReverseIterator;
-// TODO 2)swap;
 
 
 
@@ -21,6 +20,7 @@
 // ========================== OTHER INCLUDES ===================================
 
 # include "ft_bidirectional_iterator.hpp"
+# include "../utils.hpp"
 
 // =============================================================================
 
@@ -308,10 +308,10 @@ namespace ft {
 		}
 
 		void     swap(List & x) {
-			std::swap(this->end_node_, x.end_node_);
-			std::swap(this->size_, x.size_);
-			std::swap(this->alloc_, x.alloc_);
-			std::swap(this->node_alloc_, x.node_alloc_);
+			ft::swap(this->end_node_, x.end_node_);
+			ft::swap(this->size_, x.size_);
+			ft::swap(this->alloc_, x.alloc_);
+			ft::swap(this->node_alloc_, x.node_alloc_);
 		}
 
 		void resize(size_type n, value_type val = value_type()) {
