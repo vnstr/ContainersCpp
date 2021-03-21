@@ -38,6 +38,9 @@ public:
 	bool operator==(const Test & x) {
 		return this->some_ == x.some_;
 	}
+	bool operator==(int & val) {
+		return this->some_ == val;
+	}
 	int   some_;
 	char* str_;
 

@@ -381,9 +381,81 @@ namespace ft {
 			l->prev       = f->prev;
 			while(first != last) {
 				f = first.get_node();
-				--x.size_;
 				++first;
 				destroy_node(f);
+				--x.size_;
+			}
+		}
+
+		void remove (const value_type& val) {
+			if (this->size_ == 0) {
+				return ;
+			}
+
+			Node* current       = this->end_node_->next;
+			size_type save_size = this->size_;
+
+			for (size_type i = 0; i < save_size + 1; ++i) {
+				current = current->next;
+				if (current->prev->data == val) {
+					destroy_node(current->prev);
+					--this->size_;
+				}
+			}
+		}
+
+		template <class Predicate>
+		void remove_if (Predicate pred) {
+			if (this->size_ == 0) {
+				return ;
+			}
+
+			Node* current       = this->end_node_->next;
+			size_type save_size = this->size_;
+
+			for (size_type i = 0; i < save_size + 1; ++i) {
+				current = current->next;
+				if (pred(current->prev->data)) {
+					destroy_node(current->prev);
+					--this->size_;
+				}
+			}
+		}
+
+		void unique() {
+			if (this->size_ <= 1) {
+				return ;
+			}
+
+			Node* current       = this->end_node_->next->next;
+
+			while (current != this->end_node_){
+				if (current->data == current->prev->data) {
+					current = current->next;
+					destroy_node(current->prev);
+					--this->size_;
+				} else {
+					current = current->next;
+				}
+			}
+		}
+
+		template <class BinaryPredicate>
+		void unique (BinaryPredicate binary_pred) {
+			if (this->size_ <= 1) {
+				return ;
+			}
+
+			Node* current = this->end_node_->next->next;
+
+			while (current != this->end_node_){
+				if (binary_pred(current->data, current->prev->data)) {
+					current = current->next;
+					destroy_node(current->prev);
+					--this->size_;
+				} else {
+					current = current->next;
+				}
 			}
 		}
 
@@ -468,14 +540,13 @@ namespace ft {
 			Node* begin_next;
 			Node* end_prev;
 
-			while (begin != end) {
+			for (size_type i = 0; i < this->size_ + 1; ++i) {
 				begin_next = begin->next;
 				end_prev   = end->prev;
 				swap_node(begin, end);
 				begin = begin_next;
 				end   = end_prev;
 			}
-//			int a = 0;
 		}
 
 		// ---------------------------------------------------------------------
@@ -535,7 +606,12 @@ namespace ft {
 				Node *node2 = node->next;
 
 				if (node->data > node2->data) {
-					swap_node(node, node2);
+					node2->next->prev = node2->prev;
+					node2->prev->next = node2->next;
+					node->prev->next  = node2;
+					node2->prev       = node->prev;
+					node->prev        = node2;
+					node2->next       = node;
 				}
 				if (new_list.size_ > 1) {
 					new_list.sort(comp);
@@ -592,12 +668,28 @@ namespace ft {
 		}
 
 		void   swap_node(Node* node1, Node* node2) {
-			node2->next->prev = node2->prev;
-			node2->prev->next = node2->next;
-			node1->prev->next = node2;
-			node2->prev       = node1->prev;
-			node1->prev       = node2;
-			node2->next       = node1;
+			Node* node1_next = node1->next;
+			Node* node1_prev = node1->prev;
+			Node* node2_next = node2->next;
+			Node* node2_prev = node2->prev;
+
+			if (node1_next != node2 && node2_next != node1) {
+				node1_next->prev  = node2;
+				node1_prev->next  = node2;
+				node2_next->prev  = node1;
+				node2->prev->next = node1;
+				node1->next       = node2_next;
+				node1->prev       = node2_prev;
+				node2->next       = node1_next;
+				node2->prev       = node1_prev;
+			} else {
+				node2->next->prev = node2->prev;
+				node2->prev->next = node2->next;
+				node1->prev->next = node2;
+				node2->prev       = node1->prev;
+				node1->prev       = node2;
+				node2->next       = node1;
+			}
 		}
 
 	};
