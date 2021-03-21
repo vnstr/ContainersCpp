@@ -1046,7 +1046,7 @@ void std_erase_2540_leaks_test() {
 		big_mouse[i].some_ = i + 1000;
 	}
 
-	mouse.erase(mouse.begin());
+	std::cout << mouse.erase(mouse.begin())->some_ << std::endl;
 
 	std::cout << "size    : " << mouse.size()     << std::endl;
 	std::cout << "capacity: " << mouse.capacity() << std::endl;
@@ -1101,7 +1101,6 @@ void std_erase_2540_leaks_test() {
 	std::cout << "arr     :" << std::endl;
 	for (size_t i = 0; i < big_mouse.size(); ++i) {
 		// if (i != 0 && i % 32 == 0)
-			std::cout << std::endl;
 		std::cout << big_mouse.at(i).some_ << " ";
 	}
 	std::cout << std::endl;
@@ -1306,7 +1305,7 @@ void std_relational_operators() {
 
 void std_modifiers_test() {
 	std_assign_iter_iter_leaks_test();
-	// std_assign_iter_iter_1280b_leaks_test();
+	std_assign_iter_iter_1280b_leaks_test();
 
 	std_assign_n_val_test();
 	std_push_back_test();
@@ -1314,9 +1313,9 @@ void std_modifiers_test() {
 	std_insert_iter_val_test();
 	std_insert_iter_n_val_test();
 	std_insert_iter_iter_iter_test();
-	// std_insert_iter_iter_iter_8390_leaks_test();
+	std_insert_iter_iter_iter_8390_leaks_test();
 
-	// std_erase_2540_leaks_test(); // <- I don't know why leaks.
+	std_erase_2540_leaks_test(); // <- I don't know why leaks.
 	std_swap_test();
 	std_clear_test();
 	std_relational_operators();

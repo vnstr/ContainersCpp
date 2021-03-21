@@ -375,7 +375,7 @@ void ft_el_access_test() {
 	std::cout << std::endl;
 
 	try {
-		std::cout << mouse.at(1042).some_ << std::endl;;
+		std::cout << mouse.at(1042).some_ << std::endl;
 
 	} catch(std::exception & e) {
 		std::cout << e.what() << std::endl;
@@ -1046,7 +1046,7 @@ void ft_erase_2540_leaks_test() {
 		big_mouse[i].some_ = i + 1000;
 	}
 
-	mouse.erase(mouse.begin());
+	std::cout << mouse.erase(mouse.begin())->some_ << std::endl;
 
 	std::cout << "size    : " << mouse.size()     << std::endl;
 	std::cout << "capacity: " << mouse.capacity() << std::endl;
@@ -1100,8 +1100,7 @@ void ft_erase_2540_leaks_test() {
 	std::cout << "capacity: " << big_mouse.capacity() << std::endl;
 	std::cout << "arr     :" << std::endl;
 	for (size_t i = 0; i < big_mouse.size(); ++i) {
-		if (i != 0 && i % 32 == 0)
-			std::cout << std::endl;
+		// if (i != 0 && i % 32 == 0)
 		std::cout << big_mouse.at(i).some_ << " ";
 	}
 	std::cout << std::endl;
@@ -1306,7 +1305,7 @@ void ft_relational_operators() {
 
 void ft_modifiers_test() {
 	ft_assign_iter_iter_leaks_test();
-	// ft_assign_iter_iter_1280b_leaks_test();
+	 ft_assign_iter_iter_1280b_leaks_test();
 
 	ft_assign_n_val_test();
 	ft_push_back_test();
@@ -1314,9 +1313,9 @@ void ft_modifiers_test() {
 	ft_insert_iter_val_test();
 	ft_insert_iter_n_val_test();
 	ft_insert_iter_iter_iter_test();
-	// ft_insert_iter_iter_iter_8390_leaks_test();
+	ft_insert_iter_iter_iter_8390_leaks_test();
 
-	// ft_erase_2540_leaks_test();
+	ft_erase_2540_leaks_test();
 	ft_swap_test();
 	ft_clear_test();
 	ft_relational_operators();
