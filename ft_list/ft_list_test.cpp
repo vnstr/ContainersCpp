@@ -878,6 +878,9 @@ void ft_sort_test() {
     mouse.push_back(6);
 
     mouse.sort();
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
     for (ft::List<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
         std::cout << *it << " ";
     }
@@ -942,6 +945,13 @@ void ft_sort_comp_test() {
 	reverse.push_back(6);
 	reverse.push_back(5);
 
+	reverse.sort(comp);
+	for (ft::List<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	reverse.reverse();
 	reverse.sort(comp);
 	for (ft::List<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
 		std::cout << *it << " ";
@@ -1216,40 +1226,74 @@ void ft_splice_pos_lst_first_last_test() {
 // =============================================================================
 
 #include <ctime>
+void complex() {
+	ft::List<int> mouse;
+	ft::List<int>::iterator it;
+	for (int i = 1000; i > 0; --i)
+		mouse.push_back(i);
+	size_t full_time = 0;
+	unsigned int time;
+	for (int i = 0; i < 3000; ++i) {
+		time = clock();
+		mouse.sort();
+		full_time += (clock() - time);
+		mouse.reverse();
+	}
+	mouse.sort();
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
+	for (it = mouse.begin(); it != mouse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "Average time is: " << full_time / 3000 << std::endl;
+}
 
 int main() {
-	ft_iterator_test();
-	ft_constructors_capacity_test();
-	ft_element_access_test();
+//	ft_iterator_test();
+//	ft_constructors_capacity_test();
+//	ft_element_access_test();
 
-	// // Modifiers
+	 // Modifiers
 
-	ft_push_front_test();
-	ft_pop_front_test();
-	ft_erase_position_test();
-	ft_erase_iter_iter_test();
-	ft_swap_test();
-	ft_resize_test();
-	ft_clear_test();
-	ft_insert_iter_val_test();
-	ft_insert_iter_n_val_test();
-	ft_insert_iter_iter_iter_test();
-	ft_assign_iter_iter_test();
-	ft_assign_n_val_test();
+//	ft_push_front_test();
+//	ft_pop_front_test();
+//	ft_erase_position_test();
+//	ft_erase_iter_iter_test();
+//	ft_swap_test();
+//	ft_resize_test();
+//	ft_clear_test();
+//	ft_insert_iter_val_test();
+//	ft_insert_iter_n_val_test();
+//	ft_insert_iter_iter_iter_test();
+//	ft_assign_iter_iter_test();
+//	ft_assign_n_val_test();
 
 	 // ---------
 
 	 // Operations
 
-	 ft_merge_x_test();
-	 ft_merge_x_compare_test();
-	 ft_sort_test();
-	 ft_sort_comp_test();
+//	 ft_merge_x_test();
+//	 ft_merge_x_compare_test();
+//	 ft_sort_test();
+//	 ft_sort_comp_test();
 	 ft_reverse_test();
-	 ft_splice_pos_lst_test();
-	 ft_splice_pos_lst_i_test();
-	 ft_splice_pos_lst_first_last_test();
+//	 ft_splice_pos_lst_test();
+//	 ft_splice_pos_lst_i_test();
+//	 ft_splice_pos_lst_first_last_test();
 
     // ------------
+
+//	ft_sort_comp_test();
+
+
+
+//	complex();
+
+
+
+
+
 	return 0;
 }

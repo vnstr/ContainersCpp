@@ -391,24 +391,22 @@ namespace ft {
 			if (this == &x) {
 				return ;
 			}
+			Node* this_current = this->begin().get_node();
+			Node* x_current    = x.begin().get_node();
 
-			iterator this_begin;
-			iterator x_begin;
-
-			this_begin = this->begin();
-			x_begin    = x.begin();
-
-			while (this_begin != this->end() && x_begin != x.end()) {
-				if (*this_begin > *x_begin) {
-					++x_begin;
-					put(this_begin, x_begin.get_node()->prev);
+			while (this_current != this->end_node_ && x_current != x.end_node_) {
+				if (x_current->data < this_current->data) {
+					x_current = x_current->next;
+					put(this_current, x_current->prev);
 				} else {
-					++this_begin;
+					this_current = this_current->next;
 				}
 			}
-			while (x_begin != x.end()) {
-				++x_begin;
-				put(this_begin, x_begin.get_node()->prev);
+			if (x_current != x.end_node_) {
+				x_current->prev          = this_current->prev;
+				this_current->prev->next = x_current;
+				x.end_node_->prev->next  = this->end_node_;
+				this->end_node_->prev    = x.end_node_->prev;
 			}
 			this->size_      += x.size_;
 			x.size_           = 0;
@@ -421,24 +419,22 @@ namespace ft {
 			if (this == &x) {
 				return ;
 			}
+			Node* this_current = this->begin().get_node();
+			Node* x_current    = x.begin().get_node();
 
-			iterator this_begin;
-			iterator x_begin;
-
-			this_begin = this->begin();
-			x_begin    = x.begin();
-
-			while (this_begin != this->end() && x_begin != x.end()) {
-				if (!comp(*this_begin, *x_begin)) {
-					++x_begin;
-					put(this_begin, x_begin.get_node()->prev);
+			while (this_current != this->end_node_ && x_current != x.end_node_) {
+				if (comp(x_current->data, this_current->data)) {
+					x_current = x_current->next;
+					put(this_current, x_current->prev);
 				} else {
-					++this_begin;
+					this_current = this_current->next;
 				}
 			}
-			while (x_begin != x.end()) {
-				++x_begin;
-				put(this_begin, x_begin.get_node()->prev);
+			if (x_current != x.end_node_) {
+				x_current->prev          = this_current->prev;
+				this_current->prev->next = x_current;
+				x.end_node_->prev->next  = this->end_node_;
+				this->end_node_->prev    = x.end_node_->prev;
 			}
 			this->size_      += x.size_;
 			x.size_           = 0;
@@ -447,11 +443,21 @@ namespace ft {
 		}
 
 		void sort() {
-			merge_sort(this->begin(), this->end(), ft_comp<value_type>);
+			if (this->size_ <= 1) {
+				return ;
+			} else {
+				merge_sort(*this, ft_comp<value_type>);
+			}
 		}
+
 		template <class Compare>
-		void sort (Compare comp) {
-			merge_sort<Compare>(this->begin(), this->end(), comp);
+		void sort(Compare comp) {
+			if (this->size_ <= 1) {
+				return ;
+			} else {
+				merge_sort<Compare>(*this, comp);
+			}
+
 		}
 
 		void reverse() {
@@ -459,29 +465,22 @@ namespace ft {
 				return ;
 			Node* begin = this->end_node_->next;
 			Node* end   = this->end_node_->prev;
-			Node* begin_prev;
 			Node* begin_next;
 			Node* end_prev;
-			Node* end_next;
 
 			while (begin != end) {
-				begin_prev = begin->prev;
 				begin_next = begin->next;
 				end_prev   = end->prev;
-				end_next   = end->next;
-				std::swap(begin_prev->next, end_prev->next);
-				std::swap(begin->next, end->next);
-				std::swap(begin->prev, end->prev);
-				std::swap(begin_next->prev, end_next->prev);
+				swap_node(begin, end);
 				begin = begin_next;
 				end   = end_prev;
 			}
+//			int a = 0;
 		}
 
 		// ---------------------------------------------------------------------
 
 	private:
-
 		Node*                end_node_;
 		size_type            size_;
 		allocator_type       alloc_;
@@ -491,76 +490,62 @@ namespace ft {
 
 		// Merge-sort ----------------------------------------------------------
 
-		iterator half_split(iterator first, iterator last) {
-			iterator slow;
-			iterator fast;
+		iterator split_list(List & current)
+		{
+			if (current.size_ == 1) {
+				return (current.end());
+			}
 
-			slow = first;
-			fast = first;
+			Node* fast = current.begin().get_node();
+			Node* slow = fast;
 
 			while
 			(
-			 fast.get_node()->next != last.get_node() &&
-			 fast.get_node()->next->next != last.get_node()
+			 fast != current.end_node_ &&
+			 fast->next != current.end_node_
 			) {
-				++slow;
-				++fast;
-				++fast;
+				fast = fast->next->next;
+				slow = slow->next;
 			}
-			return (++slow);
+			if (current.size_ % 2 != 0) {
+				slow = slow->next;
+			}
+			return (iterator(slow));
 		}
 
 		template<class Compare>
-		iterator merge_by_it
-		(
-		 iterator first1,
-		 iterator last1,
-		 iterator first2,
-		 iterator last2,
-		 Compare comp
-		) {
-			Node*    node1;
-			Node*    node2;
-			iterator ret(first1);
+		void     merge_sort(List & current, Compare comp)
+		{
+			iterator half(split_list(current));
+			iterator end(current.end());
+			List     new_list(half, end);
+			Node*    node;
 
-			while (first2 != last2) {
-				if (comp (*first2, *first1)) {
-					if (ret == first1) {
-						ret = first2;
-					}
-					node1 = first1.get_node();
-					node2 = first2.get_node();
-					node2->next->prev = node2->prev;
-					node2->prev->next = node2->next;
-					node1->prev->next = node2;
-					node2->prev = node1->prev;
-					node1->prev = node2;
-					node2->next = node1;
-					if (first2++ == last1) {
-						last1 = first2;
-					}
-				} else if (first1 != last1) {
-					++first1;
-				} else {
-					++first2;
-				}
+			while (half != end) {
+				node = half.get_node();
+				++half;
+				destroy_node(node);
+				--this->size_;
 			}
-			return ret;
-}
+			if (current.size_ == 1) {
+				current.merge(new_list);
+				return;
+			} else if (current.size_ == 2) {
+				Node *node  = current.begin().get_node();
+				Node *node2 = node->next;
 
-		template<class Compare>
-		iterator merge_sort(iterator first, iterator last, Compare comp) {
-			iterator half;
-
-			half = half_split(first, last);
-
-			if (half == last)
-				return first;
-
-			first = merge_sort(first, half, comp);
-			half  = merge_sort(half, last, comp);
-			first = merge_by_it(first, half, half, last, comp);
-			return first;
+				if (node->data > node2->data) {
+					swap_node(node, node2);
+				}
+				if (new_list.size_ > 1) {
+					new_list.sort(comp);
+				}
+				current.merge<Compare>(new_list, comp);
+				return;
+			}
+			current.sort<Compare>(comp);
+			new_list.sort<Compare>(comp);
+			current.merge<Compare>(new_list, comp);
 		}
 
 		// ---------------------------------------------------------------------
@@ -568,7 +553,7 @@ namespace ft {
 		Node* allocate_node() {
 			Node* node;
 
-			node = this->node_alloc_.allocate(1);
+			node       = this->node_alloc_.allocate(1);
 			node->next = node;
 			node->prev = node;
 			return node;
@@ -592,12 +577,27 @@ namespace ft {
 			this->alloc_.destroy(&node->data);
 			deallocate_node(node);
 		}
+		void   put(Node* position, Node* node) {
+			node->prev           = position->prev;
+			node->next           = position;
+			position->prev->next = node;
+			position->prev       = node;
+		}
 
 		void   put(iterator position, Node* node) {
 			node->prev                      = position.get_node()->prev;
 			node->next                      = position.get_node();
 			position.get_node()->prev->next = node;
 			position.get_node()->prev       = node;
+		}
+
+		void   swap_node(Node* node1, Node* node2) {
+			node2->next->prev = node2->prev;
+			node2->prev->next = node2->next;
+			node1->prev->next = node2;
+			node2->prev       = node1->prev;
+			node1->prev       = node2;
+			node2->next       = node1;
 		}
 
 	};

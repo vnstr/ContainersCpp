@@ -877,6 +877,9 @@ void std_sort_test() {
 	mouse.push_back(6);
 
 	mouse.sort();
+	std::cout << "mouse:" << std::endl;
+	std::cout << "size:"  << mouse.size()  << std::endl;
+	std::cout << "empty:" << mouse.empty() << std::endl;
 	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
 		std::cout << *it << " ";
 	}
@@ -941,6 +944,13 @@ void std_sort_comp_test() {
 	reverse.push_back(6);
 	reverse.push_back(5);
 
+	reverse.sort(comp);
+	for (std::list<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+
+	reverse.reverse();
 	reverse.sort(comp);
 	for (std::list<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
 		std::cout << *it << " ";
@@ -1215,37 +1225,37 @@ void std_splice_pos_lst_first_last_test() {
 // =============================================================================
 
 int main() {
-	std_iterator_test();
-	std_constructors_capacity_test();
-	std_element_access_test();
+//	std_iterator_test();
+//	std_constructors_capacity_test();
+//	std_element_access_test();
 
 	// // Modifiers
 
-	std_push_front_test();
-	std_pop_front_test();
-	std_erase_position_test();
-	std_erase_iter_iter_test();
-	std_swap_test();
-	std_resize_test();
-	std_clear_test();
-	std_insert_iter_val_test();
-	std_insert_iter_n_val_test();
-	std_insert_iter_iter_iter_test();
-	std_assign_iter_iter_test(); // WTF 10,040 leaks
-	std_assign_n_val_test(); // WTF 240 leaks;
+//	std_push_front_test();
+//	std_pop_front_test();
+//	std_erase_position_test();
+//	std_erase_iter_iter_test();
+//	std_swap_test();
+//	std_resize_test();
+//	std_clear_test();
+//	std_insert_iter_val_test();
+//	std_insert_iter_n_val_test();
+//	std_insert_iter_iter_iter_test();
+//	std_assign_iter_iter_test(); // WTF 10,040 leaks
+//	std_assign_n_val_test(); // WTF 240 leaks;
 
 	// ---------
 
     // Operations
 
-	std_merge_x_test();
-	std_merge_x_compare_test();
-	std_sort_test();
-	std_sort_comp_test();
+//	std_merge_x_test();
+//	std_merge_x_compare_test();
+//	std_sort_test();
+//	std_sort_comp_test();
 	std_reverse_test();
-	std_splice_pos_lst_test();
-	std_splice_pos_lst_i_test();
-	std_splice_pos_lst_first_last_test();
+//	std_splice_pos_lst_test();
+//	std_splice_pos_lst_i_test();
+//	std_splice_pos_lst_first_last_test();
 
 	// ---------
 	return 0;
