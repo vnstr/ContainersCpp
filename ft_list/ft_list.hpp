@@ -166,7 +166,7 @@ namespace ft {
 
 		// Capacity ------------------------------------------------------------
 
-		bool empty() const {
+		bool      empty() const {
 			return this->size_ == 0;
 		}
 
@@ -429,7 +429,7 @@ namespace ft {
 
 			Node* current       = this->end_node_->next->next;
 
-			while (current != this->end_node_){
+			while (current != this->end_node_) {
 				if (current->data == current->prev->data) {
 					current = current->next;
 					destroy_node(current->prev);
@@ -466,7 +466,8 @@ namespace ft {
 			Node* this_current = this->begin().get_node();
 			Node* x_current    = x.begin().get_node();
 
-			while (this_current != this->end_node_ && x_current != x.end_node_) {
+			while (this_current != this->end_node_ && x_current != x.end_node_)
+			{
 				if (x_current->data < this_current->data) {
 					x_current = x_current->next;
 					put(this_current, x_current->prev);
@@ -574,7 +575,8 @@ namespace ft {
 			(
 			 fast != current.end_node_ &&
 			 fast->next != current.end_node_
-			) {
+			)
+			{
 				fast = fast->next->next;
 				slow = slow->next;
 			}
@@ -602,16 +604,11 @@ namespace ft {
 				current.merge(new_list);
 				return;
 			} else if (current.size_ == 2) {
-				Node *node  = current.begin().get_node();
+				node  = current.begin().get_node();
 				Node *node2 = node->next;
 
 				if (node->data > node2->data) {
-					node2->next->prev = node2->prev;
-					node2->prev->next = node2->next;
-					node->prev->next  = node2;
-					node2->prev       = node->prev;
-					node->prev        = node2;
-					node2->next       = node;
+					swap_node(node, node2);
 				}
 				if (new_list.size_ > 1) {
 					new_list.sort(comp);
