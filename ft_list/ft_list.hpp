@@ -13,7 +13,6 @@
 # include <cstddef>   // size_t, ptrdiff_t ...
 # include <memory>    // allocator
 # include <cstddef>   // ptrdiff_t
-# include <algorithm> // std::swap(); std::equal(); std::rotate();
 
 // =============================================================================
 

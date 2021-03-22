@@ -370,11 +370,7 @@ namespace ft {
 		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
 		)
 		{
-			if
-			(
-			 std::distance(first, last) < 0 ||
-			 static_cast<size_type>(std::distance(first, last)) > this->max_size()
-			) {
+			if (std::distance(first, last) < 0 ) {
 				this->~Vector();
 				throw Vector::LengthError();
 			}
