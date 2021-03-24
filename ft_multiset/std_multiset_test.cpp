@@ -31,12 +31,14 @@ static void print_multiset(lib::con<T> & multiset) {
 // Constructors ----------------------------------------------------------------
 
 static void default_constructor_test() {
+	std::cout << "default_constructor_test" << std::endl;
 	lib::con<int> def;
 	print_multiset<int>(def);
 
 }
 
 static void constructor_first_last_test() {
+	std::cout << "constructor_first_last_test" << std::endl;
 	std::vector<int> src;
 	for (int i = 1000; i > 0; --i) {
 		src.push_back(i);
@@ -46,6 +48,7 @@ static void constructor_first_last_test() {
 }
 
 static void copy_constructor() {
+	std::cout << "copy_constructor" << std::endl;
 	std::vector<int> src;
 	for (int i = 1000; i > 0; --i) {
 		src.push_back(i);
@@ -60,6 +63,7 @@ static void copy_constructor() {
 // Modifiers -------------------------------------------------------------------
 
 static void insert_val_test() {
+	std::cout << "insert_val_test" << std::endl;
 	lib::con<int> def;
 
 	size_t j = 0;
@@ -76,6 +80,7 @@ static void insert_val_test() {
 }
 
 static void insert_position_val_test() {
+	std::cout << "insert_position_val_test" << std::endl;
 	lib::con<int> def;
 
 	size_t j = 0;
@@ -91,6 +96,7 @@ static void insert_position_val_test() {
 }
 
 static void insert_first_last_test() {
+	std::cout << "insert_first_last_test" << std::endl;
 	std::vector<int> src;
 	lib::con<int>    def;
 	for (int i = 1000; i > 0; --i) {
@@ -101,10 +107,35 @@ static void insert_first_last_test() {
 	print_multiset(def);
 }
 
+static void erase_position_test() {
+	std::cout << "erase_position_test" << std::endl;
+	std::vector<int> src;
+	for (int i = 1000; i > 0; --i) {
+		src.push_back(i);
+	}
+	lib::con<int>           def(src.begin(), src.end());
+	lib::con<int>::iterator it;
+
+	def.erase(def.begin());
+
+	it = def.begin();
+	for (int i = 0; i < 10; ++i) {
+		++it;
+	}
+	def.erase(it);
+
+	it = def.end();
+	for (int i = 0; i < 10; ++i) {
+		--it;
+	}
+	def.erase(it);
+
+	print_multiset(def);
+}
+
 // -----------------------------------------------------------------------------
 
 int main() {
-	srand(time(NULL));
 	// Constructors
 	default_constructor_test();
 	constructor_first_last_test();
@@ -116,8 +147,8 @@ int main() {
 	insert_val_test();
 	insert_position_val_test();
 	insert_first_last_test();
+	erase_position_test();
 
 	// ------------
 	return 0;
 }
-

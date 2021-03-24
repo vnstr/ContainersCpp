@@ -195,9 +195,9 @@ namespace ft {
 			}
 		}
 
-//		void erase(iterator position) {
-//			values_.erase(position);
-//		}
+		void erase(iterator position) {
+			values_.erase(position.base());
+		}
 
 		// ---------------------------------------------------------------------
 
