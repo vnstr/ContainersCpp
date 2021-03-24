@@ -199,6 +199,27 @@ namespace ft {
 			values_.erase(position.base());
 		}
 
+		size_type erase(const value_type& val) {
+			iterator   position(find_position(val));
+			value_type save_val(val);
+			size_type  i = 0;
+
+			while (*position == save_val) {
+				erase(position);
+				position = find_position(save_val);
+				++i;
+			}
+			return i;
+		}
+
+		void erase(iterator first, iterator last) {
+			while (first != last) {
+				erase(first);
+				--last;
+			}
+		}
+
+
 		// ---------------------------------------------------------------------
 
 	private:
@@ -209,7 +230,7 @@ namespace ft {
 
 	protected:
 		iterator   find_position(const value_type & val) {
-			return iterator(this->begin() + binary_search(val));
+			return iterator(values_.begin() + binary_search(val, values_.size()));
 		}
 
 		// Binary search -------------------------------------------------------

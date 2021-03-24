@@ -136,6 +136,61 @@ static void erase_position_test() {
 	print_multiset(def);
 }
 
+static void erase_val() {
+	std::cout << "erase_val" << std::endl;
+	lib::con<int>           def;
+	lib::con<int>::iterator it;
+	for (int i = 0; i < 10 ; ++i) {
+		def.insert(def.end(), i);
+		def.insert(def.end(), i);
+	}
+
+	def.erase(5);
+	print_multiset(def);
+
+	it = def.begin();
+	for (int i = 0; i < 10; ++i) {
+		def.insert(it, 6);
+		it = def.begin();
+	}
+	def.erase(6);
+	print_multiset(def);
+
+	for (int i = 0; i < 10; ++i) {
+		def.insert(99);
+	}
+	def.erase(99);
+	print_multiset(def);
+}
+
+static void erase_first_last() {
+	std::cout << "erase_val" << std::endl;
+	lib::con<int>           def;
+	lib::con<int>::iterator it;
+	lib::con<int>::iterator it2;
+	for (int i = 0; i < 10 ; ++i) {
+		def.insert(def.end(), i);
+		def.insert(def.end(), i);
+	}
+
+	def.erase(def.begin(), def.end());
+	print_multiset(def);
+
+	for (int i = 0; i < 30; ++i) {
+		def.insert(i);
+	}
+	it = def.begin();
+	for (int i = 0; i < 5; ++i) {
+		++it;
+	}
+	it2 = def.end();
+	for (int i = 0; i < 5; ++i) {
+		--it2;
+	}
+	def.erase(it, it2);
+	print_multiset(def);
+}
+
 // -----------------------------------------------------------------------------
 
 int main() {
@@ -152,7 +207,10 @@ int main() {
 	insert_first_last_test();
 
 	erase_position_test();
+	erase_val();
+	erase_first_last();
 
 	// ------------
 	return 0;
 }
+
