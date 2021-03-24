@@ -11,6 +11,7 @@
 // ========================== OTHER INCLUDES ===================================
 
 # include "../ft_vector/ft_vector.hpp"
+# include "../utils.hpp"
 
 # include "ft_multiset_bidir_iterator.hpp"
 
@@ -219,6 +220,11 @@ namespace ft {
 			}
 		}
 
+		void swap (Multiset & x) {
+			ft::swap(values_, x.values_);
+			ft::swap(comp_, x.comp_);
+			ft::swap(alloc_, x.alloc_);
+		}
 
 		// ---------------------------------------------------------------------
 

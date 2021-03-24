@@ -191,6 +191,24 @@ static void erase_first_last() {
 	print_multiset(def);
 }
 
+static void swap_test() {
+	std::cout << "swap_test" << std::endl;
+	lib::con<int>           def;
+	for (int i = 0; i < 10 ; ++i) {
+		def.insert(def.end(), i);
+		def.insert(def.end(), i);
+	}
+	lib::con<int>           def2;
+	for (int i = 0; i < 10 ; ++i) {
+		def.insert(def.end(), i + 100);
+		def.insert(def.end(), i + 100);
+	}
+
+	def.swap(def2);
+	print_multiset(def);
+	print_multiset(def2);
+}
+
 // -----------------------------------------------------------------------------
 
 int main() {
@@ -209,6 +227,7 @@ int main() {
 	erase_position_test();
 	erase_val();
 	erase_first_last();
+	swap_test();
 
 	// ------------
 	return 0;
