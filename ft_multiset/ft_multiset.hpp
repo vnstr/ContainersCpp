@@ -3,8 +3,7 @@
 //
 
 // TODO ReverseIterator
-// TODO binary_search() refactoring
-
+// Refactor for comp_ func
 #ifndef CONTAINERS_CPP_FT_MULTISET_HPP
 #define CONTAINERS_CPP_FT_MULTISET_HPP
 
@@ -180,7 +179,16 @@ namespace ft {
 			size_type pos_index;
 
 			pos_index = binary_search(val, this->values_.size());
-			return iterator(values_.insert(values_.begin() + pos_index + (val > values_[pos_index]), val));
+			return
+			(
+			 iterator
+			 (
+			  values_.insert
+			  (
+			   values_.begin() + pos_index + (val > values_[pos_index]), val
+			  )
+			 )
+			);
 		}
 
 		iterator      insert(iterator position, const value_type & val) {
@@ -337,9 +345,12 @@ namespace ft {
 
 			size_type half = start + size / 2 + (size % 2);
 
-			return (val < values_[half]) ?
-			binary_search(val, half - start, start)
-			: binary_search(val, start + size - half, half);
+			return
+			(
+			 (val < values_[half]) ?
+			 binary_search(val, half - start, start)
+			 : binary_search(val, start + size - half, half)
+			);
 		}
 
 		// ---------------------------------------------------------------------
