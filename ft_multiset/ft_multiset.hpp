@@ -76,7 +76,12 @@ namespace ft {
 //		 const key_compare& comp = key_compare(),
 //		 const allocator_type& alloc = allocator_type()
 //		)
-//		{}
+//		: comp_(comp), alloc_(alloc_)
+//		{
+//			while(first != last) {
+//				++first;
+//			}
+//		}
 
 		Multiset (const Multiset & x)
 		: values_(x.values_), alloc_(x.alloc_), comp_(x.comp_)
@@ -150,6 +155,20 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
+		// Modifiers -----------------------------------------------------------
+
+		iterator insert(const value_type & val) {
+			if (values_.size() == 0) {
+				return iterator(values_.insert(values_.begin(), val));
+			}
+			size_type pos_index;
+
+			pos_index = binary_search(val, this->values_.size());
+			return iterator(values_.insert(values_.begin() + pos_index + (val > values_[pos_index]), val));
+		}
+
+		// ---------------------------------------------------------------------
+
 	private:
 
 		Vector<T, Alloc> values_;
@@ -166,32 +185,20 @@ namespace ft {
 
 		size_type binary_search
 		(
-		const value_type &val,
-   		size_type start,
-   		size_type size
-   		)
-   		{
-			if (val > this->values_[size]) {
-				return size + 1;
-			}
-
-			if (val < this->values_[start]) {
-				return start + (val > this->values_[start]);
-			}
-
-			size_type half = start + size / 2;
-
+		 const value_type &val,
+		 size_type size,
+		 size_type start = 0
+		)
+		{
 			if (size == 1) {
-				return start + (val > this->values_[start]);
+				return start;
 			}
 
-			if (val < this->values_[half]) {
-				return binary_search(val, start, half - start);
-			} else if (this->values_[half] < val) {
-				return binary_search(val, half, size - start);
-			} else {
-				return (half);
-			}
+			size_type half = start + size / 2 + (size % 2);
+
+			return (val < values_[half]) ?
+			binary_search(val, half - start, start)
+			: binary_search(val, size - half, half);
 		}
 
 		// ---------------------------------------------------------------------
