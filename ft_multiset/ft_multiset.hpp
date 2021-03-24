@@ -273,6 +273,24 @@ namespace ft {
 			return i;
 		}
 
+		iterator lower_bound(const value_type& val) {
+			iterator found(find(val));
+
+			while (*found == val) {
+				--found;
+			}
+			return ++found;
+		}
+
+		iterator upper_bound(const value_type& val) {
+			iterator found(find(val));
+
+			while (*found == val) {
+				++found;
+			}
+			return found;
+		}
+
 		// ---------------------------------------------------------------------
 
 	private:

@@ -266,6 +266,83 @@ static void count_test() {
 	std::cout << def.count(29) << std::endl;
 }
 
+static void lower_bound_test() {
+	std::cout << "lower_bound_test" << std::endl;
+	lib::con<int>           def;
+	lib::con<int>::iterator it;
+	for (int i = 0; i < 30 ; ++i) {
+		if (i == 5) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 10) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 29){
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else {
+			def.insert(def.end(), i);
+		}
+	}
+
+	it = def.lower_bound(5);
+	for (size_t i = 0; i < 5; ++i) {
+		std::cout << *it << " ";
+		++it;
+	}
+	std::cout << std::endl;
+
+	it = def.lower_bound(29);
+	for (size_t i = 0; i < 29; ++i) {
+		std::cout << *it << " ";
+		++it;
+	}
+	std::cout << std::endl;
+
+}
+
+static void upper_bound_test() {
+	std::cout << "upper_bound_test" << std::endl;
+	lib::con<int>           def;
+	lib::con<int>::iterator it;
+	for (int i = 0; i < 30 ; ++i) {
+		if (i == 5) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 10) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 29){
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else {
+			def.insert(def.end(), i);
+		}
+	}
+
+	it = def.upper_bound(5);
+	--it;
+	for (size_t i = 0; i < 5; ++i) {
+		std::cout << *it << " ";
+		--it;
+	}
+	std::cout << std::endl;
+
+	it = def.upper_bound(29);
+	--it;
+	for (size_t i = 0; i < 29; ++i) {
+		std::cout << *it << " ";
+		--it;
+	}
+	std::cout << std::endl;
+}
+
 // -----------------------------------------------------------------------------
 int main() {
 	// Constructors
@@ -291,6 +368,8 @@ int main() {
 
 	find_test();
 	count_test();
+	lower_bound_test();
+	upper_bound_test();
 
 	// ------------
 	return 0;
