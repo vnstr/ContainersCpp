@@ -105,15 +105,15 @@ namespace ft {
 		}
 //
 		const_iterator         begin() const {
-			return const_iterator(this->arr_);
+			return const_iterator(this->values_.begin());
 		}
 
 		iterator               end() {
-			return iterator(this->arr_ + this->size_);
+			return iterator(this->values_.end());
 		}
 
 		const_iterator         end() const {
-			return const_iterator(this->arr_ + this->size_);
+			return const_iterator(this->values_.end());
 		}
 
 //		reverse_iterator       rbegin() {
