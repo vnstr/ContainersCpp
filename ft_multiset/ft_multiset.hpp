@@ -3,6 +3,7 @@
 //
 
 // TODO ReverseIterator
+// TODO binary_search() refactoring
 
 #ifndef CONTAINERS_CPP_FT_MULTISET_HPP
 #define CONTAINERS_CPP_FT_MULTISET_HPP
@@ -176,7 +177,6 @@ namespace ft {
 		key_compare      comp_;
 
 	protected:
-
 		iterator   find_position(const value_type & val) {
 			return iterator(this->begin() + binary_search(val));
 		}
@@ -198,7 +198,7 @@ namespace ft {
 
 			return (val < values_[half]) ?
 			binary_search(val, half - start, start)
-			: binary_search(val, size - half, half);
+			: binary_search(val, start + size - half, half);
 		}
 
 		// ---------------------------------------------------------------------
