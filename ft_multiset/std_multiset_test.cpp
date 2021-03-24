@@ -1,25 +1,22 @@
 //
-// Created by Gueren Drive on 3/23/21.
+// Created by Gueren Drive on 3/24/21.
 //
-
-// TODO test for iterators
-
-#include "ft_multiset.hpp"
 
 #include <iostream>
 #include <vector>
+#include <set>
 
-#define lib ft
-#define con Multiset
+#define lib std
+#define con multiset
 
 template <class T>
 static void print_multiset(lib::con<T> & multiset) {
 	typename lib::con<T>::iterator it(multiset.begin());
 
 	std::cout
-			<<  "empty: " << multiset.empty()
-			<< " size: "  << multiset.size()
-			<< " multiset:\n";
+	<<  "empty: " << multiset.empty()
+	<< " size: "  << multiset.size()
+	<< " multiset:\n";
 	size_t i = 0;
 	while (it != multiset.end()) {
 		if (i != 0 && i % 32 == 0) {
@@ -64,3 +61,4 @@ int main() {
 	// ------------
 	return 0;
 }
+

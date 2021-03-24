@@ -69,23 +69,24 @@ namespace ft {
 		: values_(), comp_(comp), alloc_(alloc)
 		{}
 
-//		template <class InputIterator>
-//		Multiset
-//		(
-//		 InputIterator first,
-//		 InputIterator last,
-//		 const key_compare& comp = key_compare(),
-//		 const allocator_type& alloc = allocator_type()
-//		)
-//		: comp_(comp), alloc_(alloc_)
-//		{
-//			while(first != last) {
-//				++first;
-//			}
-//		}
+		template <class InputIterator>
+		Multiset
+		(
+		 InputIterator first,
+		 InputIterator last,
+		 const key_compare& comp = key_compare(),
+		 const allocator_type& alloc = allocator_type()
+		)
+		: comp_(comp), alloc_(alloc)
+		{
+			while(first != last) {
+				insert(*first);
+				++first;
+			}
+		}
 
 		Multiset (const Multiset & x)
-		: values_(x.values_), alloc_(x.alloc_), comp_(x.comp_)
+		: values_(x.values_), comp_(x.comp_), alloc_(x.alloc_)
 		{}
 
 		~Multiset() {
@@ -156,6 +157,18 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
+		// Capacity ------------------------------------------------------------
+
+		bool      empty() const {
+			return values_.empty();
+		}
+
+		size_type size() const {
+			return values_.size();
+		}
+
+		// ---------------------------------------------------------------------
+
 		// Modifiers -----------------------------------------------------------
 
 		iterator insert(const value_type & val) {
@@ -173,8 +186,8 @@ namespace ft {
 	private:
 
 		Vector<T, Alloc> values_;
-		Alloc            alloc_;
 		key_compare      comp_;
+		Alloc            alloc_;
 
 	protected:
 		iterator   find_position(const value_type & val) {
