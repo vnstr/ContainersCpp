@@ -79,10 +79,7 @@ namespace ft {
 		)
 		: comp_(comp), alloc_(alloc)
 		{
-			while(first != last) {
-				insert(*first);
-				++first;
-			}
+			insert(first, last);
 		}
 
 		Multiset (const Multiset & x)
@@ -184,6 +181,23 @@ namespace ft {
 			pos_index = binary_search(val, this->values_.size());
 			return iterator(values_.insert(values_.begin() + pos_index + (val > values_[pos_index]), val));
 		}
+
+		iterator insert(iterator position, const value_type & val) {
+			(void)(position);
+			return insert(val);
+		}
+
+		template <class InputIterator>
+		void insert(InputIterator first, InputIterator last) {
+			while (first != last) {
+				insert(*first);
+				++first;
+			}
+		}
+
+//		void erase(iterator position) {
+//			values_.erase(position);
+//		}
 
 		// ---------------------------------------------------------------------
 

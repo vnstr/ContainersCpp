@@ -28,6 +28,8 @@ static void print_multiset(lib::con<T> & multiset) {
 	std::cout << std::endl;
 }
 
+// Constructors ----------------------------------------------------------------
+
 static void default_constructor_test() {
 	lib::con<int> def;
 	print_multiset<int>(def);
@@ -53,11 +55,68 @@ static void copy_constructor() {
 	print_multiset(copy_def);
 }
 
+// -----------------------------------------------------------------------------
+
+// Modifiers -------------------------------------------------------------------
+
+static void insert_val_test() {
+	lib::con<int> def;
+
+	size_t j = 0;
+	std::cout << "Inserting: \n";
+	for (int i = 999; i >= 0; --i) {
+		if (j != 0 && j % 32 == 0) {
+			std::cout << "\n";
+		}
+		std::cout << *(def.insert(i)) << " " ;
+		++j;
+	}
+	std::cout << std::endl;
+	print_multiset<int>(def);
+}
+
+static void insert_position_val_test() {
+	lib::con<int> def;
+
+	size_t j = 0;
+	std::cout << "Inserting: \n";
+	for (int i = 999; i >= 0; --i) {
+		if (j != 0 && j % 32 == 0) {
+			std::cout << "\n";
+		}
+		std::cout << *(def.insert(def.begin(), i)) << " ";
+		++j;
+	}
+	print_multiset<int>(def);
+}
+
+static void insert_first_last_test() {
+	std::vector<int> src;
+	lib::con<int>    def;
+	for (int i = 1000; i > 0; --i) {
+		src.push_back(i);
+	}
+	def.insert(src.begin(), src.end());
+	def.insert(src.begin(), src.end());
+	print_multiset(def);
+}
+
+// -----------------------------------------------------------------------------
+
 int main() {
+	srand(time(NULL));
 	// Constructors
 	default_constructor_test();
 	constructor_first_last_test();
 	copy_constructor();
+	// ------------
+
+	// Modifiers
+
+	insert_val_test();
+	insert_position_val_test();
+	insert_first_last_test();
+
 	// ------------
 	return 0;
 }
