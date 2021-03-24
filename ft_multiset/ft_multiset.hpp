@@ -272,10 +272,19 @@ namespace ft {
 			}
 
 			while (!comp_(*position, val) && !comp_(val, *position)) {
+				if (position == begin()) {
+					break ;
+				}
 				--position;
 			}
-			++position;
+			if (position != begin()) {
+				++position;
+			}
+
 			while (!comp_(*position, val) && !comp_(val, *position)) {
+				if (position == end()) {
+					break ;
+				}
 				++position;
 				++i;
 			}
@@ -286,15 +295,21 @@ namespace ft {
 			iterator found(find(val));
 
 			while (!comp_(*found, val) && !comp_(val, *found)) {
+				if (found == begin()) {
+					break ;
+				}
 				--found;
 			}
-			return ++found;
+			return (found != begin()) ? ++found : found;
 		}
 
 		iterator upper_bound(const value_type& val) {
 			iterator found(find(val));
 
 			while (!comp_(*found, val) && !comp_(val, *found)) {
+				if (found == end()) {
+					break ;
+				}
 				++found;
 			}
 			return found;
