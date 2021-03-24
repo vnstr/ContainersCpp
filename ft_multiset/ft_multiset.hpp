@@ -226,6 +226,10 @@ namespace ft {
 			ft::swap(alloc_, x.alloc_);
 		}
 
+		void clear() {
+			values_.clear();
+		}
+
 		// ---------------------------------------------------------------------
 
 	private:

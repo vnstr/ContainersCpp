@@ -206,6 +206,18 @@ static void swap_test() {
 	print_multiset(def2);
 }
 
+static void clear_test() {
+	std::cout << "clear" << std::endl;
+	lib::con<int>           def;
+	for (int i = 0; i < 10 ; ++i) {
+		def.insert(def.end(), i);
+		def.insert(def.end(), i);
+	}
+
+	def.clear();
+	print_multiset(def);
+}
+
 // -----------------------------------------------------------------------------
 
 int main() {
@@ -224,6 +236,7 @@ int main() {
 	erase_val();
 	erase_first_last();
 	swap_test();
+	clear_test();
 
 	// ------------
 	return 0;
