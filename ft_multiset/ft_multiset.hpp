@@ -2,12 +2,16 @@
 // Created by Gueren Drive on 3/23/21.
 //
 
+// TODO ReverseIterator
+
 #ifndef CONTAINERS_CPP_FT_MULTISET_HPP
 #define CONTAINERS_CPP_FT_MULTISET_HPP
 
 // ========================== OTHER INCLUDES ===================================
 
-#include "../ft_vector/ft_vector.hpp"
+# include "../ft_vector/ft_vector.hpp"
+
+# include "ft_multiset_bidir_iterator.hpp"
 
 // =============================================================================
 
@@ -18,7 +22,7 @@ namespace ft {
 // ============================= MULTISET ======================================
 
 	template <
-	        class T,                      // multiset::key_type/value_type
+	        class T,                           // multiset::key_type/value_type
 	        class Compare = std::less<T>,      // multiset::key_compare/value_compare
 	        class Alloc = std::allocator<T> >  // multiset::allocator_type
 	class Multiset {
@@ -37,11 +41,18 @@ namespace ft {
 		typedef typename allocator_type::pointer                pointer;
 		typedef typename allocator_type::const_pointer          const_pointer;
 
-		// iterators ...
+		typedef ft::MultisetBidirIterator
+		        <ft::RandomAccessIterator<T, T*, T&> >
+		                                                        iterator;
 
+		typedef ft::MultisetBidirIterator
+		        <ft::RandomAccessIterator<T, const T*, const T&> >
+		                                                        const_iterator;
 
-//		typedef typename RandomAccessIterator<T, T*, T&>::difference_type
-//				difference_type;
+		typedef typename
+		ft::MultisetBidirIterator
+		        <ft::RandomAccessIterator<T, T*, T&> >::difference_type
+		                                                        difference_type;
 
 		typedef size_t                                          size_type;
 
@@ -89,22 +100,22 @@ namespace ft {
 
 		// Iterators -----------------------------------------------------------
 
-//		iterator               begin() {
-//			return iterator(this->arr_);
-//		}
+		iterator               begin() {
+			return iterator(this->values_.begin());
+		}
 //
-//		const_iterator         begin() const {
-//			return const_iterator(this->arr_);
-//		}
-//
-//		iterator               end() {
-//			return iterator(this->arr_ + this->size_);
-//		}
-//
-//		const_iterator         end() const {
-//			return const_iterator(this->arr_ + this->size_);
-//		}
-//
+		const_iterator         begin() const {
+			return const_iterator(this->arr_);
+		}
+
+		iterator               end() {
+			return iterator(this->arr_ + this->size_);
+		}
+
+		const_iterator         end() const {
+			return const_iterator(this->arr_ + this->size_);
+		}
+
 //		reverse_iterator       rbegin() {
 //			if (this->size_ == 0) {
 //				return reverse_iterator(iterator(this->arr_));

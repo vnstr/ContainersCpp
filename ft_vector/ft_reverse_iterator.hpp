@@ -44,7 +44,7 @@ namespace ft {
 		// Operators -----------------------------------------------------------
 
 		// '='
-		ReverseIterator operator=(ReverseIterator const & x) {
+		ReverseIterator & operator=(ReverseIterator const & x) {
 
 			if (this == &x) {
 				return *this;
