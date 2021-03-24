@@ -7,6 +7,7 @@
 #include "ft_multiset.hpp"
 
 #include <iostream>
+#include <utility>
 #include <vector>
 
 #define lib ft
@@ -343,6 +344,52 @@ static void upper_bound_test() {
 	std::cout << std::endl;
 }
 
+static void equal_range_test() {
+	std::cout << "equal_range_test" << std::endl;
+
+	lib::con<int>           def;
+	lib::con<int>::iterator it;
+	lib::con<int>::iterator it2;
+	for (int i = 0; i < 30 ; ++i) {
+		if (i == 5) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 10) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 29){
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else {
+			def.insert(def.end(), i);
+		}
+	}
+
+	std::pair<
+			lib::con<int>::iterator,
+			lib::con<int>::iterator>        range(def.equal_range(5));
+
+	it  = std::get<0>(range);
+	it2 = std::get<1>(range);
+	while (it != it2) {
+		std::cout << *it << " ";
+		++it;
+	}
+	std::cout << std::endl;
+
+	range = def.equal_range(29);
+	it  = std::get<0>(range);
+	it2 = std::get<1>(range);
+	while (it != it2) {
+		std::cout << *it << " ";
+		++it;
+	}
+	std::cout << std::endl;
+}
+
 // -----------------------------------------------------------------------------
 int main() {
 	// Constructors
@@ -370,6 +417,7 @@ int main() {
 	count_test();
 	lower_bound_test();
 	upper_bound_test();
+	equal_range_test();
 
 	// ------------
 	return 0;

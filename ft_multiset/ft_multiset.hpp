@@ -291,6 +291,13 @@ namespace ft {
 			return found;
 		}
 
+		std::pair<iterator,iterator> equal_range (const value_type& val) {
+			iterator first(lower_bound(val));
+			iterator last(upper_bound(val));
+
+			return std::pair<iterator, iterator>(first, last);
+		}
+
 		// ---------------------------------------------------------------------
 
 	private:
