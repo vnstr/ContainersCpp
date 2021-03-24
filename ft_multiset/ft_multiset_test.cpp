@@ -223,6 +223,23 @@ static void clear_test() {
 
 // -----------------------------------------------------------------------------
 
+// Operations ------------------------------------------------------------------
+
+static void find_test() {
+	lib::con<int> def;
+	for (int i = 0; i < 10000 ; ++i) {
+		def.insert(def.end(), i);
+	}
+
+	std::cout << *(def.find(400)) << std::endl;
+	std::cout << *(def.find(6789)) << std::endl;
+	std::cout << *(def.find(2399)) << std::endl;
+	std::cout << *(def.find(9999)) << std::endl;
+	std::cout << *(def.find(12)) << std::endl;
+	std::cout << *(def.find(0)) << std::endl;
+}
+
+// -----------------------------------------------------------------------------
 int main() {
 	// Constructors
 	default_constructor_test();
@@ -231,7 +248,6 @@ int main() {
 	// ------------
 
 	// Modifiers
-
 	insert_val_test();
 	insert_position_val_test();
 	insert_first_last_test();
@@ -239,8 +255,14 @@ int main() {
 	erase_position_test();
 	erase_val();
 	erase_first_last();
+
 	swap_test();
 	clear_test();
+	// ------------
+
+	// Operations
+
+	find_test();
 
 	// ------------
 	return 0;

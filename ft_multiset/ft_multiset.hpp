@@ -173,7 +173,7 @@ namespace ft {
 
 		// Modifiers -----------------------------------------------------------
 
-		iterator insert(const value_type & val) {
+		iterator      insert(const value_type & val) {
 			if (values_.size() == 0) {
 				return iterator(values_.insert(values_.begin(), val));
 			}
@@ -183,24 +183,24 @@ namespace ft {
 			return iterator(values_.insert(values_.begin() + pos_index + (val > values_[pos_index]), val));
 		}
 
-		iterator insert(iterator position, const value_type & val) {
+		iterator      insert(iterator position, const value_type & val) {
 			(void)(position);
 			return insert(val);
 		}
 
 		template <class InputIterator>
-		void insert(InputIterator first, InputIterator last) {
+		void          insert(InputIterator first, InputIterator last) {
 			while (first != last) {
 				insert(*first);
 				++first;
 			}
 		}
 
-		void erase(iterator position) {
+		void          erase(iterator position) {
 			values_.erase(position.base());
 		}
 
-		size_type erase(const value_type& val) {
+		size_type     erase(const value_type& val) {
 			iterator   position(find_position(val));
 			value_type save_val(val);
 			size_type  i = 0;
@@ -213,21 +213,41 @@ namespace ft {
 			return i;
 		}
 
-		void erase(iterator first, iterator last) {
+		void          erase(iterator first, iterator last) {
 			while (first != last) {
 				erase(first);
 				--last;
 			}
 		}
 
-		void swap (Multiset & x) {
+		void          swap (Multiset & x) {
 			ft::swap(values_, x.values_);
 			ft::swap(comp_, x.comp_);
 			ft::swap(alloc_, x.alloc_);
 		}
 
-		void clear() {
+		void          clear() {
 			values_.clear();
+		}
+
+		// ---------------------------------------------------------------------
+
+		// Observers -----------------------------------------------------------
+
+		key_compare   key_comp() const {
+			return comp_;
+		}
+
+		value_compare value_comp() const {
+			return comp_;
+		}
+
+		// ---------------------------------------------------------------------
+
+		// Operations ----------------------------------------------------------
+
+		iterator find(const value_type& val) {
+			return find_position(val);
 		}
 
 		// ---------------------------------------------------------------------
