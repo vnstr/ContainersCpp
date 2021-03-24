@@ -156,6 +156,45 @@ namespace ft {
 		Alloc            alloc_;
 		key_compare      comp_;
 
+	protected:
+
+		iterator   find_position(const value_type & val) {
+			return iterator(this->begin() + binary_search(val));
+		}
+
+		// Binary search -------------------------------------------------------
+
+		size_type binary_search
+		(
+		const value_type &val,
+   		size_type start,
+   		size_type size
+   		)
+   		{
+			if (val > this->values_[size]) {
+				return size + 1;
+			}
+
+			if (val < this->values_[start]) {
+				return start + (val > this->values_[start]);
+			}
+
+			size_type half = start + size / 2;
+
+			if (size == 1) {
+				return start + (val > this->values_[start]);
+			}
+
+			if (val < this->values_[half]) {
+				return binary_search(val, start, half - start);
+			} else if (this->values_[half] < val) {
+				return binary_search(val, half, size - start);
+			} else {
+				return (half);
+			}
+		}
+
+		// ---------------------------------------------------------------------
 	};
 
 
