@@ -200,8 +200,8 @@ static void swap_test() {
 	}
 	lib::con<int>           def2;
 	for (int i = 0; i < 10 ; ++i) {
-		def.insert(def.end(), i + 100);
-		def.insert(def.end(), i + 100);
+		def2.insert(def2.end(), i + 100);
+		def2.insert(def2.end(), i + 100);
 	}
 
 	def.swap(def2);
@@ -239,6 +239,33 @@ static void find_test() {
 	std::cout << *(def.find(0)) << std::endl;
 }
 
+static void count_test() {
+	std::cout << "count_test" << std::endl;
+	lib::con<int>           def;
+	for (int i = 0; i < 30 ; ++i) {
+		if (i == 5) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 10) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 29){
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else {
+			def.insert(def.end(), i);
+		}
+	}
+
+	std::cout << def.count(99) << std::endl;
+	std::cout << def.count(5)  << std::endl;
+	std::cout << def.count(10) << std::endl;
+	std::cout << def.count(29) << std::endl;
+}
+
 // -----------------------------------------------------------------------------
 int main() {
 	// Constructors
@@ -263,6 +290,7 @@ int main() {
 	// Operations
 
 	find_test();
+	count_test();
 
 	// ------------
 	return 0;

@@ -246,8 +246,31 @@ namespace ft {
 
 		// Operations ----------------------------------------------------------
 
-		iterator find(const value_type& val) {
+		iterator  find(const value_type& val) {
 			return find_position(val);
+		}
+
+		size_type count(const value_type& val) {
+			if (values_.size() == 0) {
+				return 0;
+			}
+
+			iterator  position(find_position(val));
+			size_type i = 0;
+
+			if (*position != val) {
+				return 0;
+			}
+
+			while (*position == val) {
+				--position;
+			}
+			++position;
+			while (*position == val) {
+				++position;
+				++i;
+			}
+			return i;
 		}
 
 		// ---------------------------------------------------------------------
@@ -260,7 +283,10 @@ namespace ft {
 
 	protected:
 		iterator   find_position(const value_type & val) {
-			return iterator(values_.begin() + binary_search(val, values_.size()));
+			return
+			(
+			 iterator(values_.begin() + binary_search(val, values_.size()))
+			);
 		}
 
 		// Binary search -------------------------------------------------------
@@ -270,7 +296,7 @@ namespace ft {
 		 const value_type &val,
 		 size_type size,
 		 size_type start = 0
-		)
+		) const
 		{
 			if (size == 1) {
 				return start;
