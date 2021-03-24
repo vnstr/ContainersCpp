@@ -28,6 +28,7 @@ static void print_multiset(lib::con<T> & multiset) {
 		}
 		std::cout << *it << " ";
 		++it;
+		i++;
 	}
 	std::cout << std::endl;
 }
@@ -402,23 +403,19 @@ int main() {
 	insert_val_test();
 	insert_position_val_test();
 	insert_first_last_test();
-
 	erase_position_test();
 	erase_val();
 	erase_first_last();
-
 	swap_test();
 	clear_test();
 	// ------------
 
 	// Operations
-
 	find_test();
 	count_test();
 	lower_bound_test();
 	upper_bound_test();
 	equal_range_test();
-
 	// ------------
 	return 0;
 }

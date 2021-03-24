@@ -24,7 +24,7 @@ namespace ft {
 
 	template <
 	        class T,                           // multiset::key_type/value_type
-	        class Compare = std::less<T>,      // multiset::key_compare/value_compare
+	        class Compare = ft::Less<T>,      // multiset::key_compare/value_compare
 	        class Alloc = std::allocator<T> >  // multiset::allocator_type
 	class Multiset {
 
@@ -185,7 +185,8 @@ namespace ft {
 			 (
 			  values_.insert
 			  (
-			   values_.begin() + pos_index + (val > values_[pos_index]), val
+			   values_.begin() + pos_index + (!comp_(val, values_[pos_index])),
+			   val
 			  )
 			 )
 			);
@@ -213,7 +214,7 @@ namespace ft {
 			value_type save_val(val);
 			size_type  i = 0;
 
-			while (*position == save_val) {
+			while (!comp_(*position, save_val) && !comp_(save_val, *position)) {
 				erase(position);
 				position = find_position(save_val);
 				++i;
@@ -266,15 +267,15 @@ namespace ft {
 			iterator  position(find_position(val));
 			size_type i = 0;
 
-			if (*position != val) {
+			if (comp_(*position, val) || comp_(val, *position)) {
 				return 0;
 			}
 
-			while (*position == val) {
+			while (!comp_(*position, val) && !comp_(val, *position)) {
 				--position;
 			}
 			++position;
-			while (*position == val) {
+			while (!comp_(*position, val) && !comp_(val, *position)) {
 				++position;
 				++i;
 			}
@@ -284,7 +285,7 @@ namespace ft {
 		iterator lower_bound(const value_type& val) {
 			iterator found(find(val));
 
-			while (*found == val) {
+			while (!comp_(*found, val) && !comp_(val, *found)) {
 				--found;
 			}
 			return ++found;
@@ -293,7 +294,7 @@ namespace ft {
 		iterator upper_bound(const value_type& val) {
 			iterator found(find(val));
 
-			while (*found == val) {
+			while (!comp_(*found, val) && !comp_(val, *found)) {
 				++found;
 			}
 			return found;
@@ -345,9 +346,15 @@ namespace ft {
 
 			size_type half = start + size / 2 + (size % 2);
 
+//			return
+//			(
+//			 (val < values_[half]) ?
+//			 binary_search(val, half - start, start)
+//			 : binary_search(val, start + size - half, half)
+//			);
 			return
 			(
-			 (val < values_[half]) ?
+			 (comp_(val, values_[half])) ?
 			 binary_search(val, half - start, start)
 			 : binary_search(val, start + size - half, half)
 			);

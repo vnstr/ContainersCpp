@@ -1,9 +1,9 @@
 #! /bin/zsh
 
-rm logs/user.output
-rm logs/std.output
-rm -rf logs
-mkdir logs
+rm logs/user.output | echo -n
+rm logs/std.output  | echo -n
+rm -rf logs         | echo -n
+mkdir logs          | echo -n
 
   clang++ -Wall -Wextra -Werror -fsanitize=address ft_multiset_test.cpp -o logs/user_bin &&
   ./logs/user_bin > logs/user.output &&
