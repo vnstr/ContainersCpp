@@ -3,7 +3,7 @@
 //
 
 // TODO ReverseIterator
-// Refactor for comp_ func
+
 #ifndef CONTAINERS_CPP_FT_MULTISET_HPP
 #define CONTAINERS_CPP_FT_MULTISET_HPP
 

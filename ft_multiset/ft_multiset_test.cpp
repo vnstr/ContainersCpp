@@ -429,14 +429,14 @@ namespace same_with_reverse_comp {
 
 // Constructors ----------------------------------------------------------------
 
-static void default_constructor_test() {
+void default_constructor_test() {
 	std::cout << "default_constructor_test" << std::endl;
 	lib::con<int> def;
 	print_multiset<int>(def);
 
 }
 
-static void constructor_first_last_test() {
+void constructor_first_last_test() {
 	std::cout << "constructor_first_last_test" << std::endl;
 	std::vector<int> src;
 	for (int i = 1000; i > 0; --i) {
@@ -446,7 +446,7 @@ static void constructor_first_last_test() {
 	print_multiset(def);
 }
 
-static void copy_constructor() {
+void copy_constructor() {
 	std::cout << "copy_constructor" << std::endl;
 	std::vector<int> src;
 	for (int i = 1000; i > 0; --i) {
@@ -461,7 +461,7 @@ static void copy_constructor() {
 
 // Modifiers -------------------------------------------------------------------
 
-static void insert_val_test() {
+void insert_val_test() {
 	std::cout << "insert_val_test" << std::endl;
 	lib::con<int> def;
 
@@ -478,7 +478,7 @@ static void insert_val_test() {
 	print_multiset<int>(def);
 }
 
-static void insert_position_val_test() {
+void insert_position_val_test() {
 	std::cout << "insert_position_val_test" << std::endl;
 	lib::con<int> def;
 
@@ -494,7 +494,7 @@ static void insert_position_val_test() {
 	print_multiset<int>(def);
 }
 
-static void insert_first_last_test() {
+void insert_first_last_test() {
 	std::cout << "insert_first_last_test" << std::endl;
 	std::vector<int> src;
 	lib::con<int>    def;
@@ -506,7 +506,7 @@ static void insert_first_last_test() {
 	print_multiset(def);
 }
 
-static void erase_position_test() {
+void erase_position_test() {
 	std::cout << "erase_position_test" << std::endl;
 	std::vector<int> src;
 	for (int i = 1000; i > 0; --i) {
@@ -532,7 +532,7 @@ static void erase_position_test() {
 	print_multiset(def);
 }
 
-static void erase_val() {
+void erase_val() {
 	std::cout << "erase_val" << std::endl;
 	lib::con<int>           def;
 	lib::con<int>::iterator it;
@@ -559,7 +559,7 @@ static void erase_val() {
 	print_multiset(def);
 }
 
-static void erase_first_last() {
+void erase_first_last() {
 	std::cout << "erase_val" << std::endl;
 	lib::con<int>           def;
 	lib::con<int>::iterator it;
@@ -587,7 +587,7 @@ static void erase_first_last() {
 	print_multiset(def);
 }
 
-static void swap_test() {
+void swap_test() {
 	std::cout << "swap_test" << std::endl;
 	lib::con<int>           def;
 	for (int i = 0; i < 10 ; ++i) {
@@ -605,7 +605,7 @@ static void swap_test() {
 	print_multiset(def2);
 }
 
-static void clear_test() {
+void clear_test() {
 	std::cout << "clear" << std::endl;
 	lib::con<int>           def;
 	for (int i = 0; i < 10 ; ++i) {
@@ -621,7 +621,7 @@ static void clear_test() {
 
 // Operations ------------------------------------------------------------------
 
-static void find_test() {
+void find_test() {
 	lib::con<int> def;
 	for (int i = 0; i < 10000 ; ++i) {
 		def.insert(def.end(), i);
@@ -635,7 +635,7 @@ static void find_test() {
 	std::cout << *(def.find(0)) << std::endl;
 }
 
-static void count_test() {
+void count_test() {
 	std::cout << "count_test" << std::endl;
 	lib::con<int>           def;
 	for (int i = 0; i < 30 ; ++i) {
@@ -662,7 +662,7 @@ static void count_test() {
 	std::cout << def.count(29) << std::endl;
 }
 
-static void lower_bound_test() {
+void lower_bound_test() {
 	std::cout << "lower_bound_test" << std::endl;
 	lib::con<int>           def;
 	lib::con<int>::iterator it;
@@ -700,7 +700,7 @@ static void lower_bound_test() {
 
 }
 
-static void upper_bound_test() {
+void upper_bound_test() {
 	std::cout << "upper_bound_test" << std::endl;
 	lib::con<int>           def;
 	lib::con<int>::iterator it;
@@ -739,7 +739,7 @@ static void upper_bound_test() {
 	std::cout << std::endl;
 }
 
-static void equal_range_test() {
+void equal_range_test() {
 	std::cout << "equal_range_test" << std::endl;
 
 	lib::con<int>           def;
