@@ -339,7 +339,7 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
-//	private:
+	private:
 
 		Vector<T, Alloc> values_;
 		key_compare      comp_;

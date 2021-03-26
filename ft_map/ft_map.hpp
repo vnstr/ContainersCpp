@@ -103,10 +103,7 @@ namespace ft {
 		)
 		: values_(), comp_(comp), alloc_(alloc)
 		{
-			while (first != last) {
-				this->insert(*first);
-				++first;
-			}
+			this->insert(first, last);
 		}
 
 		Map
@@ -122,9 +119,13 @@ namespace ft {
 
 		// '='
 		Map &         operator=(const Map & x) {
+			if (this == &x) {
+				return *this;
+			}
 			values_ = x.values_;
 			alloc_  = x.alloc_;
 			comp_   = x.comp_;
+			return *this;
 		}
 
 		mapped_type & operator[] (const key_type & k) {
@@ -203,7 +204,6 @@ namespace ft {
 				(
 				 std::pair<iterator, bool>(iterator(values_.insert(val)), true)
 				);
-
 			}
 
 			iterator position(values_.find(val));
@@ -215,6 +215,33 @@ namespace ft {
 				);
 			}
 			return std::pair<iterator, bool>(position, false);
+		}
+
+		iterator insert (iterator position, const value_type& val) {
+			(void)(position);
+			if (values_.size() == 0) {
+				return iterator(values_.insert(val));
+			}
+
+			iterator pos(values_.find(val));
+
+			if (pos == end()) {
+				return iterator(values_.insert(val));
+			}
+			return pos;
+		}
+
+		template <class InputIterator>
+		void insert (InputIterator first, InputIterator last) {
+			while (first != last) {
+				if (values_.size() == 0) {
+					this->insert(*first);
+					++first;
+					continue ;
+				}
+				this->insert(*first);
+				++first;
+			}
 		}
 
 		// ---------------------------------------------------------------------
@@ -240,8 +267,8 @@ namespace ft {
 
 			bool operator()
 			(
-			 const std::pair<K, V> & a,
-			 const std::pair<K, V> & b
+			 const std::pair<const K, const V> & a,
+			 const std::pair<const K, const V> & b
 			) const
 			{
 				return a.first < b.first;
@@ -249,9 +276,15 @@ namespace ft {
 		};
 
 	private:
-		Multiset<value_type, KeyComp<key_type, mapped_type> > values_;
-		key_compare                                           comp_;
-		Alloc                                                 alloc_;
+		Multiset
+		<
+		 value_type,
+		 KeyComp<const key_type, mapped_type>,
+		 Alloc
+		>                                                            values_;
+
+		key_compare                                                  comp_;
+		Alloc                                                        alloc_;
 
 	};
 

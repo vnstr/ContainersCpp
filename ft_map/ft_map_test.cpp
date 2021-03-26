@@ -110,6 +110,64 @@ void at() {
 	}
 }
 
+void insert_val() {
+	std::cout << "insert_val" << std::endl;
+	lib::con<int, Test>           def;
+	lib::con<int, Test>::iterator it;
+
+	for (int i = 0; i < 20; ++i) {
+		if (i != 0 && i % 8 == 0) {
+			std::cout << std::endl;
+		}
+		it = def.insert(std::pair<int, Test>(i, i)).first;
+		std::cout
+		<< "key: "  <<  (*it).first
+		<< " val: " << (*it).second.some_ << " | ";
+		def.insert(std::pair<int, Test>(i, i));
+	}
+	std::cout << std::endl;
+
+	print_map<int, Test>(def);
+}
+
+void insert_position_val() {
+	std::cout << "insert_position_val" << std::endl;
+	lib::con<int, Test>           def;
+	lib::con<int, Test>::iterator it;
+
+	for (int i = 0; i < 20; ++i) {
+		if (i != 0 && i % 8 == 0) {
+			std::cout << std::endl;
+		}
+		it = def.insert(def.begin(), std::pair<int, Test>(i, i));
+		it = def.insert(def.begin(), std::pair<int, Test>(i, i));
+		std::cout
+				<< "key: "  <<  (*it).first
+				<< " val: " << (*it).second.some_ << " | ";
+		def.insert(std::pair<int, Test>(i, i));
+	}
+	std::cout << std::endl;
+
+	print_map<int, Test>(def);
+
+}
+
+void insert_first_last() {
+	std::cout << "insert_first_last" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def;
+
+	def.insert(src.begin(), src.end());
+	print_map<int, Test>(def);
+
+}
+
 int main() {
 	// Constructors
 	default_constructor();
@@ -120,6 +178,12 @@ int main() {
 	// Element access
 	brackets();
 	at();
+	// ------------
+
+	//Modifiers
+	insert_val();
+	insert_position_val();
+	insert_first_last();
 	// ------------
 	return 0;
 }
