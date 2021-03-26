@@ -77,7 +77,7 @@ namespace ft {
 		 const key_compare& comp = key_compare(),
 		 const allocator_type& alloc = allocator_type()
 		)
-		: comp_(comp), alloc_(alloc)
+		: values_(), comp_(comp), alloc_(alloc)
 		{
 			insert(first, last);
 		}
@@ -339,7 +339,7 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
-	private:
+//	private:
 
 		Vector<T, Alloc> values_;
 		key_compare      comp_;

@@ -101,7 +101,7 @@ namespace ft {
 		 const key_compare& comp = key_compare(),
 		 const allocator_type& alloc = allocator_type()
 		)
-		: comp_(comp), alloc_(alloc)
+		: values_(), comp_(comp), alloc_(alloc)
 		{
 			while (first != last) {
 				this->insert(*first);
@@ -128,8 +128,30 @@ namespace ft {
 		}
 
 		mapped_type & operator[] (const key_type & k) {
-			iterator position(values_.find(std::pair<key_type, mapped_type>(k, 0)));
+			iterator position
+			(
+			 values_.find(std::pair<key_type, mapped_type>(k, 0))
+			);
 
+			return (*position).second;
+		}
+
+		// ---------------------------------------------------------------------
+
+		// Element access ------------------------------------------------------
+
+		mapped_type & at (const key_type & k) {
+			if (values_.size() == 0) {
+				throw OutOfRange();
+			}
+
+			iterator position
+			(
+			 values_.find(std::pair<key_type, mapped_type>(k, 0))
+			);
+			if (position == this->end()) {
+				throw OutOfRange();
+			}
 			return (*position).second;
 		}
 
@@ -195,6 +217,16 @@ namespace ft {
 			return std::pair<iterator, bool>(position, false);
 		}
 
+		// ---------------------------------------------------------------------
+
+		// Exceptions ----------------------------------------------------------
+
+		class OutOfRange : public std::exception {
+		public:
+			const char*  what() const throw() {
+				return "map::at:  key not found";
+			}
+		};
 		// ---------------------------------------------------------------------
 
 	private:
