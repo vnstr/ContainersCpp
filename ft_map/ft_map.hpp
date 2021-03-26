@@ -93,14 +93,21 @@ namespace ft {
 		: values_(), comp_(comp), alloc_(alloc)
 		{}
 
-//		template <class InputIterator>
-//		Map
-//		(
-//		 InputIterator first,
-//		 InputIterator last,
-//		 const key_compare& comp = key_compare(),
-//		 const allocator_type& alloc = allocator_type()
-//		) {}
+		template <class InputIterator>
+		Map
+		(
+		 InputIterator first,
+		 InputIterator last,
+		 const key_compare& comp = key_compare(),
+		 const allocator_type& alloc = allocator_type()
+		)
+		: comp_(comp), alloc_(alloc)
+		{
+			while (first != last) {
+				this->insert(*first);
+				++first;
+			}
+		}
 
 		Map
 		(
@@ -159,19 +166,29 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
+		// Modifiers -----------------------------------------------------------
+
 		std::pair<iterator, bool> insert (const value_type & val) {
 			if (values_.size() == 0) {
-				return std::pair<iterator, bool>(iterator(values_.insert(val)), false);
+				return
+				(
+				 std::pair<iterator, bool>(iterator(values_.insert(val)), true)
+				);
 
 			}
 
 			iterator position(values_.find(val));
 
 			if (position == end()) {
-				return std::pair<iterator, bool>(iterator(values_.insert(val)), true);
+				return
+				(
+				 std::pair<iterator, bool>(iterator(values_.insert(val)), true)
+				);
 			}
 			return std::pair<iterator, bool>(position, false);
 		}
+
+		// ---------------------------------------------------------------------
 
 	private:
 		template <class K, class V>

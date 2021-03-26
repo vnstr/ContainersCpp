@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <vector>
 #include <map>
 
 #include "ft_map.hpp"
@@ -21,7 +22,7 @@ void print_map(lib::con<int, Test> & map) {
 			<< "map:\n";
 	size_t i = 0;
 	while (it != map.end()) {
-		if (i != 0 && i % 32 == 0) {
+		if (i != 0 && i % 8 == 0) {
 			std::cout << "\n";
 		}
 		std::cout << "key: "  << (*it).first
@@ -33,16 +34,31 @@ void print_map(lib::con<int, Test> & map) {
 }
 
 void default_constructor() {
-	std::cout << "std_default_constructor" << std::endl;
+	std::cout << "default_constructor" << std::endl;
 	lib::con<int, Test> def;
 
-	def.insert(std::pair<int, Test>(1, Test(1)));
 	print_map<int, Test>(def);
+}
+
+void constructor_first_last() {
+	std::cout << "constructor_first_last" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def(src.begin(), src.end());
+
+	print_map<int, Test>(def);
+
 }
 
 int main() {
 	// Constructors
 	default_constructor();
+	constructor_first_last();
 	// ------------
 	return 0;
 }
