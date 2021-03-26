@@ -256,7 +256,11 @@ namespace ft {
 		// Operations ----------------------------------------------------------
 
 		iterator  find(const value_type& val) {
-			return find_position(val);
+			iterator found(find_position(val));
+			if (values_.size() == 0 || comp_(*found, val) || comp_(val, *found)) {
+				return end();
+			}
+			return found;
 		}
 
 		size_type count(const value_type& val) {
@@ -272,12 +276,12 @@ namespace ft {
 			}
 
 			while (!comp_(*position, val) && !comp_(val, *position)) {
-				if (position == begin()) {
+				if (position == begin()) { // 5 5 5 6
 					break ;
 				}
 				--position;
 			}
-			if (position != begin()) {
+			if (comp_(*position, val) || comp_(val, *position)) {
 				++position;
 			}
 
@@ -300,7 +304,10 @@ namespace ft {
 				}
 				--found;
 			}
-			return (found != begin()) ? ++found : found;
+			if (comp_(*found, val) || comp_(val, *found)) {
+				++found;
+			}
+			return found;
 		}
 
 		iterator upper_bound(const value_type& val) {
@@ -361,12 +368,6 @@ namespace ft {
 
 			size_type half = start + size / 2 + (size % 2);
 
-//			return
-//			(
-//			 (val < values_[half]) ?
-//			 binary_search(val, half - start, start)
-//			 : binary_search(val, start + size - half, half)
-//			);
 			return
 			(
 			 (comp_(val, values_[half])) ?

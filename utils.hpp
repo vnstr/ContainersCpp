@@ -26,6 +26,19 @@ namespace ft {
 				return a < b;
 			}
 		};
+
+//	template <class K, class V>
+//	class KeyComp {
+//	public:
+//		KeyComp() {}
+//		KeyComp(const KeyComp & x) {(void)(x);}
+//		~KeyComp() {}
+//		KeyComp & operator=(const KeyComp & x) {(void)(x);}
+//
+//		bool operator()(const std::pair<K, V> & a, const std::pair<K, V> & b) {
+//			return a.first < b.first;
+//		}
+//	};
 }
 
 #endif //CONTAINERS_CPP_UTILS_HPP

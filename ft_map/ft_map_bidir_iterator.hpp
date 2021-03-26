@@ -1,9 +1,9 @@
 //
-// Created by Gueren Drive on 3/23/21.
+// Created by Gueren Drive on 3/25/21.
 //
 
-#ifndef CONTAINERS_CPP_FT_MULTISET_BIDIR_ITERATOR_HPP
-#define CONTAINERS_CPP_FT_MULTISET_BIDIR_ITERATOR_HPP
+#ifndef CONTAINERS_CPP_FT_MAP_BIDIR_ITERATOR_HPP
+#define CONTAINERS_CPP_FT_MAP_BIDIR_ITERATOR_HPP
 
 // ============================ NAMESPACE FT ===================================
 
@@ -12,7 +12,7 @@ namespace ft {
 // ======================== BIDIRECTIONAL ITERATOR =============================
 
 	template <class Iterator>
-	class MultisetBidirIterator {
+	class MapBidirIterator {
 
 	public:
 
@@ -29,15 +29,15 @@ namespace ft {
 
 		// Constructor - Destructor --------------------------------------------
 
-		MultisetBidirIterator() : it_() {}
-		explicit MultisetBidirIterator(iterator_type it) : it_(it) {}
+		MapBidirIterator() : it_() {}
+		explicit MapBidirIterator(iterator_type it) : it_(it) {}
 
 		template <class Iter>
-		MultisetBidirIterator(const MultisetBidirIterator<Iter> & it)
+		MapBidirIterator(const MapBidirIterator<Iter> & it)
 		: it_(it.base())
 		{}
 
-		virtual ~MultisetBidirIterator() {}
+		virtual ~MapBidirIterator() {}
 
 		// ---------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ namespace ft {
 		// Operators -----------------------------------------------------------
 
 		// '='
-		MultisetBidirIterator & operator=(MultisetBidirIterator const & x) {
+		MapBidirIterator & operator=(MapBidirIterator const & x) {
 
 			if (this == &x) {
 				return *this;
@@ -62,55 +62,55 @@ namespace ft {
 		}
 
 		// '=='
-		bool                    operator==
+		bool                  operator==
 		(
-		MultisetBidirIterator const & x
+				MapBidirIterator const & x
 		) const
 		{
 			return this->it_ == x.it_;
 		}
 
 		// '!='
-		bool                    operator!=
+		bool                  operator!=
 		(
-		MultisetBidirIterator const & x
+				MapBidirIterator const & x
 		) const
 		{
 			return this->it_ != x.it_;
 		}
 
 		// '*'
-		reference               operator*() {
+		reference             operator*() {
 			return *this->it_;
 		}
 
 		// '->'
-		pointer                 operator->() {
+		pointer               operator->() {
 			return this->it_.get_pointer();
 		}
 
 		// '++iter'
-		MultisetBidirIterator   operator++() {
+		MapBidirIterator   operator++() {
 			++this->it_;
 			return (*this);
 		}
 
 		// 'iter++'
-		MultisetBidirIterator   operator++(int) {
-			MultisetBidirIterator tmp(*this);
+		MapBidirIterator   operator++(int) {
+			MapBidirIterator tmp(*this);
 			++this->it_;
 			return (tmp);
 		}
 
 		// '--iter'
-		MultisetBidirIterator   operator--() {
+		MapBidirIterator   operator--() {
 			--this->it_;
 			return (*this);
 		}
 
 		// 'iter--'
-		MultisetBidirIterator   operator--(int) {
-			MultisetBidirIterator tmp(*this);
+		MapBidirIterator   operator--(int) {
+			MapBidirIterator tmp(*this);
 			--this->it_;
 			return (tmp);
 		}
@@ -120,8 +120,9 @@ namespace ft {
 	private:
 		iterator_type it_;
 	};
+
 }
 
 // ============================ END NAMESPACE FT ===============================
 
-#endif //CONTAINERS_CPP_FT_MULTISET_BIDIR_ITERATOR_HPP
+#endif //CONTAINERS_CPP_FT_MAP_BIDIR_ITERATOR_HPP
