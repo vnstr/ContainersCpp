@@ -69,11 +69,33 @@ void copy_constructor() {
 	print_map<int, Test>(copy_def);
 }
 
+void brackets() {
+	std::cout << "brackets" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def(src.begin(), src.end());
+
+	for (size_t i = 0; i < def.size(); ++i) {
+		std::cout << def[i].some_ << " ";
+	}
+	std::cout << std::endl;
+
+}
+
 int main() {
 	// Constructors
 	default_constructor();
 	constructor_first_last();
 	copy_constructor();
+	// ------------
+
+	// Element access
+	brackets();
 	// ------------
 	return 0;
 }

@@ -118,12 +118,19 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
-		// Operator '=' --------------------------------------------------------
+		// Operators -------------------------------------------------------
 
-		Map & operator=(const Map & x) {
+		// '='
+		Map &         operator=(const Map & x) {
 			values_ = x.values_;
 			alloc_  = x.alloc_;
 			comp_   = x.comp_;
+		}
+
+		mapped_type & operator[] (const key_type & k) {
+			iterator position(values_.find(std::pair<key_type, mapped_type>(k, 0)));
+
+			return (*position).second;
 		}
 
 		// ---------------------------------------------------------------------
