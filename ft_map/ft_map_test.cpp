@@ -55,10 +55,26 @@ void constructor_first_last() {
 
 }
 
+void copy_constructor() {
+	std::cout << "copy_constructor" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def(src.begin(), src.end());
+	lib::con<int, Test> copy_def(def);
+
+	print_map<int, Test>(copy_def);
+}
+
 int main() {
 	// Constructors
 	default_constructor();
 	constructor_first_last();
+	copy_constructor();
 	// ------------
 	return 0;
 }
