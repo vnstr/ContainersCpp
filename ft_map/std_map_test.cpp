@@ -170,6 +170,29 @@ void insert_first_last() {
 
 }
 
+void erase_position() {
+	std::cout << "erase_position" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test>           def(src.begin(), src.end());
+
+	def.erase(def.begin());
+
+	lib::con<int, Test>::iterator it(def.begin());
+
+	++it; ++it; ++it;
+	def.erase(it);
+	it = def.end();
+	--it;
+	def.erase(it);
+	print_map<int, Test>(def);
+}
+
 int main() {
 	// Constructors
 	default_constructor();
@@ -186,6 +209,7 @@ int main() {
 	insert_val();
 	insert_position_val();
 	insert_first_last();
+	erase_position();
 	// ------------
 	return 0;
 }

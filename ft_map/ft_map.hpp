@@ -245,6 +245,13 @@ namespace ft {
 			}
 		}
 
+		void erase (iterator position) {
+			if (this->size() == 0) {
+				return ;
+			}
+			values_.erase(position.base());
+		}
+
 		// ---------------------------------------------------------------------
 
 		// Exceptions ----------------------------------------------------------
