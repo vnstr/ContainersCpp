@@ -7,7 +7,7 @@
 // Constructors ================================================================
 
 void std_defoult_constructor() {
-	std::cout << "\nstd_defoult_constructor\n" << std::endl;
+	std::cout << "\ndefoult_constructor\n" << std::endl;
 	std::vector<Test> useless;
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
@@ -23,7 +23,7 @@ void std_defoult_constructor() {
 }
 
 void std_n_constructor() {
-	std::cout << "\nstd_n_constructor\n" << std::endl;
+	std::cout << "\nn_constructor\n" << std::endl;
 	std::vector<Test> useless(20);
 	for (size_t i = 0; i < useless.size(); ++i) {
 		useless[i].some_ = i;
@@ -42,7 +42,7 @@ void std_n_constructor() {
 }
 
 void std_n_val_constructor() {
-	std::cout << "\nstd_n_val_constructor\n" << std::endl;
+	std::cout << "\nn_val_constructor\n" << std::endl;
 	std::vector<Test> useless(128, 2);
 
 	std::cout << "size    : " << useless.size()     << std::endl;
@@ -58,7 +58,7 @@ void std_n_val_constructor() {
 }
 
 void std_copy_constructor() {
-	std::cout << "\nstd_copy_constructor\n" << std::endl;
+	std::cout << "\ncopy_constructor\n" << std::endl;
 	std::vector<Test> base(128);
 	for (size_t i = 0; i < base.size(); ++i) {
 		base[i].some_ = i;
@@ -79,7 +79,7 @@ void std_copy_constructor() {
 }
 
 void std_resize_test() {
-	std::cout << "\nstd_resize_test\n" << std::endl;
+	std::cout << "\nresize_test\n" << std::endl;
 	std::vector<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -176,7 +176,7 @@ void std_resize_test() {
 }
 
 void std_reserve_test() {
-	std::cout << "\nstd_reserve_test\n" << std::endl;
+	std::cout << "\nreserve_test\n" << std::endl;
 	std::vector<Test> mouse(128);
 	std::vector<Test> empty;
 	for (size_t i = 0; i < mouse.size(); ++i) {
@@ -305,7 +305,7 @@ void std_constructors_capacity_test() {
 // Operator '=' ================================================================
 
 void std_operator_assignment_test() {
-	std::cout << "\nstd_operator_assignment\n" << std::endl;
+	std::cout << "\noperator_assignment\n" << std::endl;
 	std::vector<Test> base(128);
 	for (size_t i = 0; i < base.size(); ++i) {
 		base[i].some_ = i;
@@ -331,7 +331,7 @@ void std_operator_assignment_test() {
 // Iterators ===================================================================
 
 void std_iterator_test() {
-	std::cout << "\nstd_iterator_test\n" << std::endl;
+	std::cout << "\niterator_test\n" << std::endl;
 	std::vector<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -357,7 +357,7 @@ void std_iterator_test() {
 // Element access ==============================================================
 
 void std_el_access_test() {
-	std::cout << "\nstd_el_access_test\n" << std::endl;
+	std::cout << "\nel_access_test\n" << std::endl;
 	std::vector<Test> one(1, 2);
 	std::vector<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
@@ -393,7 +393,7 @@ void std_el_access_test() {
 // Modifiers ===================================================================
 
 void std_assign_iter_iter_leaks_test() {
-	std::cout << "\nstd_assign_iter_iter\n" << std::endl;
+	std::cout << "\nassign_iter_iter\n" << std::endl;
 	std::vector<Test> mouse(128);
 	std::vector<Test> empty;
 	std::vector<Test> empty2;
@@ -459,7 +459,7 @@ void std_assign_iter_iter_leaks_test() {
 }
 
 void std_assign_iter_iter_1280b_leaks_test() {
-	std::cout << "\nstd_assign_iter_iter_1280_leaks\n" << std::endl;
+	std::cout << "\nassign_iter_iter_1280_leaks\n" << std::endl;
 	std::vector<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -562,7 +562,7 @@ void std_assign_iter_iter_1280b_leaks_test() {
 }
 
 void std_assign_n_val_test() {
-	std::cout << "\nstd_assign_n_val\n" << std::endl;
+	std::cout << "\nassign_n_val\n" << std::endl;
 	std::vector<Test> mouse(128);
 	std::vector<Test> empty;
 	std::vector<Test> empty2;
@@ -620,7 +620,7 @@ void std_assign_n_val_test() {
 }
 
 void std_push_back_test() {
-	std::cout << "\nstd_push_back\n" << std::endl;
+	std::cout << "\npush_back\n" << std::endl;
 	std::vector<Test> mouse(128);
 	std::vector<Test> empty;
 	std::vector<Test> empty2;
@@ -667,7 +667,7 @@ void std_push_back_test() {
 }
 
 void std_pop_back_test() {
-	std::cout << "\nstd_pop_back\n" << std::endl;
+	std::cout << "\npop_back\n" << std::endl;
 	std::vector<Test> mouse(128);
 	std::vector<Test> empty;
 	std::vector<Test> empty2;
@@ -692,7 +692,7 @@ void std_pop_back_test() {
 }
 
 void std_insert_iter_val_test() {
-	std::cout << "\nstd_insert_iter_val\n" << std::endl;
+	std::cout << "\ninsert_iter_val\n" << std::endl;
 	std::vector<Test> mouse(128);
 	std::vector<Test> fat_mouse(1023);
 	std::vector<Test> small_mouse(11);
@@ -780,7 +780,7 @@ void std_insert_iter_val_test() {
 }
 
 void std_insert_iter_n_val_test() {
-	std::cout << "\nstd_insert_iter_n_val\n" << std::endl;
+	std::cout << "\ninsert_iter_n_val\n" << std::endl;
 	std::vector<Test> mouse(128);
 	std::vector<Test> fat_mouse(1023);
 	std::vector<Test> small_mouse(11);
@@ -868,7 +868,7 @@ void std_insert_iter_n_val_test() {
 }
 
 void std_insert_iter_iter_iter_test() {
-	std::cout << "\nstd_iter_iter_iter\n" << std::endl;
+	std::cout << "\niter_iter_iter\n" << std::endl;
 	std::vector<Test> mouse(128);
 	std::vector<Test> empty;
 	std::vector<Test> empty2;
@@ -934,7 +934,7 @@ void std_insert_iter_iter_iter_test() {
 }
 
 void std_insert_iter_iter_iter_8390_leaks_test() {
-	std::cout << "\nstd_assign_iter_iter_1280_leaks\n" << std::endl;
+	std::cout << "\nassign_iter_iter_1280_leaks\n" << std::endl;
 	std::vector<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -1037,6 +1037,7 @@ void std_insert_iter_iter_iter_8390_leaks_test() {
 }
 
 void std_erase_2540_leaks_test() {
+	std::cout << "erase_2540_leaks_test" << std::endl;
 	std::vector<Test> mouse(129);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -1107,6 +1108,7 @@ void std_erase_2540_leaks_test() {
 }
 
 void std_swap_test() {
+	std::cout << "swap_test" << std::endl;
 	std::vector<Test> mouse(129);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -1162,6 +1164,7 @@ void std_swap_test() {
 }
 
 void std_clear_test() {
+	std::cout << "clear_test" << std::endl;
 	std::vector<Test> empty;
 	std::vector<Test> big_empty;
 	std::vector<Test> mouse(129);
@@ -1261,6 +1264,7 @@ void std_clear_test() {
 }
 
 void std_relational_operators() {
+	std::cout << "relational_operators" << std::endl;
 	std::vector<int> empty;
 	std::vector<int> big_empty;
 	std::vector<int> mouse(129);
