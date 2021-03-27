@@ -256,6 +256,7 @@ namespace ft {
 		// Operations ----------------------------------------------------------
 
 		iterator  find(const value_type& val) {
+			// TODO protect for segfault
 			iterator found(find_position(val));
 			if (values_.size() == 0 || comp_(*found, val) || comp_(val, *found)) {
 				return end();
@@ -301,6 +302,7 @@ namespace ft {
 			}
 
 			iterator found(find(val));
+			// TODO protect for segfault
 
 			while (!comp_(*found, val) && !comp_(val, *found)) {
 				if (found == begin()) {
@@ -320,6 +322,7 @@ namespace ft {
 			}
 
 			iterator found(find(val));
+			// TODO protect for segfault
 
 			while (!comp_(*found, val) && !comp_(val, *found)) {
 				if (found == end()) {

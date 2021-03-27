@@ -695,7 +695,6 @@ void lower_bound_test() {
 		++it;
 	}
 	std::cout << std::endl;
-
 }
 
 void upper_bound_test() {
