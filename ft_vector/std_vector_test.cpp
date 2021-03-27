@@ -1375,6 +1375,24 @@ void reverse_iterators() {
 	// *rcit_src = 6; // DOES NOT COMPILE
 }
 
+void relational_operators() {
+	std::cout << "relational_operators" << std::endl;
+	lib::con<int> def;
+	for (int i = 0; i < 20; i += 2) {
+		def.push_back(2);
+	}
+	lib::con<int> def2;
+	for (int i = 1; i < 20; i += 2) {
+		def2.push_back(2);
+	}
+	std::cout << (def >  def2) << std::endl;
+	std::cout << (def >= def2) << std::endl;
+	std::cout << (def <  def2) << std::endl;
+	std::cout << (def <= def2) << std::endl;
+	std::cout << (def == def2) << std::endl;
+	std::cout << (def != def2) << std::endl;
+}
+
 void std_modifiers_test() {
 	std_assign_iter_iter_leaks_test();
 	std_assign_iter_iter_1280b_leaks_test();
@@ -1405,6 +1423,6 @@ int main()
 
 	const_iterators();
 	reverse_iterators();
-
+	relational_operators();
 	return 0;
 }
