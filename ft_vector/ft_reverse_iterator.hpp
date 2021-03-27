@@ -5,7 +5,6 @@ namespace ft {
 
 	template < class Iterator >
 	class ReverseIterator {
-
 	public:
 
 		// Typedef -------------------------------------------------------------
@@ -21,21 +20,22 @@ namespace ft {
 
 		// Constructor - Destructor --------------------------------------------
 
-		ReverseIterator() : it_() {}
-		explicit ReverseIterator(iterator_type it) : it_(it) {}
-
+		ReverseIterator() : it_()
+		{}
+		explicit ReverseIterator(iterator_type it) : it_(it)
+		{}
 		template <class Iter>
 		ReverseIterator(const ReverseIterator<Iter> & rev_it)
-		: it_(rev_it.base()) {}
-
-		virtual ~ReverseIterator() {}
+		: it_(rev_it.base())
+		{}
+		virtual ~ReverseIterator()
+		{}
 
 		// ---------------------------------------------------------------------
 
 		// Member-funcs --------------------------------------------------------
 
 		iterator_type base() const {
-
 			return this->it_;
 		}
 
@@ -45,7 +45,6 @@ namespace ft {
 
 		// '='
 		ReverseIterator & operator=(ReverseIterator const & x) {
-
 			if (this == &x) {
 				return *this;
 			}
@@ -53,40 +52,24 @@ namespace ft {
 			return *this;
 		}
 
-		// '=='
-		bool            operator==(ReverseIterator const & x) const {
-
-			return this->it_ == x.base();
-		}
-
-		// '!='
-		bool            operator!=(ReverseIterator const & x) const {
-
-			return this->it_ != x.base();
-		}
-
 		// '*'
 		reference       operator*() {
-
 			return *this->it_;
 		}
 
 		// '->'
 		pointer         operator->() {
-
 			return this->it_.get_pointer();
 		}
 
 		// '++iter'
 		ReverseIterator operator++() {
-
 			--this->it_;
 			return (*this);
 		}
 
 		// 'iter++'
 		ReverseIterator operator++(int) {
-
 			ReverseIterator tmp(*this);
 			--this->it_;
 			return (tmp);
@@ -94,14 +77,12 @@ namespace ft {
 
 		// '--iter'
 		ReverseIterator operator--() {
-
 			++this->it_;
 			return (*this);
 		}
 
 		// 'iter--'
 		ReverseIterator operator--(int) {
-
 			ReverseIterator tmp(*this);
 			++this->it_;
 			return (tmp);
@@ -109,63 +90,53 @@ namespace ft {
 
 		// '+'
 		ReverseIterator operator+(difference_type n) const {
-
 			return ReverseIterator(this->it_ - n);
 		}
 
 		// '-'
 		ReverseIterator operator-(difference_type n) const {
-
 			return (ReverseIterator(this->it_ + n));
 		}
 
 		// '+='
 		ReverseIterator &operator+=(difference_type n) {
-
 			this->it_ -= n;
 			return (*this);
 		}
 
 		// '-='
 		ReverseIterator &operator-=(difference_type n) {
-
 			this->it_ += n;
 			return (*this);
 		}
 
 		// '<'
 		bool            operator<(ReverseIterator const & x) const {
-
 			return this->it_ > x.base();
 		}
 
 		// '>'
 		bool            operator>(ReverseIterator const & x) const {
-
 			return this->it_ < x.base();
 		}
 
 		// '>='
 		bool            operator<=(ReverseIterator const & x) const {
-
 			return this->it_ >= x.base();
 		}
 
 		// '>='
 		bool            operator>=(ReverseIterator const & x) const {
-
 			return this->it_ <= x.base();
 		}
 
 		reference       operator[](difference_type index) {
-
 			return this->it_[-index];
 		}
 
 		// ---------------------------------------------------------------------
 
 	private:
-
 		iterator_type it_;
 	};
 
