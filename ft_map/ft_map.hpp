@@ -252,6 +252,22 @@ namespace ft {
 			values_.erase(position.base());
 		}
 
+		size_type erase (const key_type & k) {
+			if (this->size() == 0) {
+				return 0;
+			}
+
+			iterator  found(values_.find(value_type(k, T())));
+			size_type i = 0;
+
+			while (found != this->end()) {
+				erase(found);
+				found = iterator(values_.find(value_type(k, T())));
+				++i;
+			}
+			return i;
+		}
+
 		// ---------------------------------------------------------------------
 
 		// Exceptions ----------------------------------------------------------

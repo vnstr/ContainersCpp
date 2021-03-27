@@ -193,6 +193,25 @@ void erase_position() {
 	print_map<int, Test>(def);
 }
 
+void erase_key() {
+	std::cout << "erase_key" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test>           def(src.begin(), src.end());
+
+	for (int i = 0; i < 20 ; i += 2) {
+		std::cout << def.erase(i) << std::endl;
+	}
+	std::cout << def.erase(100) << std::endl;
+	print_map<int, Test>(def);
+
+}
+
 int main() {
 	// Constructors
 	default_constructor();
@@ -210,6 +229,7 @@ int main() {
 	insert_position_val();
 	insert_first_last();
 	erase_position();
+	erase_key();
 	// ------------
 	return 0;
 }
