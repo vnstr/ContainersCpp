@@ -86,7 +86,7 @@ namespace ft {
 
 		// '->'
 		pointer               operator->() {
-			return this->it_.get_pointer();
+			return this->it_.base().get_pointer();
 		}
 
 		// '++iter'

@@ -273,6 +273,96 @@ void clear() {
 
 }
 
+void find() {
+	std::cout << "find" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def(src.begin(), src.end());
+
+	std::cout << (*def.find(0)).second.some_ << std::endl;
+	std::cout << (*def.find(15)).second.some_ << std::endl;
+	std::cout << (def.end() == def.find(99)) << std::endl;
+
+}
+
+void count() {
+	std::cout << "count" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def(src.begin(), src.end());
+
+	std::cout << def.count(0) << std::endl;
+	std::cout << def.count(15) << std::endl;
+	std::cout << def.count(99) << std::endl;
+}
+
+void lower_bound() {
+	std::cout << "lower_bound" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def(src.begin(), src.end());
+
+	std::cout << (*def.lower_bound(0)).second.some_ << std::endl;
+	std::cout << (*def.lower_bound(15)).second.some_ << std::endl;
+	std::cout << (def.lower_bound(99) == def.end()) << std::endl;
+
+}
+
+void upper_bound() {
+	std::cout << "upper_bound" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def(src.begin(), src.end());
+
+	std::cout << (*def.upper_bound(0)).second.some_ << std::endl;
+	std::cout << (*def.upper_bound(15)).second.some_ << std::endl;
+	std::cout << (def.upper_bound(99) == def.end()) << std::endl;
+}
+
+void equal_range() {
+	std::cout << "equal_range" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def(src.begin(), src.end());
+
+	std::pair<lib::con<int, Test>::iterator, lib::con<int, Test>::iterator>
+	        pair1(def.equal_range(5));
+
+	while (pair1.first != pair1.second) {
+		std::cout << (*(pair1.first)).second.some_ << std::endl;
+		++pair1.first;
+	}
+
+	std::pair<lib::con<int, Test>::iterator, lib::con<int, Test>::iterator>
+			pair2(def.equal_range(99));
+
+	while (pair2.first != pair2.second) {
+		std::cout << (*(pair2.first)).second.some_ << std::endl;
+		++pair2.first;
+	}
+}
+
 int main() {
 	// Constructors
 	default_constructor();
@@ -295,5 +385,30 @@ int main() {
 	swap();
 	clear();
 	// ------------
+
+	// Operations
+	find();
+	count();
+	lower_bound();
+	upper_bound();
+	equal_range();
+	// ------------
 	return 0;
 }
+//int main ()
+//{
+//	ft::Map<char,int> mymap;
+//	ft::Map<char,int>::iterator itlow,itup;
+//	mymap['a']=20;
+//	mymap['b']=40;
+//	mymap['c']=60;
+//	mymap['d']=80;
+//	mymap['e']=100;
+//	itlow=mymap.lower_bound ('b');  // itlow points to b
+//	itup=mymap.upper_bound ('d');   // itup points to e (not d!)
+//	mymap.erase(itlow,itup);        // erases [itlow,itup)
+//	// print content:
+//	for (ft::Map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
+//		std::cout << it->first << " => " << it->second << '\n';
+//	return 0;
+//}

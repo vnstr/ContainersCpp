@@ -19,8 +19,7 @@ namespace ft {
 	template
 	< class Key,                                       // map::key_type
 	  class T,                                         // map::mapped_type
-//	  class Compare = ft::Less<Key>,                   // map::key_compare
-	  class Compare = ft::KeyComp<Key, T>,
+	  class Compare = ft::KeyComp<Key, T>,             // map::key_compare
 	  class Alloc = std::allocator<std::pair<Key,T> > // map::allocator_type
 	>
 	class Map {
@@ -31,8 +30,9 @@ namespace ft {
 
 		typedef Key                                             key_type;
 		typedef T                                               mapped_type;
-		typedef std::pair<key_type, mapped_type>          value_type;
+		typedef std::pair<key_type, mapped_type>                value_type;
 		typedef Compare                                         key_compare;
+		typedef Compare                                         value_compare;
 		typedef Alloc                                           allocator_type;
 
 		typedef typename allocator_type::reference              reference;
@@ -130,12 +130,12 @@ namespace ft {
 		}
 
 		mapped_type & operator[] (const key_type & k) {
-			iterator position
+			return
 			(
-			 values_.find(std::pair<key_type, mapped_type>(k, 0))
+			 (*((this->insert(std::pair<Key, T>(k,mapped_type()))).first)).second
 			);
 
-			return (*position).second;
+//			return (*position).second;
 		}
 
 		// ---------------------------------------------------------------------
@@ -283,6 +283,84 @@ namespace ft {
 
 		void                      clear() {
 			values_.clear();
+		}
+
+		// ---------------------------------------------------------------------
+
+		// Observers -----------------------------------------------------------
+
+		key_compare               key_comp() const {
+			return comp_;
+		}
+
+		value_compare             value_comp() const {
+			return comp_;
+		}
+
+		// ---------------------------------------------------------------------
+
+		// Operations ----------------------------------------------------------
+
+		iterator       find(const key_type & k) {
+			if (this->size() == 0) {
+				return this->end();
+			}
+			return iterator(values_.find(value_type(k, T())));
+		}
+
+		size_type      count(const key_type & k) {
+			if (this->size() == 0) {
+				return 0;
+			}
+
+			iterator found(values_.find(std::pair<key_type, mapped_type>(k, mapped_type())));
+			return found != this->end();
+		}
+
+		iterator       lower_bound(const key_type & k) {
+			if (this->size() == 0) {
+				return this->end();
+			}
+			return iterator(values_.find(std::pair<key_type, mapped_type>(k, mapped_type())));
+		}
+
+		const_iterator lower_bound(const key_type & k) const {
+			if (this->size() == 0) {
+				return this->end();
+			}
+			return const_iterator(values_.find(std::pair<key_type, mapped_type>(k, mapped_type())));
+		}
+
+		iterator       upper_bound(const key_type & k) {
+			iterator pos(this->lower_bound(k));
+
+			if (pos != this->end()) {
+				++pos;
+			}
+			return pos;
+		}
+
+		const_iterator upper_bound (const key_type& k) const {
+			const_iterator pos(this->lower_bound(k));
+
+			if (pos != this->end()) {
+				++pos;
+			}
+			return pos;
+		}
+
+		std::pair<iterator, iterator> equal_range(const key_type & k) {
+			iterator first(this->lower_bound(k));
+			iterator last(this->upper_bound(k));
+
+			return std::pair<iterator, iterator >(first, last);
+		}
+
+		std::pair<const_iterator,const_iterator> equal_range(const key_type & k) const {
+			const_iterator first(this->lower_bound(k));
+			const_iterator last(this->upper_bound(k));
+
+			return std::pair<const_iterator, const_iterator >(first, last);
 		}
 
 		// ---------------------------------------------------------------------

@@ -296,6 +296,10 @@ namespace ft {
 		}
 
 		iterator lower_bound(const value_type& val) {
+			if (this->size() == 0) {
+				return this->end();
+			}
+
 			iterator found(find(val));
 
 			while (!comp_(*found, val) && !comp_(val, *found)) {
@@ -311,6 +315,10 @@ namespace ft {
 		}
 
 		iterator upper_bound(const value_type& val) {
+			if (this->size() == 0) {
+				return this->end();
+			}
+
 			iterator found(find(val));
 
 			while (!comp_(*found, val) && !comp_(val, *found)) {

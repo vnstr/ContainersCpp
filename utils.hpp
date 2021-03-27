@@ -37,11 +37,19 @@ namespace ft {
 
 		bool operator()
 				(
-						const std::pair<const K, const V> & a,
-						const std::pair<const K, const V> & b
+				 const std::pair<const K, const V> & a,
+				 const std::pair<const K, const V> & b
 				) const
 		{
 			return a.first < b.first;
+		}
+		bool operator()
+				(
+				 const K & a,
+				 const K & b
+				) const
+		{
+			return a < b;
 		}
 	};
 
