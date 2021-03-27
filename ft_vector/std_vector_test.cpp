@@ -3,12 +3,14 @@
 
 #include "test.hpp" // class Test;
 
+#define lib std
+#define con vector
 
 // Constructors ================================================================
 
 void std_defoult_constructor() {
 	std::cout << "\ndefoult_constructor\n" << std::endl;
-	std::vector<Test> useless;
+	lib::con<Test> useless;
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
 	std::cout << "size    : " << useless.size()     << std::endl;
@@ -24,7 +26,7 @@ void std_defoult_constructor() {
 
 void std_n_constructor() {
 	std::cout << "\nn_constructor\n" << std::endl;
-	std::vector<Test> useless(20);
+	lib::con<Test> useless(20);
 	for (size_t i = 0; i < useless.size(); ++i) {
 		useless[i].some_ = i;
 	}
@@ -43,7 +45,7 @@ void std_n_constructor() {
 
 void std_n_val_constructor() {
 	std::cout << "\nn_val_constructor\n" << std::endl;
-	std::vector<Test> useless(128, 2);
+	lib::con<Test> useless(128, 2);
 
 	std::cout << "size    : " << useless.size()     << std::endl;
 	std::cout << "capacity: " << useless.capacity() << std::endl;
@@ -59,12 +61,12 @@ void std_n_val_constructor() {
 
 void std_copy_constructor() {
 	std::cout << "\ncopy_constructor\n" << std::endl;
-	std::vector<Test> base(128);
+	lib::con<Test> base(128);
 	for (size_t i = 0; i < base.size(); ++i) {
 		base[i].some_ = i;
 	}
 
-	std::vector<Test> copy(base);
+	lib::con<Test> copy(base);
 
 	std::cout << "size    : " << copy.size()     << std::endl;
 	std::cout << "capacity: " << copy.capacity() << std::endl;
@@ -80,13 +82,13 @@ void std_copy_constructor() {
 
 void std_resize_test() {
 	std::cout << "\nresize_test\n" << std::endl;
-	std::vector<Test> mouse(128);
+	lib::con<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
-	std::vector<Test> big_empty(mouse);
-	std::vector<Test> small_mouse(mouse);
-	std::vector<Test> big_mouse(mouse);
+	lib::con<Test> big_empty(mouse);
+	lib::con<Test> small_mouse(mouse);
+	lib::con<Test> big_mouse(mouse);
 
 	std::cout << "size    : " << mouse.size()     << std::endl;
 	std::cout << "capacity: " << mouse.capacity() << std::endl;
@@ -177,8 +179,8 @@ void std_resize_test() {
 
 void std_reserve_test() {
 	std::cout << "\nreserve_test\n" << std::endl;
-	std::vector<Test> mouse(128);
-	std::vector<Test> empty;
+	lib::con<Test> mouse(128);
+	lib::con<Test> empty;
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
@@ -306,12 +308,12 @@ void std_constructors_capacity_test() {
 
 void std_operator_assignment_test() {
 	std::cout << "\noperator_assignment\n" << std::endl;
-	std::vector<Test> base(128);
+	lib::con<Test> base(128);
 	for (size_t i = 0; i < base.size(); ++i) {
 		base[i].some_ = i;
 	}
 
-	std::vector<Test> copy;
+	lib::con<Test> copy;
 	copy = base;
 
 	std::cout << "size    : " << copy.size()     << std::endl;
@@ -332,7 +334,7 @@ void std_operator_assignment_test() {
 
 void std_iterator_test() {
 	std::cout << "\niterator_test\n" << std::endl;
-	std::vector<Test> mouse(128);
+	lib::con<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
@@ -358,8 +360,8 @@ void std_iterator_test() {
 
 void std_el_access_test() {
 	std::cout << "\nel_access_test\n" << std::endl;
-	std::vector<Test> one(1, 2);
-	std::vector<Test> mouse(128);
+	lib::con<Test> one(1, 2);
+	lib::con<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
@@ -394,19 +396,19 @@ void std_el_access_test() {
 
 void std_assign_iter_iter_leaks_test() {
 	std::cout << "\nassign_iter_iter\n" << std::endl;
-	std::vector<Test> mouse(128);
-	std::vector<Test> empty;
-	std::vector<Test> empty2;
+	lib::con<Test> mouse(128);
+	lib::con<Test> empty;
+	lib::con<Test> empty2;
 	empty2.reserve(1023);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
-	std::vector<Test> fat_mouse(344);
+	lib::con<Test> fat_mouse(344);
 	for (size_t i = 0; i < fat_mouse.size(); ++i) {
 		fat_mouse[i].some_ = i + 1000;
 	}
 
-	std::vector<Test> small_mouse(5);
+	lib::con<Test> small_mouse(5);
 	for (size_t i = 0; i < small_mouse.size(); ++i) {
 		small_mouse[i].some_ = i + 500;
 	}
@@ -460,11 +462,11 @@ void std_assign_iter_iter_leaks_test() {
 
 void std_assign_iter_iter_1280b_leaks_test() {
 	std::cout << "\nassign_iter_iter_1280_leaks\n" << std::endl;
-	std::vector<Test> mouse(128);
+	lib::con<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
-	std::vector<Test> fat_mouse(344);
+	lib::con<Test> fat_mouse(344);
 	for (size_t i = 0; i < fat_mouse.size(); ++i) {
 		fat_mouse[i].some_ = i + 1000;
 	}
@@ -563,9 +565,9 @@ void std_assign_iter_iter_1280b_leaks_test() {
 
 void std_assign_n_val_test() {
 	std::cout << "\nassign_n_val\n" << std::endl;
-	std::vector<Test> mouse(128);
-	std::vector<Test> empty;
-	std::vector<Test> empty2;
+	lib::con<Test> mouse(128);
+	lib::con<Test> empty;
+	lib::con<Test> empty2;
 	empty2.reserve(1023);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -621,9 +623,9 @@ void std_assign_n_val_test() {
 
 void std_push_back_test() {
 	std::cout << "\npush_back\n" << std::endl;
-	std::vector<Test> mouse(128);
-	std::vector<Test> empty;
-	std::vector<Test> empty2;
+	lib::con<Test> mouse(128);
+	lib::con<Test> empty;
+	lib::con<Test> empty2;
 	empty2.reserve(1023);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -668,9 +670,9 @@ void std_push_back_test() {
 
 void std_pop_back_test() {
 	std::cout << "\npop_back\n" << std::endl;
-	std::vector<Test> mouse(128);
-	std::vector<Test> empty;
-	std::vector<Test> empty2;
+	lib::con<Test> mouse(128);
+	lib::con<Test> empty;
+	lib::con<Test> empty2;
 	empty2.reserve(1023);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -693,12 +695,12 @@ void std_pop_back_test() {
 
 void std_insert_iter_val_test() {
 	std::cout << "\ninsert_iter_val\n" << std::endl;
-	std::vector<Test> mouse(128);
-	std::vector<Test> fat_mouse(1023);
-	std::vector<Test> small_mouse(11);
-	std::vector<Test> empty;
-	std::vector<Test> empty2;
-	std::vector<Test> big_empty;
+	lib::con<Test> mouse(128);
+	lib::con<Test> fat_mouse(1023);
+	lib::con<Test> small_mouse(11);
+	lib::con<Test> empty;
+	lib::con<Test> empty2;
+	lib::con<Test> big_empty;
 	big_empty.reserve(2023);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -781,12 +783,12 @@ void std_insert_iter_val_test() {
 
 void std_insert_iter_n_val_test() {
 	std::cout << "\ninsert_iter_n_val\n" << std::endl;
-	std::vector<Test> mouse(128);
-	std::vector<Test> fat_mouse(1023);
-	std::vector<Test> small_mouse(11);
-	std::vector<Test> empty;
-	std::vector<Test> empty2;
-	std::vector<Test> big_empty;
+	lib::con<Test> mouse(128);
+	lib::con<Test> fat_mouse(1023);
+	lib::con<Test> small_mouse(11);
+	lib::con<Test> empty;
+	lib::con<Test> empty2;
+	lib::con<Test> big_empty;
 	big_empty.reserve(2023);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
@@ -869,19 +871,19 @@ void std_insert_iter_n_val_test() {
 
 void std_insert_iter_iter_iter_test() {
 	std::cout << "\niter_iter_iter\n" << std::endl;
-	std::vector<Test> mouse(128);
-	std::vector<Test> empty;
-	std::vector<Test> empty2;
+	lib::con<Test> mouse(128);
+	lib::con<Test> empty;
+	lib::con<Test> empty2;
 	empty2.reserve(1023);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
-	std::vector<Test> fat_mouse(344);
+	lib::con<Test> fat_mouse(344);
 	for (size_t i = 0; i < fat_mouse.size(); ++i) {
 		fat_mouse[i].some_ = i + 1000;
 	}
 
-	std::vector<Test> small_mouse(5);
+	lib::con<Test> small_mouse(5);
 	for (size_t i = 0; i < small_mouse.size(); ++i) {
 		small_mouse[i].some_ = i + 500;
 	}
@@ -935,11 +937,11 @@ void std_insert_iter_iter_iter_test() {
 
 void std_insert_iter_iter_iter_8390_leaks_test() {
 	std::cout << "\nassign_iter_iter_1280_leaks\n" << std::endl;
-	std::vector<Test> mouse(128);
+	lib::con<Test> mouse(128);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
-	std::vector<Test> fat_mouse(344);
+	lib::con<Test> fat_mouse(344);
 	for (size_t i = 0; i < fat_mouse.size(); ++i) {
 		fat_mouse[i].some_ = i + 1000;
 	}
@@ -1038,11 +1040,11 @@ void std_insert_iter_iter_iter_8390_leaks_test() {
 
 void std_erase_2540_leaks_test() {
 	std::cout << "erase_2540_leaks_test" << std::endl;
-	std::vector<Test> mouse(129);
+	lib::con<Test> mouse(129);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
-	std::vector<Test> big_mouse(1023);
+	lib::con<Test> big_mouse(1023);
 	for (size_t i = 0; i < big_mouse.size(); ++i) {
 		big_mouse[i].some_ = i + 1000;
 	}
@@ -1109,11 +1111,11 @@ void std_erase_2540_leaks_test() {
 
 void std_swap_test() {
 	std::cout << "swap_test" << std::endl;
-	std::vector<Test> mouse(129);
+	lib::con<Test> mouse(129);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
-	std::vector<Test> big_mouse(1023);
+	lib::con<Test> big_mouse(1023);
 	for (size_t i = 0; i < big_mouse.size(); ++i) {
 		big_mouse[i].some_ = i + 1000;
 	}
@@ -1165,13 +1167,13 @@ void std_swap_test() {
 
 void std_clear_test() {
 	std::cout << "clear_test" << std::endl;
-	std::vector<Test> empty;
-	std::vector<Test> big_empty;
-	std::vector<Test> mouse(129);
+	lib::con<Test> empty;
+	lib::con<Test> big_empty;
+	lib::con<Test> mouse(129);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i].some_ = i;
 	}
-	std::vector<Test> big_mouse(1023);
+	lib::con<Test> big_mouse(1023);
 	for (size_t i = 0; i < big_mouse.size(); ++i) {
 		big_mouse[i].some_ = i + 1000;
 	}
@@ -1265,13 +1267,13 @@ void std_clear_test() {
 
 void std_relational_operators() {
 	std::cout << "relational_operators" << std::endl;
-	std::vector<int> empty;
-	std::vector<int> big_empty;
-	std::vector<int> mouse(129);
+	lib::con<int> empty;
+	lib::con<int> big_empty;
+	lib::con<int> mouse(129);
 	for (size_t i = 0; i < mouse.size(); ++i) {
 		mouse[i] = i;
 	}
-	std::vector<int> big_mouse(1023);
+	lib::con<int> big_mouse(1023);
 	for (size_t i = 0; i < big_mouse.size(); ++i) {
 		big_mouse[i] = i + 1000;
 	}
@@ -1307,6 +1309,72 @@ void std_relational_operators() {
 	std::cout << (big_mouse <= mouse) << std::endl;
 }
 
+void const_iterators() {
+	std::cout << "const_iterators" << std::endl;
+	lib::con<int> src;
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(i);
+	}
+	lib::con<const int>                 def(src.begin(), src.end());
+	lib::con<const int>::const_iterator cit(def.begin());
+
+	while (cit != def.end()) {
+		std::cout << *cit << " ";
+		++cit;
+	}
+	std::cout << std::endl;
+//	*cit = 6; // DOES NOT COMPILE
+
+	--cit;
+	lib::con<const int>::const_iterator cit2(def.begin());
+	std::cout << (cit > cit2) << std::endl;
+	std::cout << (cit >= cit2) << std::endl;
+	std::cout << (cit < cit2) << std::endl;
+	std::cout << (cit <= cit2) << std::endl;
+	std::cout << (cit == cit2) << std::endl;
+
+	lib::con<int>::const_iterator cit_src(src.begin());
+	while (cit_src != src.end()) {
+		std::cout << *cit_src << " ";
+		++cit_src;
+	}
+	std::cout << std::endl;
+	// *cit_src = 6; // DOES NOT COMPILE
+}
+
+void reverse_iterators() {
+	std::cout << "reverse_iterators" << std::endl;
+	lib::con<int> src;
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(i);
+	}
+	lib::con<const int>                         def(src.begin(), src.end());
+	lib::con<const int>::const_reverse_iterator rcit(def.rbegin());
+
+	while (rcit != def.rend()) {
+		std::cout << *rcit << " ";
+		++rcit;
+	}
+	std::cout << std::endl;
+//	*rcit = 6; // DOES NOT COMPILE
+
+	--rcit;
+	lib::con<const int>::const_reverse_iterator rcit2(def.rbegin());
+	std::cout << (rcit > rcit2) << std::endl;
+	std::cout << (rcit >= rcit2) << std::endl;
+	std::cout << (rcit < rcit2) << std::endl;
+	std::cout << (rcit <= rcit2) << std::endl;
+	std::cout << (rcit == rcit2) << std::endl;
+	lib::con<int>::const_reverse_iterator rcit_src(src.rbegin());
+
+	while (rcit_src != src.rend()) {
+		std::cout << *rcit_src << " ";
+		++rcit_src;
+	}
+	std::cout << std::endl;
+	// *rcit_src = 6; // DOES NOT COMPILE
+}
+
 void std_modifiers_test() {
 	std_assign_iter_iter_leaks_test();
 	std_assign_iter_iter_1280b_leaks_test();
@@ -1335,7 +1403,8 @@ int main()
 	std_el_access_test();
 	std_modifiers_test();
 
-
+	const_iterators();
+	reverse_iterators();
 
 	return 0;
 }
