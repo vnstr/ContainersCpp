@@ -257,6 +257,22 @@ void swap() {
 
 }
 
+void clear() {
+	std::cout << "clear" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test> def(src.begin(), src.end());
+
+	def.clear();
+	print_map<int, Test>(def);
+
+}
+
 int main() {
 	// Constructors
 	default_constructor();
@@ -277,6 +293,7 @@ int main() {
 	erase_key();
 	erase_firts_last();
 	swap();
+	clear();
 	// ------------
 	return 0;
 }
