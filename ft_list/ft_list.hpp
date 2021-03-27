@@ -1,9 +1,4 @@
-
-
-
 // TODO 1) ReverseIterator;
-
-
 
 #ifndef FT_LIST_HPP
 # define FT_LIST_HPP
@@ -12,7 +7,6 @@
 
 # include <cstddef>   // size_t, ptrdiff_t ...
 # include <memory>    // allocator
-# include <cstddef>   // ptrdiff_t
 
 // =============================================================================
 
@@ -94,7 +88,8 @@ namespace ft {
 		// Constructor - Destructor --------------------------------------------
 
 		explicit List(const allocator_type& alloc = allocator_type())
-		: size_(0), alloc_(alloc) {
+		: size_(0), alloc_(alloc)
+		{
 			this->end_node_ = allocate_node();
 		}
 
@@ -104,8 +99,9 @@ namespace ft {
 		 const value_type& val = value_type(),
 		 const allocator_type& alloc = allocator_type()
 		)
-		: size_(0), alloc_(alloc) {
-			this->end_node_ = allocate_node();
+		: size_(0), alloc_(alloc)
+		{
+			end_node_ = allocate_node();
 			for (size_type i = 0; i < n; ++i) {
 				this->push_back(val);
 			}
@@ -119,16 +115,19 @@ namespace ft {
 		 const allocator_type& alloc = allocator_type(),
 		 typename enable_if
 		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
-		) : size_(0), alloc_(alloc) {
-			this->end_node_ = allocate_node();
+		) : size_(0), alloc_(alloc)
+		{
+			end_node_ = allocate_node();
 			while (first != last) {
 				this->push_back(*first);
 				++first;
 			}
 		}
 
-		List (const List & x) : size_(0), alloc_(x.alloc_) {
-			this->end_node_ = allocate_node();
+		List (const List & x)
+		: size_(0), alloc_(x.alloc_)
+		{
+			end_node_ = allocate_node();
 			for (const_iterator it(x.begin()); it != x.end(); ++it) {
 				this->push_back(*it);
 			}
@@ -138,7 +137,7 @@ namespace ft {
 			while (this->size_ > 0) {
 				this->pop_back();
 			}
-			deallocate_node(this->end_node_);
+			deallocate_node(end_node_);
 		}
 
 		// ---------------------------------------------------------------------
@@ -146,19 +145,19 @@ namespace ft {
 		// Iterators -----------------------------------------------------------
 
 		iterator       begin() {
-			return iterator(this->end_node_->next);
+			return iterator(end_node_->next);
 		}
 
 		const_iterator begin() const {
-			return const_iterator(this->end_node_->next);
+			return const_iterator(end_node_->next);
 		}
 
 		iterator       end() {
-			return iterator(this->end_node_);
+			return iterator(end_node_);
 		}
 
 		const_iterator end() const {
-			return const_iterator(this->end_node_);
+			return const_iterator(end_node_);
 		}
 
 		// ---------------------------------------------------------------------
@@ -166,15 +165,15 @@ namespace ft {
 		// Capacity ------------------------------------------------------------
 
 		bool      empty() const {
-			return this->size_ == 0;
+			return size_ == 0;
 		}
 
 		size_type size() const {
-			return this->size_;
+			return size_;
 		}
 
 		size_type max_size() const {
-			return this->alloc_.max_size();
+			return alloc_.max_size();
 		}
 
 		// ---------------------------------------------------------------------
@@ -182,19 +181,19 @@ namespace ft {
 		// Element access ------------------------------------------------------
 
 		reference       front() {
-			return this->end_node_->next->data;
+			return end_node_->next->data;
 		}
 
 		const_reference front() const {
-			return this->end_node_->next->data;
+			return end_node_->next->data;
 		}
 
 		reference       back() {
-			return this->end_node_->prev->data;
+			return end_node_->prev->data;
 		}
 
 		const_reference back() const {
-			return this->end_node_->prev->data;
+			return end_node_->prev->data;
 		}
 
 		// ---------------------------------------------------------------------
@@ -202,60 +201,35 @@ namespace ft {
 		// Modifiers -----------------------------------------------------------
 
 		template <class InputIterator>
-		void assign (InputIterator first, InputIterator last) {
+		void assign(InputIterator first, InputIterator last) {
 			List new_list(first, last, allocator_type());
 			this->swap(new_list);
 		}
 
-		void assign (size_type n, const value_type & val) {
+		void assign(size_type n, const value_type & val) {
 			List new_list(n, val, allocator_type());
 			this->swap(new_list);
 		}
 
 		void push_front(const value_type & val) {
-			Node* node;
-
-			node                         = construct_node(val);
-			node->next                   = this->end_node_->next;
-			node->prev                   = this->end_node_;
-			this->end_node_->next->prev  = node;
-			this->end_node_->next        = node;
-			++this->size_;
+			this->insert(this->begin(), val);
 		}
 
 		void pop_front() {
-			Node* tmp;
-
-			tmp = this->end_node_->next->next;
-			destroy_node(this->end_node_->next);
-			this->end_node_->next = tmp;
-			--this->size_;
+			erase(this->begin());
 		}
 
 		void push_back(value_type const & val) {
-			Node* node;
-
-			node                         = construct_node(val);
-			node->next                   = this->end_node_;
-			node->prev                   = this->end_node_->prev;
-			this->end_node_->prev->next  = node;
-			this->end_node_->prev        = node;
-			++this->size_;
+			this->insert(this->end(), val);
 		}
 
 		void pop_back() {
-			Node* tmp;
-
-			tmp = this->end_node_->prev->prev;
-			destroy_node(this->end_node_->prev);
-			this->end_node_->prev = tmp;
-			--this->size_;
+			this->erase(--this->end());
 		}
 
 		iterator insert(iterator position, const value_type & val) {
-			Node* new_node;
+			Node* new_node = construct_node(val);
 
-			new_node                        = construct_node(val);
 			new_node->next                  = position.get_node();
 			new_node->prev                  = position.get_node()->prev;
 			position.get_node()->prev->next = new_node;
@@ -278,7 +252,8 @@ namespace ft {
 		 InputIterator last,
 		 typename enable_if
 		 < !std::numeric_limits<InputIterator>::is_specialized >::type* = 0
-		) {
+		)
+		{
 			while (first != last) {
 				position = insert(position, *first);
 				++position;
@@ -296,36 +271,34 @@ namespace ft {
 		}
 
 		iterator erase (iterator first, iterator last) {
-			iterator current;
+			Node* current;
 			while (first != last) {
-				current = first;
+				current = first.get_node();
 				++first;
-				destroy_node(current.get_node());
+				destroy_node(current);
 				--this->size_;
 			}
 			return last;
 		}
 
 		void     swap(List & x) {
-			ft::swap(this->end_node_, x.end_node_);
-			ft::swap(this->size_, x.size_);
-			ft::swap(this->alloc_, x.alloc_);
-			ft::swap(this->node_alloc_, x.node_alloc_);
+			ft::swap(end_node_, x.end_node_);
+			ft::swap(size_, x.size_);
+			ft::swap(alloc_, x.alloc_);
+			ft::swap(node_alloc_, x.node_alloc_);
 		}
 
 		void resize(size_type n, value_type val = value_type()) {
-			for (size_type i = n; i < this->size_; ++i) {
+			for (size_type i = n; i < size_; ++i) {
 				this->push_back(val);
 			}
-			for (size_type i = n; i > this->size_; --i) {
+			for (size_type i = n; i > size_; --i) {
 				this->pop_back();
 			}
 		}
 
 		void clear() {
-			while (this->size_ > 0) {
-				pop_back();
-			}
+			this->erase(this->begin(), this->end());
 		}
 
 		// ---------------------------------------------------------------------
@@ -336,6 +309,7 @@ namespace ft {
 			if (x.size_ == 0) {
 				return ;
 			}
+
 			Node* pos  = position.get_node();
 			Node* prev = pos->prev;
 
@@ -343,7 +317,7 @@ namespace ft {
 			pos->prev->next   = pos;
 			prev->next        = x.end_node_->next;
 			prev->next->prev  = prev;
-			this->size_      += x.size_;
+			size_      += x.size_;
 			x.size_           = 0;
 			x.end_node_->next = x.end_node_;
 			x.end_node_->prev = x.end_node_;
@@ -360,7 +334,7 @@ namespace ft {
 			from_x->next       = pos;
 			pos->prev          = from_x;
 			prev->next         = from_x;
-			++this->size_;
+			++size_;
 			--x.size_;
 		}
 
@@ -370,7 +344,8 @@ namespace ft {
 		 List & x,
 		 iterator first,
 		 iterator last
-		) {
+		)
+		{
 			List from_x(first, last);
 			Node* f = first.get_node();
 			Node* l = last.get_node();
@@ -386,19 +361,19 @@ namespace ft {
 			}
 		}
 
-		void remove (const value_type& val) {
+		void remove(const value_type& val) {
 			if (this->size_ == 0) {
 				return ;
 			}
 
-			Node* current       = this->end_node_->next;
-			size_type save_size = this->size_;
+			Node* current       = end_node_->next;
+			size_type save_size = size_;
 
 			for (size_type i = 0; i < save_size + 1; ++i) {
 				current = current->next;
 				if (current->prev->data == val) {
 					destroy_node(current->prev);
-					--this->size_;
+					--size_;
 				}
 			}
 		}
@@ -422,17 +397,17 @@ namespace ft {
 		}
 
 		void unique() {
-			if (this->size_ <= 1) {
+			if (size_ <= 1) {
 				return ;
 			}
 
-			Node* current       = this->end_node_->next->next;
+			Node* current = end_node_->next->next;
 
-			while (current != this->end_node_) {
+			while (current != end_node_) {
 				if (current->data == current->prev->data) {
 					current = current->next;
 					destroy_node(current->prev);
-					--this->size_;
+					--size_;
 				} else {
 					current = current->next;
 				}
@@ -441,17 +416,17 @@ namespace ft {
 
 		template <class BinaryPredicate>
 		void unique (BinaryPredicate binary_pred) {
-			if (this->size_ <= 1) {
+			if (size_ <= 1) {
 				return ;
 			}
 
-			Node* current = this->end_node_->next->next;
+			Node* current = end_node_->next->next;
 
-			while (current != this->end_node_){
+			while (current != end_node_){
 				if (binary_pred(current->data, current->prev->data)) {
 					current = current->next;
 					destroy_node(current->prev);
-					--this->size_;
+					--size_;
 				} else {
 					current = current->next;
 				}
