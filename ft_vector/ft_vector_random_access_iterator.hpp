@@ -7,42 +7,48 @@
 
 // =============================================================================
 
-// ===================== RADOM ACCESS ITERATOR =================================
 
 namespace ft {
 
-	template < class T, class P, class R >
-	class RandomAccessIterator {
+// ===================== VECTOR RADOM ACCESS ITERATOR ==========================
 
+	template < class T, class P, class R >
+	class VectorRandomAccessIterator {
 	public:
 
 		// Typedef -------------------------------------------------------------
 
-		typedef ptrdiff_t                       difference_type;
-		typedef T                               value_type;
-		typedef P                               pointer;
-		typedef R                               reference;
-		typedef std::random_access_iterator_tag iterator_category;
+		typedef ptrdiff_t                           difference_type;
+		typedef T                                   value_type;
+		typedef P                                   pointer;
+		typedef R                                   reference;
+		typedef std::random_access_iterator_tag     iterator_category;
+
+		typedef VectorRandomAccessIterator<T, P, R> this_type;
 
 		// ---------------------------------------------------------------------
 
 		// Constructor - Destructor --------------------------------------------
 
-		RandomAccessIterator() : arr_(0) {}
-		RandomAccessIterator(pointer arr) : arr_(arr) {}
-
-		RandomAccessIterator(RandomAccessIterator<T, T*, T&> const & x)
-			: arr_(x.get_pointer()) {}
-
-		virtual ~RandomAccessIterator() {}
+		VectorRandomAccessIterator() : arr_(0)
+		{}
+		VectorRandomAccessIterator(pointer arr) : arr_(arr)
+		{}
+		VectorRandomAccessIterator
+		(
+		 VectorRandomAccessIterator<T, T*, T&> const & x
+		)
+		: arr_(x.get_pointer())
+		{}
+		virtual ~VectorRandomAccessIterator()
+		{}
 
 		// ---------------------------------------------------------------------
 
 		// Operators -----------------------------------------------------------
 
 		// '='
-		RandomAccessIterator &operator=(RandomAccessIterator const & x) {
-
+		this_type & operator=(this_type const & x) {
 			if (this == &x)
 				return *this;
 			this->arr_ = x.arr_;
@@ -50,112 +56,95 @@ namespace ft {
 		}
 
 		// '=='
-		bool                 operator==(RandomAccessIterator const & x) const {
-
+		bool        operator==(this_type const & x) const {
 			return this->arr_ == x.arr_;
 		}
 
 		// '!='
-		bool                 operator!=(RandomAccessIterator const & x) const {
-
+		bool        operator!=(this_type const & x) const {
 			return this->arr_ != x.arr_;
 		}
 
 		// '*'
-		reference            operator*() {
-
+		reference   operator*() {
 			return *this->arr_;
 		}
 
 		// '->'
-		pointer              operator->() {
-
+		pointer     operator->() {
 			return this->arr_;
 		}
 
 		// '++iter'
-		RandomAccessIterator operator++() {
-
+		this_type   operator++() {
 			++this->arr_;
 			return (*this);
 		}
 
 		// 'iter++'
-		RandomAccessIterator operator++(int) {
-
-			RandomAccessIterator tmp(*this);
+		this_type   operator++(int) {
+			this_type tmp(*this);
 			++this->arr_;
 			return (tmp);
 		}
 
 		// '--iter'
-		RandomAccessIterator operator--() {
-
+		this_type   operator--() {
 			--this->arr_;
 			return (*this);
 		}
 
 		// 'iter--'
-		RandomAccessIterator operator--(int) {
-
-			RandomAccessIterator tmp(*this);
+		this_type   operator--(int) {
+			this_type tmp(*this);
 			--this->arr_;
 			return (tmp);
 		}
 
 		// '+'
-		RandomAccessIterator operator+(difference_type n) const {
-
-			return (RandomAccessIterator(this->arr_ + n));
+		this_type   operator+(difference_type n) const {
+			return (this_type(this->arr_ + n));
 		}
 
 		// '-'
-		RandomAccessIterator operator-(difference_type n) const {
-
-			return (RandomAccessIterator(this->arr_ - n));
+		this_type   operator-(difference_type n) const {
+			return (this_type(this->arr_ - n));
 		}
 
 		// '+='
-		RandomAccessIterator &operator+=(difference_type n) {
-
+		this_type & operator+=(difference_type n) {
 			this->arr_ += n;
 			return (*this);
 		}
 
 		// '-='
-		RandomAccessIterator &operator-=(difference_type n) {
-
+		this_type & operator-=(difference_type n) {
 			this->arr_ -= n;
 			return (*this);
 		}
 
 		// '<'
-		bool                 operator<(RandomAccessIterator const & x) const {
-
+		bool        operator<(this_type const & x) const {
 			return this->arr_ < x.get_pointer();
 		}
 
 
 		// '>'
-		bool                 operator>(RandomAccessIterator const & x) const {
-
+		bool        operator>(this_type const & x) const {
 			return this->arr_ > x.get_pointer();
 		}
 
 		// '<='
-		bool                 operator<=(RandomAccessIterator const & x) const {
-
+		bool        operator<=(this_type const & x) const {
 			return this->arr_ <= x.get_pointer();
 		}
 
 		// '>='
-		bool                 operator>=(RandomAccessIterator const & x) const {
-
+		bool        operator>=(this_type const & x) const {
 			return this->arr_ >= x.get_pointer();
 		}
 
-		reference            operator[](difference_type index) {
-
+		reference   operator[](difference_type index) {
 			return this->arr_[index];
 		}
 
@@ -164,37 +153,37 @@ namespace ft {
 		// GETTERS -------------------------------------------------------------
 
 		pointer get_pointer() const {
-
 			return this->arr_;
 		}
 
 		// ---------------------------------------------------------------------
 
 	private:
-
 		pointer arr_;
 
 	};
+
+// =================== END VECTOR RADOM ACCESS ITERATOR ========================
 
 	// Relational Operators ----------------------------------------------------
 
 	// 'n + iter'
 	template < class T, class P, class R >
-	RandomAccessIterator<T, P, R> operator+
+	VectorRandomAccessIterator<T, P, R> operator+
 	(
-	 typename RandomAccessIterator<T, P, R>::difference_type n,
-	 RandomAccessIterator<T, P, R> const & x
+			typename VectorRandomAccessIterator<T, P, R>::difference_type n,
+			VectorRandomAccessIterator<T, P, R> const & x
 	)
 	{
 		return x + n;
 	}
 
-	// // 'iter - iter'
+	 // 'iter - iter'
 	template < class T, class P, class R >
-	typename RandomAccessIterator<T, P, R>::difference_type operator-
+	typename VectorRandomAccessIterator<T, P, R>::difference_type operator-
 	(
-	 RandomAccessIterator<T, P, R> const & a,
-	 RandomAccessIterator<T, P, R> const & b
+			VectorRandomAccessIterator<T, P, R> const & a,
+			VectorRandomAccessIterator<T, P, R> const & b
 	)
 	{
 		return a.get_pointer() - b.get_pointer();
@@ -203,7 +192,6 @@ namespace ft {
 	// -------------------------------------------------------------------------
 
 }
-
 
 // ============================================================================
 

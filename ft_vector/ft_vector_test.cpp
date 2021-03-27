@@ -1305,7 +1305,7 @@ void ft_relational_operators() {
 
 void ft_modifiers_test() {
 	ft_assign_iter_iter_leaks_test();
-	 ft_assign_iter_iter_1280b_leaks_test();
+	ft_assign_iter_iter_1280b_leaks_test();
 
 	ft_assign_n_val_test();
 	ft_push_back_test();

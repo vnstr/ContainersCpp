@@ -44,7 +44,7 @@ namespace ft {
 		        <
 		         ft::MultisetBidirIterator
 		                <
-		                 ft::RandomAccessIterator
+		                 ft::VectorRandomAccessIterator
 		                        <
 		                         value_type, value_type*, value_type&
 		                        >
@@ -55,7 +55,7 @@ namespace ft {
 		        <
 		         ft::MultisetBidirIterator
 		                 <
-		                  ft::RandomAccessIterator
+		                  ft::VectorRandomAccessIterator
 		                          <
 		                           value_type,
 		                           const value_type*,
@@ -66,14 +66,14 @@ namespace ft {
 
 
 //		typedef ft::MultisetBidirIterator
-//				<ft::RandomAccessIterator<T, const T*, const T&> >
+//				<ft::VectorRandomAccessIterator<T, const T*, const T&> >
 //				const_iterator;
 //
 		typedef typename ft::MapBidirIterator
 		<
 		 ft::MultisetBidirIterator
 		         <
-		          ft::RandomAccessIterator
+		          ft::VectorRandomAccessIterator
 		                  <
 		                   value_type, value_type*, value_type&
 		                  >

@@ -43,16 +43,16 @@ namespace ft {
 		typedef typename allocator_type::const_pointer          const_pointer;
 
 		typedef ft::MultisetBidirIterator
-		        <ft::RandomAccessIterator<T, T*, T&> >
+		        <ft::VectorRandomAccessIterator<T, T*, T&> >
 		                                                        iterator;
 
 		typedef ft::MultisetBidirIterator
-		        <ft::RandomAccessIterator<T, const T*, const T&> >
+		        <ft::VectorRandomAccessIterator<T, const T*, const T&> >
 		                                                        const_iterator;
 
 		typedef typename
 		ft::MultisetBidirIterator
-		        <ft::RandomAccessIterator<T, T*, T&> >::difference_type
+		        <ft::VectorRandomAccessIterator<T, T*, T&> >::difference_type
 		                                                        difference_type;
 
 		typedef size_t                                          size_type;

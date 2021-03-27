@@ -19,15 +19,15 @@ add_executable(containers_cpp
         #ft_multiset/std_multiset_test.cpp
 
         # ------- Vector, Multiset, Map -- #
-        #utils.hpp
-        #ft_vector/ft_vector.hpp
-        #ft_vector/ft_random_access_iterator.hpp
-        #ft_multiset/ft_multiset.hpp
-        #ft_multiset/ft_multiset_bidir_iterator.hpp
-        #ft_map/ft_map.hpp
-        #ft_map/ft_map_test.cpp
-        #ft_map/std_map_test.cpp
-        #ft_map/ft_map_bidir_iterator.hpp)
+        utils.hpp
+        ft_vector/ft_vector.hpp
+        ft_vector/ft_vector_random_access_iterator.hpp
+        ft_multiset/ft_multiset.hpp
+        ft_multiset/ft_multiset_bidir_iterator.hpp
+        ft_map/ft_map.hpp
+        ft_map/ft_map_test.cpp
+        ft_map/std_map_test.cpp
+        ft_map/ft_map_bidir_iterator.hpp)
 
         # ------------ List -------------- #
         #ft_list/std_list_test.cpp
@@ -38,7 +38,7 @@ add_executable(containers_cpp
         #ft_list/test.hpp)
 
         # ----------- Vector ------------- #
-        ft_vector/ft_vector.hpp
-        ft_vector/ft_random_access_iterator.hpp
-        ft_vector/ft_reverse_iterator.hpp
-        ft_vector/ft_vector_test.cpp)
+#        ft_vector/ft_vector.hpp
+#        ft_vector/ft_random_access_iterator.hpp
+#        ft_vector/ft_reverse_iterator.hpp
+#        ft_vector/ft_vector_test.cpp)
