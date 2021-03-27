@@ -140,8 +140,8 @@ namespace ft {
 	template <class T, class P, class R>
 	VectorRandomAccessIterator<T, P, R> operator+
 	(
-			typename VectorRandomAccessIterator<T, P, R>::difference_type n,
-			VectorRandomAccessIterator<T, P, R> const & x
+	 typename VectorRandomAccessIterator<T, P, R>::difference_type n,
+	 VectorRandomAccessIterator<T, P, R> const & x
 	)
 	{
 		return x + n;
@@ -151,8 +151,8 @@ namespace ft {
 	template <class T, class P, class R>
 	typename VectorRandomAccessIterator<T, P, R>::difference_type operator-
 	(
-			VectorRandomAccessIterator<T, P, R> const & a,
-			VectorRandomAccessIterator<T, P, R> const & b
+	 VectorRandomAccessIterator<T, P, R> const & a,
+	 VectorRandomAccessIterator<T, P, R> const & b
 	)
 	{
 		return a.get_pointer() - b.get_pointer();
@@ -172,10 +172,10 @@ namespace ft {
 	// 'iter >= iter'
 	template <class lT, class lP, class lR, class rT, class rP, class rR>
 	bool operator>=
-			(
-					const VectorRandomAccessIterator<lT, lP, lR> & a,
-					const VectorRandomAccessIterator<rT, rP, rR> & b
-			)
+	(
+	 const VectorRandomAccessIterator<lT, lP, lR> & a,
+	 const VectorRandomAccessIterator<rT, rP, rR> & b
+	)
 	{
 		return a.get_pointer() >= b.get_pointer();
 	}
@@ -183,10 +183,10 @@ namespace ft {
 	// 'iter < iter'
 	template <class lT, class lP, class lR, class rT, class rP, class rR>
 	bool operator<
-			(
-					const VectorRandomAccessIterator<lT, lP, lR> & a,
-					const VectorRandomAccessIterator<rT, rP, rR> & b
-			)
+	(
+	 const VectorRandomAccessIterator<lT, lP, lR> & a,
+	 const VectorRandomAccessIterator<rT, rP, rR> & b
+	)
 	{
 		return a.get_pointer() < b.get_pointer();
 	}
@@ -194,10 +194,10 @@ namespace ft {
 	// 'iter <= iter'
 	template <class lT, class lP, class lR, class rT, class rP, class rR>
 	bool operator<=
-			(
-					const VectorRandomAccessIterator<lT, lP, lR> & a,
-					const VectorRandomAccessIterator<rT, rP, rR> & b
-			)
+	(
+	 const VectorRandomAccessIterator<lT, lP, lR> & a,
+	 const VectorRandomAccessIterator<rT, rP, rR> & b
+	)
 	{
 		return a.get_pointer() <= b.get_pointer();
 	}
@@ -205,10 +205,10 @@ namespace ft {
 	// 'iter == iter'
 	template <class lT, class lP, class lR, class rT, class rP, class rR>
 	bool operator==
-			(
-					const VectorRandomAccessIterator<lT, lP, lR> & a,
-					const VectorRandomAccessIterator<rT, rP, rR> & b
-			)
+	(
+	 const VectorRandomAccessIterator<lT, lP, lR> & a,
+	 const VectorRandomAccessIterator<rT, rP, rR> & b
+	)
 	{
 		return a.get_pointer() == b.get_pointer();
 	}
@@ -216,10 +216,10 @@ namespace ft {
 	// 'iter != iter'
 	template <class lT, class lP, class lR, class rT, class rP, class rR>
 	bool operator!=
-			(
-					const VectorRandomAccessIterator<lT, lP, lR> & a,
-					const VectorRandomAccessIterator<rT, rP, rR> & b
-			)
+	(
+	 const VectorRandomAccessIterator<lT, lP, lR> & a,
+	 const VectorRandomAccessIterator<rT, rP, rR> & b
+	)
 	{
 		return a.get_pointer() != b.get_pointer();
 	}
