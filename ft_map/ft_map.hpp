@@ -21,7 +21,7 @@ namespace ft {
 	  class T,                                         // map::mapped_type
 //	  class Compare = ft::Less<Key>,                   // map::key_compare
 	  class Compare = ft::KeyComp<Key, T>,
-	  class Alloc = std::allocator<std::pair<const Key,T> > // map::allocator_type
+	  class Alloc = std::allocator<std::pair<Key,T> > // map::allocator_type
 	>
 	class Map {
 
@@ -31,7 +31,7 @@ namespace ft {
 
 		typedef Key                                             key_type;
 		typedef T                                               mapped_type;
-		typedef std::pair<const key_type, mapped_type>          value_type;
+		typedef std::pair<key_type, mapped_type>          value_type;
 		typedef Compare                                         key_compare;
 		typedef Alloc                                           allocator_type;
 
@@ -218,7 +218,7 @@ namespace ft {
 			return std::pair<iterator, bool>(position, false);
 		}
 
-		iterator insert (iterator position, const value_type& val) {
+		iterator                  insert (iterator position, const value_type& val) {
 			(void)(position);
 			if (values_.size() == 0) {
 				return iterator(values_.insert(val));
@@ -233,7 +233,7 @@ namespace ft {
 		}
 
 		template <class InputIterator>
-		void insert (InputIterator first, InputIterator last) {
+		void                      insert (InputIterator first, InputIterator last) {
 			while (first != last) {
 				if (values_.size() == 0) {
 					this->insert(*first);
@@ -245,14 +245,14 @@ namespace ft {
 			}
 		}
 
-		void erase (iterator position) {
+		void                      erase(iterator position) {
 			if (this->size() == 0) {
 				return ;
 			}
 			values_.erase(position.base());
 		}
 
-		size_type erase (const key_type & k) {
+		size_type                 erase(const key_type & k) {
 			if (this->size() == 0) {
 				return 0;
 			}
@@ -266,6 +266,19 @@ namespace ft {
 				++i;
 			}
 			return i;
+		}
+
+		void                      erase(iterator first, iterator last) {
+			while (first != last) {
+				erase(first);
+				--last;
+			}
+		}
+
+		void                      swap(Map & x) {
+			values_.swap(x.values_);
+			ft::swap(comp_, x.comp_);
+			ft::swap(alloc_, x.alloc_);
 		}
 
 		// ---------------------------------------------------------------------

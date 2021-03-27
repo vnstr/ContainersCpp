@@ -210,6 +210,53 @@ void erase_key() {
 
 }
 
+void erase_firts_last() {
+	std::cout << "erase_firts_last" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+
+	for (int i = 0; i < 20; ++i) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test>           def(src.begin(), src.end());
+	lib::con<int, Test>::iterator first(def.begin());
+	lib::con<int, Test>::iterator last(def.end());
+
+	++first; ++first; ++first; ++first;
+	--last; --last; --last; --last;
+
+	def.erase(first, last);
+	print_map<int, Test>(def);
+	def.erase(def.begin(), def.end());
+	print_map<int, Test>(def);
+
+}
+
+void swap() {
+	std::cout << "swap" << std::endl;
+	std::vector<std::pair<int, Test> > src;
+	std::vector<std::pair<int, Test> > src2;
+
+	for (int i = 0; i < 20; i += 2) {
+		src.push_back(std::pair<int, Test>(i, i));
+		src.push_back(std::pair<int, Test>(i, i));
+	}
+
+	for (int i = 1; i < 20; i += 2) {
+		src2.push_back(std::pair<int, Test>(i, i));
+		src2.push_back(std::pair<int, Test>(i, i));
+	}
+
+	lib::con<int, Test>           def(src.begin(), src.end());
+	lib::con<int, Test>           def2(src2.begin(), src2.end());
+
+	def.swap(def2);
+	print_map<int, Test>(def);
+	print_map<int, Test>(def2);
+
+}
+
 int main() {
 	// Constructors
 	default_constructor();
@@ -228,6 +275,8 @@ int main() {
 	insert_first_last();
 	erase_position();
 	erase_key();
+	erase_firts_last();
+	swap();
 	// ------------
 	return 0;
 }

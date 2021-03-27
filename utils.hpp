@@ -33,7 +33,7 @@ namespace ft {
 		KeyComp() {}
 		KeyComp(const KeyComp & x) {(void)(x);}
 		~KeyComp() {}
-		KeyComp & operator=(const KeyComp & x) {(void)(x);}
+		KeyComp & operator=(const KeyComp & x) {(void)(x); return *this;}
 
 		bool operator()
 				(
