@@ -1426,6 +1426,16 @@ void const_iter_with_iter() {
 	std::cout << (it <= cit) << std::endl;
 	std::cout << (it == cit) << std::endl;
 	std::cout << (it != cit) << std::endl;
+
+	lib::con<int>::reverse_iterator       rit(def.begin());
+	lib::con<int>::const_reverse_iterator rcit(def.begin());
+
+	std::cout << (rit >  rcit) << std::endl;
+	std::cout << (rit >= rcit) << std::endl;
+	std::cout << (rit <  rcit) << std::endl;
+	std::cout << (rit <= rcit) << std::endl;
+	std::cout << (rit == rcit) << std::endl;
+	std::cout << (rit != rcit) << std::endl;
 }
 
 // =============================================================================
@@ -1441,7 +1451,6 @@ int main()
 	const_iterators();
 	reverse_iterators();
 	relational_operators();
-
 	const_iter_with_iter();
 	return 0;
 }

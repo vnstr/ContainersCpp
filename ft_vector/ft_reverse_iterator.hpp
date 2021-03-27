@@ -193,6 +193,66 @@ namespace ft {
 		return b.base() - a.base();
 	}
 
+	template<class lIterator, class rIterator>
+	bool operator>
+	(
+	 const ReverseIterator<lIterator> & a,
+	 const ReverseIterator<rIterator> & b
+	)
+	{
+		return a.base() > b.base();
+	}
+
+	template<class lIterator, class rIterator>
+	bool operator>=
+	(
+	 const ReverseIterator<lIterator> & a,
+	 const ReverseIterator<rIterator> & b
+	)
+	{
+		return a.base() >= b.base();
+	}
+
+	template<class lIterator, class rIterator>
+	bool operator<
+	(
+	 const ReverseIterator<lIterator> & a,
+	 const ReverseIterator<rIterator> & b
+	)
+	{
+		return a.base() < b.base();
+	}
+
+	template<class lIterator, class rIterator>
+	bool operator<=
+	(
+	 const ReverseIterator<lIterator> & a,
+	 const ReverseIterator<rIterator> & b
+	)
+	{
+		return a.base() <= b.base();
+	}
+
+	template<class lIterator, class rIterator>
+	bool operator==
+	(
+	 const ReverseIterator<lIterator> & a,
+	 const ReverseIterator<rIterator> & b
+	)
+	{
+		return a.base() == b.base();
+	}
+
+	template<class lIterator, class rIterator>
+	bool operator!=
+	(
+	 const ReverseIterator<lIterator> & a,
+	 const ReverseIterator<rIterator> & b
+	)
+	{
+		return a.base() != b.base();
+	}
+
 	// -------------------------------------------------------------------------
 }
 

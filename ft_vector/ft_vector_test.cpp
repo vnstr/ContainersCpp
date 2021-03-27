@@ -1409,6 +1409,16 @@ void const_iter_with_iter() {
 	std::cout << (it <= cit) << std::endl;
 	std::cout << (it == cit) << std::endl;
 	std::cout << (it != cit) << std::endl;
+
+	lib::con<int>::reverse_iterator       rit(def.begin());
+	lib::con<int>::const_reverse_iterator rcit(def.begin());
+
+	std::cout << (rit >  rcit) << std::endl;
+	std::cout << (rit >= rcit) << std::endl;
+	std::cout << (rit <  rcit) << std::endl;
+	std::cout << (rit <= rcit) << std::endl;
+	std::cout << (rit == rcit) << std::endl;
+	std::cout << (rit != rcit) << std::endl;
 }
 
 void ft_modifiers_test() {
