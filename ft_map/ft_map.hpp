@@ -19,7 +19,8 @@ namespace ft {
 	template
 	< class Key,                                       // map::key_type
 	  class T,                                         // map::mapped_type
-	  class Compare = ft::Less<Key>,                   // map::key_compare
+//	  class Compare = ft::Less<Key>,                   // map::key_compare
+	  class Compare = ft::KeyComp<Key, T>,
 	  class Alloc = std::allocator<std::pair<const Key,T> > // map::allocator_type
 	>
 	class Map {
@@ -256,30 +257,30 @@ namespace ft {
 		};
 		// ---------------------------------------------------------------------
 
-	private:
-		template <class K, class V>
-		class KeyComp {
-		public:
-			KeyComp() {}
-			KeyComp(const KeyComp & x) {(void)(x);}
-			~KeyComp() {}
-			KeyComp & operator=(const KeyComp & x) {(void)(x);}
-
-			bool operator()
-			(
-			 const std::pair<const K, const V> & a,
-			 const std::pair<const K, const V> & b
-			) const
-			{
-				return a.first < b.first;
-			}
-		};
+//	private:
+//		template <class K, class V>
+//		class KeyComp {
+//		public:
+//			KeyComp() {}
+//			KeyComp(const KeyComp & x) {(void)(x);}
+//			~KeyComp() {}
+//			KeyComp & operator=(const KeyComp & x) {(void)(x);}
+//
+//			bool operator()
+//			(
+//			 const std::pair<const K, const V> & a,
+//			 const std::pair<const K, const V> & b
+//			) const
+//			{
+//				return a.first < b.first;
+//			}
+//		};
 
 	private:
 		Multiset
 		<
 		 value_type,
-		 KeyComp<const key_type, mapped_type>,
+		 Compare,
 		 Alloc
 		>                                                            values_;
 

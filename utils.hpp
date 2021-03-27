@@ -27,6 +27,24 @@ namespace ft {
 			}
 		};
 
+	template <class K, class V>
+	class KeyComp {
+	public:
+		KeyComp() {}
+		KeyComp(const KeyComp & x) {(void)(x);}
+		~KeyComp() {}
+		KeyComp & operator=(const KeyComp & x) {(void)(x);}
+
+		bool operator()
+				(
+						const std::pair<const K, const V> & a,
+						const std::pair<const K, const V> & b
+				) const
+		{
+			return a.first < b.first;
+		}
+	};
+
 //	template <class K, class V>
 //	class KeyComp {
 //	public:
