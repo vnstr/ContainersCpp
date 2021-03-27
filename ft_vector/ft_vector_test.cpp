@@ -1394,6 +1394,23 @@ void relational_operators() {
 	std::cout << (def != def2) << std::endl;
 }
 
+void const_iter_with_iter() {
+	std::cout << "const_iter_with_iter" << std::endl;
+	lib::con<int> def;
+	for (int i = 0; i < 20; i += 2) {
+		def.push_back(2);
+	}
+	lib::con<int>::iterator       it(def.begin());
+	lib::con<int>::const_iterator cit(def.begin());
+
+	std::cout << (it >  cit) << std::endl;
+	std::cout << (it >= cit) << std::endl;
+	std::cout << (it <  cit) << std::endl;
+	std::cout << (it <= cit) << std::endl;
+	std::cout << (it == cit) << std::endl;
+	std::cout << (it != cit) << std::endl;
+}
+
 void ft_modifiers_test() {
 	ft_assign_iter_iter_leaks_test();
 	ft_assign_iter_iter_1280b_leaks_test();
@@ -1425,6 +1442,6 @@ int main(void)
 	const_iterators();
 	reverse_iterators();
 	relational_operators();
-
+	const_iter_with_iter();
 	return 0;
 }

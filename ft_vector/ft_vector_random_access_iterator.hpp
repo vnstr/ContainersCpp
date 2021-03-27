@@ -55,16 +55,6 @@ namespace ft {
 			return *this;
 		}
 
-		// '=='
-		bool        operator==(this_type const & x) const {
-			return this->arr_ == x.arr_;
-		}
-
-		// '!='
-		bool        operator!=(this_type const & x) const {
-			return this->arr_ != x.arr_;
-		}
-
 		// '*'
 		reference   operator*() {
 			return *this->arr_;
@@ -123,27 +113,6 @@ namespace ft {
 			return (*this);
 		}
 
-		// '<'
-		bool        operator<(this_type const & x) const {
-			return this->arr_ < x.get_pointer();
-		}
-
-
-		// '>'
-		bool        operator>(this_type const & x) const {
-			return this->arr_ > x.get_pointer();
-		}
-
-		// '<='
-		bool        operator<=(this_type const & x) const {
-			return this->arr_ <= x.get_pointer();
-		}
-
-		// '>='
-		bool        operator>=(this_type const & x) const {
-			return this->arr_ >= x.get_pointer();
-		}
-
 		reference   operator[](difference_type index) {
 			return this->arr_[index];
 		}
@@ -168,7 +137,7 @@ namespace ft {
 	// Relational Operators ----------------------------------------------------
 
 	// 'n + iter'
-	template < class T, class P, class R >
+	template <class T, class P, class R>
 	VectorRandomAccessIterator<T, P, R> operator+
 	(
 			typename VectorRandomAccessIterator<T, P, R>::difference_type n,
@@ -179,7 +148,7 @@ namespace ft {
 	}
 
 	 // 'iter - iter'
-	template < class T, class P, class R >
+	template <class T, class P, class R>
 	typename VectorRandomAccessIterator<T, P, R>::difference_type operator-
 	(
 			VectorRandomAccessIterator<T, P, R> const & a,
@@ -187,6 +156,72 @@ namespace ft {
 	)
 	{
 		return a.get_pointer() - b.get_pointer();
+	}
+
+	// 'iter > iter'
+	template <class lT, class lP, class lR, class rT, class rP, class rR>
+	bool operator>
+	(
+	 const VectorRandomAccessIterator<lT, lP, lR> & a,
+	 const VectorRandomAccessIterator<rT, rP, rR> & b
+	)
+	{
+		return a.get_pointer() > b.get_pointer();
+	}
+
+	// 'iter >= iter'
+	template <class lT, class lP, class lR, class rT, class rP, class rR>
+	bool operator>=
+			(
+					const VectorRandomAccessIterator<lT, lP, lR> & a,
+					const VectorRandomAccessIterator<rT, rP, rR> & b
+			)
+	{
+		return a.get_pointer() >= b.get_pointer();
+	}
+
+	// 'iter < iter'
+	template <class lT, class lP, class lR, class rT, class rP, class rR>
+	bool operator<
+			(
+					const VectorRandomAccessIterator<lT, lP, lR> & a,
+					const VectorRandomAccessIterator<rT, rP, rR> & b
+			)
+	{
+		return a.get_pointer() < b.get_pointer();
+	}
+
+	// 'iter <= iter'
+	template <class lT, class lP, class lR, class rT, class rP, class rR>
+	bool operator<=
+			(
+					const VectorRandomAccessIterator<lT, lP, lR> & a,
+					const VectorRandomAccessIterator<rT, rP, rR> & b
+			)
+	{
+		return a.get_pointer() <= b.get_pointer();
+	}
+
+	// 'iter == iter'
+	template <class lT, class lP, class lR, class rT, class rP, class rR>
+	bool operator==
+			(
+					const VectorRandomAccessIterator<lT, lP, lR> & a,
+					const VectorRandomAccessIterator<rT, rP, rR> & b
+			)
+	{
+		return a.get_pointer() == b.get_pointer();
+	}
+
+	// 'iter != iter'
+	template <class lT, class lP, class lR, class rT, class rP, class rR>
+	bool operator!=
+			(
+					const VectorRandomAccessIterator<lT, lP, lR> & a,
+					const VectorRandomAccessIterator<rT, rP, rR> & b
+			)
+	{
+		return a.get_pointer() != b.get_pointer();
 	}
 
 	// -------------------------------------------------------------------------
