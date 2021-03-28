@@ -31,7 +31,7 @@ add_executable(containers_cpp
 
         # ------------ List -------------- #
 #        ft_list/std_list_test.cpp
-        ft_list/ft_bidirectional_iterator.hpp
+        ft_list/ft_list_bidirectional_iterator.hpp
         ft_list/ft_list.hpp
         ft_list/ft_list_test.cpp
         ft_list/test.hpp)

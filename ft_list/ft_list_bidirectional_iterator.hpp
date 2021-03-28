@@ -14,7 +14,7 @@ namespace ft {
 // ======================== BIDIRECTIONAL IERATOR ==============================
 
 	template <class T, class P, class R, class Node>
-	class BidirectionalIterator {
+	class ListBidirectionalIterator {
 
 	public:
 
@@ -30,22 +30,22 @@ namespace ft {
 
 		// Constructor - Destructor --------------------------------------------
 
-		BidirectionalIterator(Node* node = 0) : node_(node) {};
+		ListBidirectionalIterator(Node* node = 0) : node_(node) {};
 
-		BidirectionalIterator
+		ListBidirectionalIterator
 		(
-		 const BidirectionalIterator<T, T*, T&, Node> & x
+		 const ListBidirectionalIterator<T, T*, T&, Node> & x
 		)
 		: node_(x.node_) {};
 
-		virtual ~BidirectionalIterator(){};
+		virtual ~ListBidirectionalIterator(){};
 
 		// ---------------------------------------------------------------------
 
 		// Operators -----------------------------------------------------------
 
 		// '='
-		BidirectionalIterator & operator=(const BidirectionalIterator & x) {
+		ListBidirectionalIterator & operator=(const ListBidirectionalIterator & x) {
 			if (this == &x)
 				return *this;
 			this->node_ = x.node_;
@@ -53,12 +53,12 @@ namespace ft {
 		}
 
 		// '=='
-		bool                    operator==(const BidirectionalIterator & x) {
+		bool                    operator==(const ListBidirectionalIterator & x) {
 			return this->node_ == x.node_;
 		}
 
 		// '!='
-		bool                    operator!=(const BidirectionalIterator & x) {
+		bool                    operator!=(const ListBidirectionalIterator & x) {
 			return this->node_ != x.node_;
 		}
 
@@ -73,29 +73,29 @@ namespace ft {
 		}
 
 		// '++iter'
-		BidirectionalIterator   operator++() {
+		ListBidirectionalIterator   operator++() {
 			this->node_ = this->node_->next;
 			return (*this);
 		}
 
 		// 'iter++'
-		BidirectionalIterator   operator++(int) {
-			BidirectionalIterator tmp(*this);
+		ListBidirectionalIterator   operator++(int) {
+			ListBidirectionalIterator tmp(*this);
 			this->node_ = this->node_->next;
 			return (tmp);
 		}
 
 		// '--iter'
-		BidirectionalIterator   operator--() {
+		ListBidirectionalIterator   operator--() {
 
 			this->node_ = this->node_->prev;
 			return (*this);
 		}
 
 		// 'iter--'
-		BidirectionalIterator   operator--(int) {
+		ListBidirectionalIterator   operator--(int) {
 
-			BidirectionalIterator tmp(*this);
+			ListBidirectionalIterator tmp(*this);
 			this->node_ = this->node_->prev;
 			return (tmp);
 		}
