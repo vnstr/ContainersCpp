@@ -4,11 +4,14 @@
 
 #include "test.hpp" // class Test;
 
+#define lib std
+#define con list
+
 // Constructors ================================================================
 
 void std_default_constructor_test() {
 	std::cout << "\nstd_default_constructor\n" << std::endl;
-	std::list<Test> useless;
+	lib::con<Test> useless;
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
 	std::cout << "size    : " << useless.size()     << std::endl;
@@ -16,12 +19,12 @@ void std_default_constructor_test() {
 
 void std_n_val_constructor_test() {
 	std::cout << "\nstd_n_val_constructor\n" << std::endl;
-	std::list<Test> useless(10, 8);
+	lib::con<Test> useless(10, 8);
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
 	std::cout << "size    : " << useless.size()     << std::endl;
 
-	std::list<Test>::iterator first = useless.begin();
+	lib::con<Test>::iterator first = useless.begin();
 
 	for (size_t i = 0; first != useless.end(); ++i, ++first) {
 		if (i % 32 == 0 && i != 0)
@@ -33,16 +36,16 @@ void std_n_val_constructor_test() {
 
 void std_iter_iter_constructor_test() {
 	std::cout << "\nstd_iter_iter_constructor\n" << std::endl;
-	std::list<Test>           src(20);
-	std::list<Test>::iterator src_iter;
+	lib::con<Test>           src(20);
+	lib::con<Test>::iterator src_iter;
 	size_t                    i = 0;
 
 	for (src_iter = src.begin(); src_iter != src.end(); ++src_iter, ++i) {
 		src_iter->some_ = i;
 	}
 
-	std::list<Test> useless(src.begin(), src.end());
-	std::list<Test>::iterator first = useless.begin();
+	lib::con<Test> useless(src.begin(), src.end());
+	lib::con<Test>::iterator first = useless.begin();
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
 	std::cout << "size    : " << useless.size()     << std::endl;
@@ -56,16 +59,16 @@ void std_iter_iter_constructor_test() {
 
 void std_copy_constructor_test() {
 	std::cout << "\nstd_copy_constructor\n" << std::endl;
-	std::list<Test>           src(20);
-	std::list<Test>::iterator src_iter;
+	lib::con<Test>           src(20);
+	lib::con<Test>::iterator src_iter;
 	size_t                    i = 0;
 
 	for (src_iter = src.begin(); src_iter != src.end(); ++src_iter, ++i) {
 		src_iter->some_ = i;
 	}
 
-	std::list<Test> useless(src);
-	std::list<Test>::iterator first = useless.begin();
+	lib::con<Test> useless(src);
+	lib::con<Test>::iterator first = useless.begin();
 
 	std::cout << "empty() : " << useless.empty()    << std::endl;
 	std::cout << "size    : " << useless.size()     << std::endl;
@@ -90,10 +93,10 @@ void std_constructors_capacity_test() {
 
 void std_iterator_test() {
 	std::cout << "\niterator_test()\n" << std::endl;
-	std::list<int>           mouse(10, 5);
-	std::list<int>           fat_mouse(1000, 9);
-	std::list<int>::iterator begin;
-	std::list<int>::iterator fat_end;
+	lib::con<int>           mouse(10, 5);
+	lib::con<int>           fat_mouse(1000, 9);
+	lib::con<int>::iterator begin;
+	lib::con<int>::iterator fat_end;
 
 	begin    = mouse.begin();
 	fat_end  = fat_mouse.end();
@@ -116,9 +119,9 @@ void std_iterator_test() {
 
 void std_element_access_test() {
 	std::cout << "\nelement_access_test()\n" << std::endl;
-	std::list<int>           small_mouse(1);
-	std::list<int>           mouse(10);
-	std::list<int>::iterator iter;
+	lib::con<int>           small_mouse(1);
+	lib::con<int>           mouse(10);
+	lib::con<int>::iterator iter;
 
 	for (iter = small_mouse.begin(); iter != small_mouse.end(); ++iter) {
 		*iter = 123;
@@ -141,10 +144,10 @@ void std_element_access_test() {
 
 void std_push_front_test() {
 	std::cout << "\npush_front_test()\n" << std::endl;
-	std::list<int>           empty_mouse;
-	std::list<int>           small_mouse(1);
-	std::list<int>           mouse(10);
-	std::list<int>::iterator iter;
+	lib::con<int>           empty_mouse;
+	lib::con<int>           small_mouse(1);
+	lib::con<int>           mouse(10);
+	lib::con<int>::iterator iter;
 	size_t                  i = 0;
 
 	// empty_mouse
@@ -192,9 +195,9 @@ void std_push_front_test() {
 
 void std_pop_front_test() {
 	std::cout << "\npop_front_test()\n" << std::endl;
-	std::list<Test>          small_mouse(1, 10);
-	std::list<Test>          mouse(18, 8);
-	std::list<Test>::iterator iter;
+	lib::con<Test>          small_mouse(1, 10);
+	lib::con<Test>          mouse(18, 8);
+	lib::con<Test>::iterator iter;
 	size_t                  i;
 
 	small_mouse.pop_front();
@@ -225,9 +228,9 @@ void std_pop_front_test() {
 
 void std_erase_position_test() {
 	std::cout << "\nerase_position_test()\n" << std::endl;
-	std::list<Test>           small_mouse(1, 10);
-	std::list<Test>           mouse;
-	std::list<Test>::iterator iter;
+	lib::con<Test>           small_mouse(1, 10);
+	lib::con<Test>           mouse;
+	lib::con<Test>::iterator iter;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -276,10 +279,10 @@ void std_erase_position_test() {
 
 void std_erase_iter_iter_test() {
 	std::cout << "\nerase_iter_iter_test()\n" << std::endl;
-	std::list<Test>           small_mouse(1, 10);
-	std::list<Test>           mouse;
-	std::list<Test>::iterator iter;
-	std::list<Test>::iterator iter2;
+	lib::con<Test>           small_mouse(1, 10);
+	lib::con<Test>           mouse;
+	lib::con<Test>::iterator iter;
+	lib::con<Test>::iterator iter2;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -332,9 +335,9 @@ void std_erase_iter_iter_test() {
 
 void std_swap_test() {
 	std::cout << "\nswap_test()\n" << std::endl;
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator iter;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator iter;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -368,9 +371,9 @@ void std_swap_test() {
 
 void std_resize_test() {
 	std::cout << "\nresize_test()\n" << std::endl;
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator iter;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator iter;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -406,10 +409,10 @@ void std_resize_test() {
 
 void std_clear_test() {
 	std::cout << "\nclear_test()\n" << std::endl;
-	std::list<Test>           empty_mouse;
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator iter;
+	lib::con<Test>           empty_mouse;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator iter;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -456,10 +459,10 @@ void std_clear_test() {
 
 void std_insert_iter_val_test() {
 	std::cout << "\ninsert_iter_val_test()\n" << std::endl;
-	std::list<Test>           empty_mouse;
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator iter;
+	lib::con<Test>           empty_mouse;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator iter;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -513,10 +516,10 @@ void std_insert_iter_val_test() {
 
 void std_insert_iter_n_val_test() {
 	std::cout << "\ninsert_iter_val_test()\n" << std::endl;
-	std::list<Test>           empty_mouse;
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator iter;
+	lib::con<Test>           empty_mouse;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator iter;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -570,11 +573,11 @@ void std_insert_iter_n_val_test() {
 
 void std_insert_iter_iter_iter_test() {
 	std::cout << "\ninsert_iter_iter_iter_test()\n" << std::endl;
-	std::list<Test>           empty_mouse;
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator iter;
-	std::list<Test>::iterator iter2;
+	lib::con<Test>           empty_mouse;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator iter;
+	lib::con<Test>::iterator iter2;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -637,11 +640,11 @@ void std_insert_iter_iter_iter_test() {
 
 void std_assign_iter_iter_test() {
 	std::cout << "\nassign_iter_iter_test()\n" << std::endl;
-	std::list<Test>           empty_mouse;
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator iter;
-	std::list<Test>::iterator iter2;
+	lib::con<Test>           empty_mouse;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator iter;
+	lib::con<Test>::iterator iter2;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -704,10 +707,10 @@ void std_assign_iter_iter_test() {
 
 void std_assign_n_val_test() {
 	std::cout << "\nassign_iter_iter_test()\n" << std::endl;
-	std::list<Test>           empty_mouse;
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator iter;
+	lib::con<Test>           empty_mouse;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator iter;
 	size_t                    i;
 
 	for (i = 0; i < 10; ++i) {
@@ -759,16 +762,16 @@ void std_assign_n_val_test() {
 
 void std_merge_x_test() {
 	std::cout << "\nmerge_x_test()\n" << std::endl;
-	std::list<int> mouse;
+	lib::con<int> mouse;
 	mouse.push_back(10);
 	mouse.push_back(20);
 	mouse.push_back(60);
 	mouse.push_back(90);
 	mouse.push_back(200);
 
-	std::list<int> copy_mouse(mouse);
+	lib::con<int> copy_mouse(mouse);
 
-	std::list<int> fat_mouse;
+	lib::con<int> fat_mouse;
 	fat_mouse.push_back(5);
 	fat_mouse.push_back(25);
 	fat_mouse.push_back(45);
@@ -783,7 +786,7 @@ void std_merge_x_test() {
 	std::cout << "mouse:" << std::endl;
 	std::cout << "size:"  << mouse.size()  << std::endl;
 	std::cout << "empty:" << mouse.empty() << std::endl;
-	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+	for (lib::con<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
@@ -793,7 +796,7 @@ void std_merge_x_test() {
 	std::cout << "mouse:" << std::endl;
 	std::cout << "size:"  << mouse.size()  << std::endl;
 	std::cout << "empty:" << mouse.empty() << std::endl;
-	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+	for (lib::con<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
@@ -803,7 +806,7 @@ void std_merge_x_test() {
 	std::cout << "mouse:" << std::endl;
 	std::cout << "size:"  << mouse.size()  << std::endl;
 	std::cout << "empty:" << mouse.empty() << std::endl;
-	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+	for (lib::con<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
@@ -815,16 +818,16 @@ bool compare(int a, int b) {
 
 void std_merge_x_compare_test() {
 	std::cout << "\nmerge_x_test()\n" << std::endl;
-	std::list<int> mouse;
+	lib::con<int> mouse;
 	mouse.push_back(10);
 	mouse.push_back(20);
 	mouse.push_back(60);
 	mouse.push_back(90);
 	mouse.push_back(200);
 
-	std::list<int> copy_mouse(mouse);
+	lib::con<int> copy_mouse(mouse);
 
-	std::list<int> fat_mouse;
+	lib::con<int> fat_mouse;
 	fat_mouse.push_back(5);
 	fat_mouse.push_back(25);
 	fat_mouse.push_back(45);
@@ -839,7 +842,7 @@ void std_merge_x_compare_test() {
 	std::cout << "mouse:" << std::endl;
 	std::cout << "size:"  << mouse.size()  << std::endl;
 	std::cout << "empty:" << mouse.empty() << std::endl;
-	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+	for (lib::con<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
@@ -849,7 +852,7 @@ void std_merge_x_compare_test() {
 	std::cout << "mouse:" << std::endl;
 	std::cout << "size:"  << mouse.size()  << std::endl;
 	std::cout << "empty:" << mouse.empty() << std::endl;
-	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+	for (lib::con<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
@@ -859,7 +862,7 @@ void std_merge_x_compare_test() {
 	std::cout << "mouse:" << std::endl;
 	std::cout << "size:"  << mouse.size()  << std::endl;
 	std::cout << "empty:" << mouse.empty() << std::endl;
-	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+	for (lib::con<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
@@ -868,7 +871,7 @@ void std_merge_x_compare_test() {
 
 void std_sort_test() {
 	std::cout << "sort_test" << std::endl;
-	std::list<int> mouse;
+	lib::con<int> mouse;
 	mouse.push_back(7);
 	mouse.push_back(3);
 	mouse.push_back(5);
@@ -880,20 +883,20 @@ void std_sort_test() {
 	std::cout << "mouse:" << std::endl;
 	std::cout << "size:"  << mouse.size()  << std::endl;
 	std::cout << "empty:" << mouse.empty() << std::endl;
-	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+	for (lib::con<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
 
-	std::list<int> empty;
+	lib::con<int> empty;
 
 	empty.sort();
-	for (std::list<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
+	for (lib::con<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
 
-	std::list<int> reverse;
+	lib::con<int> reverse;
 	reverse.push_back(10);
 	reverse.push_back(9);
 	reverse.push_back(8);
@@ -902,7 +905,7 @@ void std_sort_test() {
 	reverse.push_back(5);
 
 	reverse.sort();
-	for (std::list<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+	for (lib::con<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
@@ -914,7 +917,7 @@ bool comp(int a, int b) {
 
 void std_sort_comp_test() {
 	std::cout << "sort_comp_test" << std::endl;
-	std::list<int> mouse;
+	lib::con<int> mouse;
 	mouse.push_back(7);
 	mouse.push_back(3);
 	mouse.push_back(5);
@@ -923,20 +926,20 @@ void std_sort_comp_test() {
 	mouse.push_back(6);
 
 	mouse.sort(comp);
-	for (std::list<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
+	for (lib::con<int>::iterator it = mouse.begin(); it != mouse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
 
-	std::list<int> empty;
+	lib::con<int> empty;
 
 	empty.sort(comp);
-	for (std::list<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
+	for (lib::con<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
 
-	std::list<int> reverse;
+	lib::con<int> reverse;
 	reverse.push_back(10);
 	reverse.push_back(9);
 	reverse.push_back(8);
@@ -945,22 +948,22 @@ void std_sort_comp_test() {
 	reverse.push_back(5);
 
 	reverse.sort(comp);
-	for (std::list<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+	for (lib::con<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
 
 	reverse.reverse();
 	reverse.sort(comp);
-	for (std::list<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+	for (lib::con<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
 }
 
 void std_reverse_test() {
-	std::list<int> empty;
-	std::list<int> reverse;
+	lib::con<int> empty;
+	lib::con<int> reverse;
 	reverse.push_back(10);
 	reverse.push_back(9);
 	reverse.push_back(8);
@@ -969,7 +972,7 @@ void std_reverse_test() {
 	reverse.push_back(5);
 
 	reverse.reverse();
-	for (std::list<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
+	for (lib::con<int>::iterator it = reverse.begin(); it != reverse.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
@@ -978,7 +981,7 @@ void std_reverse_test() {
 	std::cout << "empty:" << reverse.empty() << std::endl;
 
 	empty.reverse();
-	for (std::list<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
+	for (lib::con<int>::iterator it = empty.begin(); it != empty.end(); ++it) {
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
@@ -988,10 +991,10 @@ void std_reverse_test() {
 }
 
 void std_splice_pos_lst_test() {
-	std::list<Test>           empty;
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator it;
+	lib::con<Test>           empty;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator it;
 	for (int i = 0; i < 10; ++i) {
 		mouse.push_back(i + 10);
 	}
@@ -1072,9 +1075,9 @@ void std_splice_pos_lst_test() {
 }
 
 void std_splice_pos_lst_i_test() {
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator it;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator it;
 	for (int i = 0; i < 10; ++i) {
 		mouse.push_back(i + 10);
 	}
@@ -1145,10 +1148,10 @@ void std_splice_pos_lst_i_test() {
 }
 
 void std_splice_pos_lst_first_last_test() {
-	std::list<Test>           mouse;
-	std::list<Test>           fat_mouse;
-	std::list<Test>::iterator it;
-	std::list<Test>::iterator it2;
+	lib::con<Test>           mouse;
+	lib::con<Test>           fat_mouse;
+	lib::con<Test>::iterator it;
+	lib::con<Test>::iterator it2;
 	for (int i = 0; i < 10; ++i) {
 		mouse.push_back(i + 10);
 	}
@@ -1223,11 +1226,11 @@ void std_splice_pos_lst_first_last_test() {
 }
 
 void std_remove_val_test() {
-	std::list<int>           empty;
-	std::list<int>           mouse;
-	std::list<int>           fat_mouse;
-	std::list<int>::iterator it;
-	std::list<int>::iterator it2;
+	lib::con<int>           empty;
+	lib::con<int>           mouse;
+	lib::con<int>           fat_mouse;
+	lib::con<int>::iterator it;
+	lib::con<int>::iterator it2;
 	for (int i = 0; i < 10; ++i) {
 		if (i % 2 == 0) {
 			mouse.push_back(1000);
@@ -1278,11 +1281,11 @@ bool pred(const int & val) {
 }
 
 void std_remove_if_test() {
-	std::list<int>           empty;
-	std::list<int>           mouse;
-	std::list<int>           fat_mouse;
-	std::list<int>::iterator it;
-	std::list<int>::iterator it2;
+	lib::con<int>           empty;
+	lib::con<int>           mouse;
+	lib::con<int>           fat_mouse;
+	lib::con<int>::iterator it;
+	lib::con<int>::iterator it2;
 	for (int i = 0; i < 10; ++i) {
 		if (i % 2 == 0) {
 			mouse.push_back(1000);
@@ -1328,11 +1331,11 @@ void std_remove_if_test() {
 	std::cout << std::endl;
 }
 void std_unique_test() {
-	std::list<int>           empty;
-	std::list<int>           mouse;
-	std::list<int>           fat_mouse;
-	std::list<int>::iterator it;
-	std::list<int>::iterator it2;
+	lib::con<int>           empty;
+	lib::con<int>           mouse;
+	lib::con<int>           fat_mouse;
+	lib::con<int>::iterator it;
+	lib::con<int>::iterator it2;
 	for (int i = 0; i < 10; ++i) {
 		if (i % 2 == 0) {
 			mouse.push_back(1000);
@@ -1386,11 +1389,11 @@ bool pred2(int & a, int & b) {
 }
 
 void std_unique_pred_test() {
-	std::list<int>           empty;
-	std::list<int>           mouse;
-	std::list<int>           fat_mouse;
-	std::list<int>::iterator it;
-	std::list<int>::iterator it2;
+	lib::con<int>           empty;
+	lib::con<int>           mouse;
+	lib::con<int>           fat_mouse;
+	lib::con<int>::iterator it;
+	lib::con<int>::iterator it2;
 	for (int i = 0; i < 10; ++i) {
 		if (i % 2 == 0) {
 			mouse.push_back(1000);

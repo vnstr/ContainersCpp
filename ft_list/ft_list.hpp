@@ -672,6 +672,29 @@ namespace ft {
 
 // ========================== END LIST CLASS ===================================
 
+// Relational operators ========================================================
+
+	template <class T, class Alloc>
+	bool operator==(const List<T,Alloc> & lhs, const List<T,Alloc> & rhs) {
+		if (lhs.size() != rhs.size()) {
+			return false;
+		}
+
+		typename ft::List<T, Alloc>::const_iterator lit(lhs.begin());
+		typename ft::List<T, Alloc>::const_iterator rit(rhs.begin());
+
+		while (lit != lhs.end()) {
+			if (*lit != *rit) {
+				return false;
+			}
+			++lit;
+			++rit;
+		}
+		return true;
+	}
+
+// =============================================================================
+
 }
 
 // ========================= END NAMESPACE FT ==================================
