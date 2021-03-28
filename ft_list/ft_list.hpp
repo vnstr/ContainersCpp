@@ -12,7 +12,7 @@
 
 // ========================== OTHER INCLUDES ===================================
 
-# include "ft_bidirectional_iterator.hpp"
+# include "ft_list_bidirectional_iterator.hpp"
 # include "../utils.hpp"
 
 // =============================================================================
@@ -32,11 +32,6 @@ namespace ft {
 	};
 
 // ----------------------------------------------------------------------------
-
-	template<class T>
-	bool ft_comp(T &a, T &b) {
-		return a < b;
-	}
 
 // =============================== LIST ========================================
 
@@ -68,9 +63,9 @@ namespace ft {
 		typedef typename allocator_type::pointer                pointer;
 		typedef typename allocator_type::const_pointer          const_pointer;
 
-		typedef ft::BidirectionalIterator<T, T*, T&, Node>      iterator;
+		typedef ft::ListBidirectionalIterator<T, T*, T&, Node>  iterator;
 
-		typedef ft::BidirectionalIterator<T, const T*, const T&, Node>
+		typedef ft::ListBidirectionalIterator<T, const T*, const T&, Node>
 																const_iterator;
 
 		// typedef ft::ReverseIterator<iterator>                  reverse_iterator;
