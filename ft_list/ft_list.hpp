@@ -437,6 +437,7 @@ namespace ft {
 			if (this == &x) {
 				return ;
 			}
+
 			Node* this_current = this->begin().get_node();
 			Node* x_current    = x.begin().get_node();
 
@@ -444,7 +445,7 @@ namespace ft {
 			{
 				if (x_current->data < this_current->data) {
 					x_current = x_current->next;
-					put(this_current, x_current->prev);
+					put_node(this_current, x_current->prev);
 				} else {
 					this_current = this_current->next;
 				}
@@ -466,13 +467,14 @@ namespace ft {
 			if (this == &x) {
 				return ;
 			}
+
 			Node* this_current = this->begin().get_node();
 			Node* x_current    = x.begin().get_node();
 
-			while (this_current != this->end_node_ && x_current != x.end_node_) {
+			while (this_current != end_node_ && x_current != x.end_node_) {
 				if (comp(x_current->data, this_current->data)) {
 					x_current = x_current->next;
-					put(this_current, x_current->prev);
+					put_node(this_current, x_current->prev);
 				} else {
 					this_current = this_current->next;
 				}
@@ -480,47 +482,43 @@ namespace ft {
 			if (x_current != x.end_node_) {
 				x_current->prev          = this_current->prev;
 				this_current->prev->next = x_current;
-				x.end_node_->prev->next  = this->end_node_;
-				this->end_node_->prev    = x.end_node_->prev;
+				x.end_node_->prev->next  = end_node_;
+				end_node_->prev          = x.end_node_->prev;
 			}
-			this->size_      += x.size_;
-			x.size_           = 0;
 			x.end_node_->next = x.end_node_;
 			x.end_node_->prev = x.end_node_;
+			size_            += x.size_;
+			x.size_           = 0;
 		}
 
 		void sort() {
 			if (this->size_ <= 1) {
 				return ;
-			} else {
-				merge_sort(*this, ft_comp<value_type>);
 			}
+			merge_sort(*this, ft::Less<value_type>());
 		}
 
 		template <class Compare>
 		void sort(Compare comp) {
 			if (this->size_ <= 1) {
 				return ;
-			} else {
-				merge_sort<Compare>(*this, comp);
 			}
+			merge_sort(*this, comp);
 
 		}
 
 		void reverse() {
-			if (this->size_ <= 1)
+			if (this->size_ <= 1) {
 				return ;
-			Node* begin = this->end_node_->next;
-			Node* end   = this->end_node_->prev;
-			Node* begin_next;
-			Node* end_prev;
+			}
 
-			for (size_type i = 0; i < this->size_ + 1; ++i) {
-				begin_next = begin->next;
-				end_prev   = end->prev;
-				swap_node(begin, end);
-				begin = begin_next;
-				end   = end_prev;
+			Node* begin = end_node_->next;
+			Node* end   = end_node_->prev;
+
+			for (size_type i = 0; i < size_ + 1; ++i) {
+				begin = begin->next;
+				end   = end->prev;
+				swap_node(begin->prev, end->next);
 			}
 		}
 
@@ -575,20 +573,21 @@ namespace ft {
 				--this->size_;
 			}
 			if (current.size_ == 1) {
-				current.merge(new_list);
-				return;
+				return ;
 			} else if (current.size_ == 2) {
-				node  = current.begin().get_node();
+				node        = current.begin().get_node();
 				Node *node2 = node->next;
 
-				if (node->data > node2->data) {
+				if (comp(node2->data, node->data)) {
 					swap_node(node, node2);
 				}
 				if (new_list.size_ > 1) {
 					new_list.sort(comp);
 				}
-				current.merge<Compare>(new_list, comp);
-				return;
+				if (new_list.size_ > 0) {
+					current.merge<Compare>(new_list, comp);
+				}
+				return ;
 			}
 			current.sort<Compare>(comp);
 			new_list.sort<Compare>(comp);
@@ -600,7 +599,7 @@ namespace ft {
 		Node* allocate_node() {
 			Node* node;
 
-			node       = this->node_alloc_.allocate(1);
+			node       = node_alloc_.allocate(1);
 			node->next = node;
 			node->prev = node;
 			return node;
@@ -610,65 +609,73 @@ namespace ft {
 			Node* node;
 
 			node = allocate_node();
-			this->alloc_.construct(&node->data, val);
+			alloc_.construct(&node->data, val);
 			return node;
 		}
 
 		void  deallocate_node(Node* node) {
 			node->prev->next = node->next;
 			node->next->prev = node->prev;
-			this->node_alloc_.deallocate(node, 1);
+			node_alloc_.deallocate(node, 1);
 		}
 
-		void   destroy_node(Node* node) {
-			this->alloc_.destroy(&node->data);
+		void  destroy_node(Node* node) {
+			alloc_.destroy(&node->data);
 			deallocate_node(node);
 		}
-		void   put(Node* position, Node* node) {
-			node->prev           = position->prev;
-			node->next           = position;
-			position->prev->next = node;
-			position->prev       = node;
-		}
 
-		void   put(iterator position, Node* node) {
+		void  put_node(iterator position, Node* node) {
 			node->prev                      = position.get_node()->prev;
 			node->next                      = position.get_node();
 			position.get_node()->prev->next = node;
 			position.get_node()->prev       = node;
 		}
 
-		void   swap_node(Node* node1, Node* node2) {
-			Node* node1_next = node1->next;
-			Node* node1_prev = node1->prev;
-			Node* node2_next = node2->next;
-			Node* node2_prev = node2->prev;
-
-			if (node1_next != node2 && node2_next != node1) {
-				node1_next->prev  = node2;
-				node1_prev->next  = node2;
-				node2_next->prev  = node1;
-				node2->prev->next = node1;
-				node1->next       = node2_next;
-				node1->prev       = node2_prev;
-				node2->next       = node1_next;
-				node2->prev       = node1_prev;
-			} else {
-				node2->next->prev = node2->prev;
-				node2->prev->next = node2->next;
-				node1->prev->next = node2;
-				node2->prev       = node1->prev;
-				node1->prev       = node2;
-				node2->next       = node1;
-			}
+		bool are_they_neighbours(Node* A,Node* B) {
+			return ( A->next == B && B->prev == A ) || ( A->prev == B && B->next == A );
 		}
 
+		void refresh_outer_pointers(Node* A) {
+				A->prev->next = A;
+				A->next->prev = A;
+		}
+
+		void swap_node(Node* A,Node* B) {
+			Node* swapper[4];
+			Node* tmp;
+
+			if (A == B) {
+				return ;
+			}
+			if (B->next == A) {
+				tmp = A;
+				A = B;
+				B = tmp;
+			}
+			swapper[0] = A->prev;
+			swapper[1] = B->prev;
+			swapper[2] = A->next;
+			swapper[3] = B->next;
+			if (are_they_neighbours(A,B)) {
+				A->prev = swapper[2];
+				B->prev = swapper[0];
+				A->next = swapper[3];
+				B->next = swapper[1];
+			} else {
+				A->prev = swapper[1];
+				B->prev = swapper[0];
+				A->next = swapper[3];
+				B->next = swapper[2];
+			}
+			refresh_outer_pointers(A);
+			refresh_outer_pointers(B);
+		}
 	};
 
-// =============================================================================
+// ========================== END LIST CLASS ===================================
 
 }
 
-// =============================================================================
+// ========================= END NAMESPACE FT ==================================
 
 #endif /* FT_LIST_HPP */
