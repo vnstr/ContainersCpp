@@ -632,7 +632,10 @@ namespace ft {
 		}
 
 		bool are_they_neighbours(Node* A,Node* B) {
-			return ( A->next == B && B->prev == A ) || ( A->prev == B && B->next == A );
+			return
+			(
+			 (A->next == B && B->prev == A) || (A->prev == B && B->next == A)
+			);
 		}
 
 		void refresh_outer_pointers(Node* A) {
