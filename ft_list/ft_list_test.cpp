@@ -1520,9 +1520,9 @@ void reverse_iterator_test() {
 
 int main() {
 	ft_iterator_test();
+	reverse_iterator_test();
 	ft_constructors_capacity_test();
 	ft_element_access_test();
-
 	// Modifiers
 	ft_push_front_test();
 	ft_pop_front_test();
@@ -1538,7 +1538,7 @@ int main() {
 	ft_assign_n_val_test();
 	// ---------
 
-	 // Operations
+	// Operations
 	ft_merge_x_test();
 	ft_merge_x_compare_test();
 	ft_sort_test();
@@ -1556,18 +1556,7 @@ int main() {
 	// Relational operators
 	relational_operators();
 	// ------------
-	reverse_iterator_test();
-
-
-//	ft_sort_comp_test();
-
-
 
 //	complex();
-
-
-
-
-
 	return 0;
 }

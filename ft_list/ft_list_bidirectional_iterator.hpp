@@ -11,7 +11,7 @@
 
 namespace ft {
 
-// ======================== BIDIRECTIONAL IERATOR ==============================
+// ======================== BIDIRECTIONAL ITERATOR =============================
 
 	template <class T, class P, class R, class Node>
 	class ListBidirectionalIterator {
@@ -45,7 +45,11 @@ namespace ft {
 		// Operators -----------------------------------------------------------
 
 		// '='
-		ListBidirectionalIterator & operator=(const ListBidirectionalIterator & x) {
+		ListBidirectionalIterator & operator=
+		(
+		 const ListBidirectionalIterator & x
+		)
+		{
 			if (this == &x)
 				return *this;
 			this->node_ = x.node_;
@@ -53,12 +57,20 @@ namespace ft {
 		}
 
 		// '=='
-		bool                    operator==(const ListBidirectionalIterator & x) {
+		bool                    operator==
+		(
+		 const ListBidirectionalIterator & x
+		)
+		{
 			return this->node_ == x.node_;
 		}
 
 		// '!='
-		bool                    operator!=(const ListBidirectionalIterator & x) {
+		bool                    operator!=
+		(
+		 const ListBidirectionalIterator & x
+		)
+		{
 			return this->node_ != x.node_;
 		}
 

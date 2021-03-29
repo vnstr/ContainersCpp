@@ -1493,11 +1493,11 @@ void reverse_iterator_test() {
 
 int main() {
 	std_iterator_test();
+	reverse_iterator_test();
 	std_constructors_capacity_test();
 	std_element_access_test();
 
-	// // Modifiers
-
+	// Modifiers
 	std_push_front_test();
 	std_pop_front_test();
 	std_erase_position_test();
@@ -1510,7 +1510,6 @@ int main() {
 	std_insert_iter_iter_iter_test();
 	std_assign_iter_iter_test(); // WTF 10,040 leaks
 	std_assign_n_val_test(); // WTF 240 leaks;
-
 	// ---------
 
     // Operations
@@ -1529,6 +1528,5 @@ int main() {
 	// ---------
 
 	relational_operators();
-	reverse_iterator_test();
 	return 0;
 }
