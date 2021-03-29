@@ -15,7 +15,6 @@ namespace ft {
 
 	template <class T, class P, class R, class Node>
 	class ListBidirectionalIterator {
-
 	public:
 
 		// Typedef -------------------------------------------------------------
@@ -124,7 +123,6 @@ namespace ft {
 
 	private:
 		Node* node_;
-
 	};
 
 // =============================================================================
