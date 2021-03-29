@@ -1,14 +1,12 @@
 #include <iostream>
-#include <vector>
 #include <queue>
 
-#include "../ft_vector/ft_vector.hpp"
 #include "ft_queue.hpp"
 
 void member_func_test() {
 
-	std::queue< int, std::vector<int> > std_queue;
-	ft::Queue< int, ft::Vector<int> >   ft_queue;
+	std::queue< int > std_queue;
+	ft::Queue< int >   ft_queue;
 
 	std::cout << "\nEmpty()" << std::endl;
 	std::cout << "std: " << std_queue.empty() << std::endl;
@@ -63,22 +61,22 @@ void member_func_test() {
 
 void relational_operators_test() {
 
-	std::queue<int, std::vector<int> > std1;
+	std::queue<int > std1;
 	for (int i = 0; i < 10; ++i) {
 		std1.push(10);
 	}
 
-	std::queue<int, std::vector<int> > std2;
+	std::queue<int > std2;
 	for (int i = 0; i < 10; ++i) {
 		std1.push(5);
 	}
 
-	ft::Queue<int, ft::Vector<int> > ft1;
+	ft::Queue<int > ft1;
 	for (int i = 0; i < 10; ++i) {
 		ft1.push(10);
 	}
 
-	ft::Queue<int, ft::Vector<int> > ft2;
+	ft::Queue<int > ft2;
 	for (int i = 0; i < 10; ++i) {
 		ft2.push(5);
 	}
@@ -127,7 +125,7 @@ void relational_operators_test() {
 
 int main()
 {
-	// member_func_test();
+	member_func_test();
 	relational_operators_test();
 	return 0;
 }

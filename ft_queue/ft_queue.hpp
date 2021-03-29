@@ -12,7 +12,7 @@
 
 // ========================== OTHER INCLUDES ===================================
 
-# include "../ft_vector/ft_vector.hpp"
+# include "../ft_list/ft_list.hpp"
 
 // =============================================================================
 
@@ -24,7 +24,7 @@ namespace ft {
 // =============================== QUEUE =======================================
 
 	// template <class T, class Container = Vector<T> >
-	template <class T, class Container >
+	template <class T, class Container = List<T> >
 	class Queue {
 
 	public:

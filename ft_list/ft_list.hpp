@@ -22,18 +22,6 @@
 
 namespace ft {
 
-// For correct working with size_t ---------------------------------------------
-
-	template < bool B, class T = void >
-	struct enable_if {};
-
-	template < class T >
-	struct enable_if <true, T> {
-		typedef T type;
-	};
-
-// ----------------------------------------------------------------------------
-
 // =============================== LIST ========================================
 
 	template < class T, class Alloc = std::allocator<T> >
