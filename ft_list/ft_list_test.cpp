@@ -1473,7 +1473,49 @@ void complex() {
 
 void relational_operators() {
 	std::cout << "relational_operators" << std::endl;
+	lib::con<int> def1;
+	lib::con<int> def2;
+	lib::con<int> big_def;
+	for (int i = 0; i < 10; ++i) {
+		def1.push_back(i);
+		def2.push_back(i);
+	}
+	for (int i = 10; i < 20; ++i) {
+		big_def.push_back(i);
+	}
 
+	std::cout << (def1 == def2)    << std::endl;
+	std::cout << (def1 == big_def) << std::endl;
+
+	std::cout << (def1 != def2)    << std::endl;
+	std::cout << (def1 != big_def) << std::endl;
+
+	std::cout << (def1 < def2)    << std::endl;
+	std::cout << (def1 < big_def) << std::endl;
+
+	std::cout << (def1 <= def2)    << std::endl;
+	std::cout << (def1 <= big_def) << std::endl;
+
+	std::cout << (def1 > def2)    << std::endl;
+	std::cout << (def1 > big_def) << std::endl;
+
+	std::cout << (def1 >= def2)    << std::endl;
+	std::cout << (def1 >= big_def) << std::endl;
+}
+
+void reverse_iterator_test() {
+	std::cout << "reverse_iterator_test" << std::endl;
+	lib::con<int> def;
+	for (int i = 0; i < 10; ++i) {
+		def.push_back(i);
+	}
+	lib::con<int>::reverse_iterator rit(def.rbegin());
+
+	while (rit != def.rend()) {
+		std::cout << *rit << " ";
+		++rit;
+	}
+	std::cout << std::endl;
 }
 
 int main() {
@@ -1512,10 +1554,9 @@ int main() {
 	// ------------
 
 	// Relational operators
-
 	relational_operators();
-
 	// ------------
+	reverse_iterator_test();
 
 
 //	ft_sort_comp_test();

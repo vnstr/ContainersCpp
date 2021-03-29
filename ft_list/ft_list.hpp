@@ -13,6 +13,7 @@
 // ========================== OTHER INCLUDES ===================================
 
 # include "ft_list_bidirectional_iterator.hpp"
+# include "../ft_reverse_iterator.hpp"
 # include "../utils.hpp"
 
 // =============================================================================
@@ -68,12 +69,12 @@ namespace ft {
 		typedef ft::ListBidirectionalIterator<T, const T*, const T&, Node>
 																const_iterator;
 
-		// typedef ft::ReverseIterator<iterator>                  reverse_iterator;
-		// typedef ft::ReverseIterator<const_iterator>      const_reverse_iterator;
+		 typedef ft::ReverseIterator<iterator>                 reverse_iterator;
+		 typedef ft::ReverseIterator<const_iterator>     const_reverse_iterator;
 
-		// typedef typename
-		// ft::BidirectionalIterator<T, T*, T&, Node>::difference_type
-		//                                                         difference_type;
+		 typedef typename
+		 ft::ListBidirectionalIterator<T, T*, T&, Node>::difference_type
+		                                                        difference_type;
 
 		typedef size_t                                          size_type;
 
@@ -139,20 +140,48 @@ namespace ft {
 
 		// Iterators -----------------------------------------------------------
 
-		iterator       begin() {
+		iterator               begin() {
 			return iterator(end_node_->next);
 		}
 
-		const_iterator begin() const {
+		const_iterator         begin() const {
 			return const_iterator(end_node_->next);
 		}
 
-		iterator       end() {
+		iterator               end() {
 			return iterator(end_node_);
 		}
 
-		const_iterator end() const {
+		const_iterator         end() const {
 			return const_iterator(end_node_);
+		}
+
+		reverse_iterator       rbegin() {
+			if (this->size() == 0) {
+				return reverse_iterator(this->end());
+			}
+			return reverse_iterator(--(this->end()));
+		}
+
+		const_reverse_iterator rbegin() const {
+			if (this->size() == 0) {
+				return reverse_iterator(this->end());
+			}
+			return reverse_iterator(--(this->end()));
+		}
+
+		reverse_iterator       rend() {
+			if (this->size() == 0) {
+				return reverse_iterator(this->begin());
+			}
+			return reverse_iterator(--(this->begin()));
+		}
+
+		const_reverse_iterator rend() const {
+			if (this->size() == 0) {
+				return reverse_iterator(this->begin());
+			}
+			return reverse_iterator(--(this->begin()));
 		}
 
 		// ---------------------------------------------------------------------
@@ -691,6 +720,41 @@ namespace ft {
 			++rit;
 		}
 		return true;
+	}
+
+	template <class T, class Alloc>
+	bool operator!=(const List<T,Alloc> & lhs, const List<T,Alloc> & rhs) {
+		return !(lhs == rhs);
+	}
+
+	template <class T, class Alloc>
+	bool operator<(const List<T,Alloc> & lhs, const List<T,Alloc> & rhs) {
+		typename List<T, Alloc>::const_iterator lit(lhs.begin());
+		typename List<T, Alloc>::const_iterator rit(rhs.begin());
+
+		while (lit != lhs.end() && rit != rhs.end()) {
+			if (*lit < *rit) {
+				return true;
+			}
+			++lit;
+			++rit;
+		}
+		return lhs.size() < rhs.size();
+	}
+
+	template <class T, class Alloc>
+	bool operator>(const List<T,Alloc> & lhs, const List<T,Alloc> & rhs) {
+		return (rhs < lhs);
+	}
+
+	template <class T, class Alloc>
+	bool operator<=(const List<T,Alloc> & lhs, const List<T,Alloc> & rhs) {
+		return !(lhs > rhs);
+	}
+
+	template <class T, class Alloc>
+	bool operator>=(const List<T,Alloc> & lhs, const List<T,Alloc> & rhs) {
+		return !(lhs < rhs);
 	}
 
 // =============================================================================
