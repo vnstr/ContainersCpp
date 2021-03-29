@@ -29,15 +29,21 @@ namespace ft {
 
 		// Constructor - Destructor --------------------------------------------
 
-		MultisetBidirIterator() : it_() {}
-		explicit MultisetBidirIterator(iterator_type it) : it_(it) {}
+		MultisetBidirIterator()
+		: it_()
+		{}
+
+		explicit MultisetBidirIterator(iterator_type it)
+		: it_(it)
+		{}
 
 		template <class Iter>
 		MultisetBidirIterator(const MultisetBidirIterator<Iter> & it)
 		: it_(it.base())
 		{}
 
-		virtual ~MultisetBidirIterator() {}
+		virtual ~MultisetBidirIterator()
+		{}
 
 		// ---------------------------------------------------------------------
 
@@ -53,7 +59,6 @@ namespace ft {
 
 		// '='
 		MultisetBidirIterator & operator=(MultisetBidirIterator const & x) {
-
 			if (this == &x) {
 				return *this;
 			}

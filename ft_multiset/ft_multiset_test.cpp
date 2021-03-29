@@ -622,6 +622,7 @@ void clear_test() {
 // Operations ------------------------------------------------------------------
 
 void find_test() {
+	lib::con<int> empty;
 	lib::con<int> def;
 	for (int i = 0; i < 10000 ; ++i) {
 		def.insert(def.end(), i);
@@ -633,10 +634,12 @@ void find_test() {
 	std::cout << *(def.find(9999)) << std::endl;
 	std::cout << *(def.find(12)) << std::endl;
 	std::cout << *(def.find(0)) << std::endl;
+	std::cout << (empty.find(9) == empty.end()) << std::endl;
 }
 
 void count_test() {
 	std::cout << "count_test" << std::endl;
+	lib::con<int>           empty;
 	lib::con<int>           def;
 	for (int i = 0; i < 30 ; ++i) {
 		if (i == 5) {
@@ -660,10 +663,13 @@ void count_test() {
 	std::cout << def.count(5)  << std::endl;
 	std::cout << def.count(10) << std::endl;
 	std::cout << def.count(29) << std::endl;
+	std::cout << def.count(1000) << std::endl;
+	std::cout << empty.count(1000) << std::endl;
 }
 
 void lower_bound_test() {
 	std::cout << "lower_bound_test" << std::endl;
+	lib::con<int>           empty;
 	lib::con<int>           def;
 	lib::con<int>::iterator it;
 	for (int i = 0; i < 30 ; ++i) {
@@ -697,10 +703,16 @@ void lower_bound_test() {
 		++it;
 	}
 	std::cout << std::endl;
+
+	it = def.lower_bound(12234);
+	std::cout << (it == def.end()) << std::endl;
+	it = empty.lower_bound(12234);
+	std::cout << (it == def.end()) << std::endl;
 }
 
 void upper_bound_test() {
 	std::cout << "upper_bound_test" << std::endl;
+	lib::con<int>           empty;
 	lib::con<int>           def;
 	lib::con<int>::iterator it;
 	for (int i = 0; i < 30 ; ++i) {
@@ -736,6 +748,10 @@ void upper_bound_test() {
 		--it;
 	}
 	std::cout << std::endl;
+	it = def.lower_bound(12234);
+	std::cout << (it == def.end()) << std::endl;
+	it = empty.lower_bound(12234);
+	std::cout << (it == def.end()) << std::endl;
 }
 
 void equal_range_test() {
@@ -762,9 +778,10 @@ void equal_range_test() {
 		}
 	}
 
-	std::pair<
-			lib::con<int>::iterator,
-			lib::con<int>::iterator>        range(def.equal_range(5));
+	std::pair
+	<
+	 lib::con<int>::iterator,
+	 lib::con<int>::iterator > range(def.equal_range(5));
 
 	it  = std::get<0>(range);
 	it2 = std::get<1>(range);
@@ -785,6 +802,38 @@ void equal_range_test() {
 }
 
 // -----------------------------------------------------------------------------
+
+void reverse_iterator_test() {
+	std::cout << "reverse_iterator_test" << std::endl;
+	lib::con<int>           def;
+	lib::con<int>::reverse_iterator rit;
+	for (int i = 0; i < 30 ; ++i) {
+		if (i == 5) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 10) {
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else if (i == 29){
+			for (int j = 0; j < i; ++j) {
+				def.insert(def.end(), i);
+			}
+		} else {
+			def.insert(def.end(), i);
+		}
+	}
+
+	rit = def.rbegin();
+	while (rit != def.rend()) {
+		std::cout << *rit << " ";
+		++rit;
+	}
+	std::cout << std::endl;
+
+}
+
 int main() {
 	// Constructors
 	default_constructor_test();
@@ -835,6 +884,7 @@ int main() {
 	same_with_reverse_comp::upper_bound_test();
 	same_with_reverse_comp::equal_range_test();
 	// ------------
+	reverse_iterator_test();
 	return 0;
 }
 

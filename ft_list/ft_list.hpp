@@ -1,5 +1,3 @@
-// TODO 1) ReverseIterator;
-
 #ifndef FT_LIST_HPP
 # define FT_LIST_HPP
 

@@ -2,8 +2,6 @@
 // Created by Gueren Drive on 3/23/21.
 //
 
-// TODO ReverseIterator
-
 #ifndef CONTAINERS_CPP_FT_MULTISET_HPP
 #define CONTAINERS_CPP_FT_MULTISET_HPP
 
@@ -13,6 +11,7 @@
 # include "../utils.hpp"
 
 # include "ft_multiset_bidir_iterator.hpp"
+# include "../ft_reverse_iterator.hpp"
 
 // =============================================================================
 
@@ -23,39 +22,43 @@ namespace ft {
 // ============================= MULTISET ======================================
 
 	template <
-	        class T,                           // multiset::key_type/value_type
-	        class Compare = ft::Less<T>,      // multiset::key_compare/value_compare
-	        class Alloc = std::allocator<T> >  // multiset::allocator_type
+	         class T,
+	         class Compare = ft::Less<T>,
+	         class Alloc = std::allocator<T>
+	        >
 	class Multiset {
 
 	public:
 
 		// Typedef -------------------------------------------------------------
 
-		typedef T                                               key_type;
-		typedef T                                               value_type;
-		typedef Compare                                         key_compare;
-		typedef Compare                                         value_compare;
-		typedef Alloc                                           allocator_type;
-		typedef typename allocator_type::reference              reference;
-		typedef typename allocator_type::const_reference        const_reference;
-		typedef typename allocator_type::pointer                pointer;
-		typedef typename allocator_type::const_pointer          const_pointer;
+		typedef T                                        key_type;
+		typedef T                                        value_type;
+		typedef Compare                                  key_compare;
+		typedef Compare                                  value_compare;
+		typedef Alloc                                    allocator_type;
+		typedef typename allocator_type::reference       reference;
+		typedef typename allocator_type::const_reference const_reference;
+		typedef typename allocator_type::pointer         pointer;
+		typedef typename allocator_type::const_pointer   const_pointer;
 
 		typedef ft::MultisetBidirIterator
 		        <ft::VectorRandomAccessIterator<T, T*, T&> >
-		                                                        iterator;
+		                                                 iterator;
 
 		typedef ft::MultisetBidirIterator
 		        <ft::VectorRandomAccessIterator<T, const T*, const T&> >
-		                                                        const_iterator;
+		                                                 const_iterator;
+
+		typedef ft::ReverseIterator<iterator>            reverse_iterator;
+		typedef ft::ReverseIterator<const_iterator>      const_reverse_iterator;
 
 		typedef typename
 		ft::MultisetBidirIterator
 		        <ft::VectorRandomAccessIterator<T, T*, T&> >::difference_type
-		                                                        difference_type;
+		                                                 difference_type;
 
-		typedef size_t                                          size_type;
+		typedef size_t                                   size_type;
 
 		// ---------------------------------------------------------------------
 
@@ -120,37 +123,33 @@ namespace ft {
 			return const_iterator(this->values_.end());
 		}
 
-//		reverse_iterator       rbegin() {
-//			if (this->size_ == 0) {
-//				return reverse_iterator(iterator(this->arr_));
-//			} else {
-//				return reverse_iterator(iterator(this->arr_ + this->size_ - 1));
-//			}
-//		}
-//
-//		const_reverse_iterator rbegin() const {
-//			if (this->size_ == 0) {
-//				return iterator(this->arr_);
-//			} else {
-//				return iterator(this->arr_ + this->size_ - 1);
-//			}
-//		}
-//
-//		reverse_iterator       rend() {
-//			if (this->size_ == 0) {
-//				return reverse_iterator(iterator(this->arr_));
-//			} else {
-//				return reverse_iterator(iterator(this->arr_ - 1));
-//			}
-//		}
-//
-//		reverse_iterator       rend() const {
-//			if (this->size_ == 0) {
-//				return reverse_iterator(iterator(this->arr_));
-//			} else {
-//				return reverse_iterator(iterator(this->arr_ - 1));
-//			}
-//		}
+		reverse_iterator       rbegin() {
+			if (this->size() == 0) {
+				return reverse_iterator(this->end());
+			}
+			return reverse_iterator(--(this->end()));
+		}
+
+		const_reverse_iterator rbegin() const {
+			if (this->size() == 0) {
+				return const_reverse_iterator(this->end());
+			}
+			return const_reverse_iterator(--(this->end()));
+		}
+
+		reverse_iterator       rend() {
+			if (this->size() == 0) {
+				return reverse_iterator(this->begin());
+			}
+			return reverse_iterator(--(this->begin()));
+		}
+
+		reverse_iterator       rend() const {
+			if (this->size() == 0) {
+				return const_reverse_iterator(this->begin());
+			}
+			return const_reverse_iterator(--(this->begin()));
+		}
 
 		// ---------------------------------------------------------------------
 
@@ -176,9 +175,9 @@ namespace ft {
 			if (values_.size() == 0) {
 				return iterator(values_.insert(values_.begin(), val));
 			}
-			size_type pos_index;
 
-			pos_index = binary_search(val, this->values_.size());
+			size_type pos_index = binary_search(val, this->values_.size());
+
 			return
 			(
 			 iterator
@@ -210,6 +209,10 @@ namespace ft {
 		}
 
 		size_type     erase(const value_type& val) {
+			if (this->size() == 0) {
+				return 0;
+			}
+
 			iterator   position(find_position(val));
 			value_type save_val(val);
 			size_type  i = 0;
@@ -256,10 +259,12 @@ namespace ft {
 		// Operations ----------------------------------------------------------
 
 		iterator  find(const value_type& val) {
-			// TODO protect for segfault
+			if (this->size() == 0) {
+				return this->end();
+			}
 			iterator found(find_position(val));
-			if (values_.size() == 0 || comp_(*found, val) || comp_(val, *found)) {
-				return end();
+			if (comp_(*found, val) || comp_(val, *found)) {
+				return this->end();
 			}
 			return found;
 		}
@@ -272,12 +277,15 @@ namespace ft {
 			iterator  position(find_position(val));
 			size_type i = 0;
 
+			if (position == this->end()) {
+				return 0;
+			}
 			if (comp_(*position, val) || comp_(val, *position)) {
 				return 0;
 			}
 
 			while (!comp_(*position, val) && !comp_(val, *position)) {
-				if (position == begin()) { // 5 5 5 6
+				if (position == begin()) {
 					break ;
 				}
 				--position;
@@ -302,7 +310,10 @@ namespace ft {
 			}
 
 			iterator found(find(val));
-			// TODO protect for segfault
+
+			if (found == this->end()) {
+				return found;
+			}
 
 			while (!comp_(*found, val) && !comp_(val, *found)) {
 				if (found == begin()) {
@@ -322,7 +333,10 @@ namespace ft {
 			}
 
 			iterator found(find(val));
-			// TODO protect for segfault
+
+			if(found == this->end()) {
+				return found;
+			}
 
 			while (!comp_(*found, val) && !comp_(val, *found)) {
 				if (found == end()) {
