@@ -27,7 +27,6 @@ namespace ft {
 	         class Alloc = std::allocator<T>
 	        >
 	class Multiset {
-
 	public:
 
 		// Typedef -------------------------------------------------------------
