@@ -53,7 +53,7 @@ namespace ft {
 		typedef ft::ListBidirectionalIterator<T, T*, T&, Node>  iterator;
 
 		typedef ft::ListBidirectionalIterator<T, const T*, const T&, Node>
-																const_iterator;
+		                                                       const_iterator;
 
 		 typedef ft::ReverseIterator<iterator>                 reverse_iterator;
 		 typedef ft::ReverseIterator<const_iterator>     const_reverse_iterator;
