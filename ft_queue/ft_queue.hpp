@@ -1,9 +1,6 @@
 #ifndef FT_QUEUE_HPP
 # define FT_QUEUE_HPP
 
-// Notes:
-// - add class Container = List<t>;
-
 // ============================ STD-LIBS =======================================
 
 # include <cstddef> // size_t, ptrdiff_t ...
@@ -26,7 +23,6 @@ namespace ft {
 	// template <class T, class Container = Vector<T> >
 	template <class T, class Container = List<T> >
 	class Queue {
-
 	public:
 
 		// Typedef -------------------------------------------------------------
@@ -40,7 +36,22 @@ namespace ft {
 		// Constructor - Destructor --------------------------------------------
 
 		explicit Queue(const container_type & ctnr = container_type())
-		: c_(ctnr) {}
+		: c_(ctnr)
+		{}
+
+		Queue(const Queue& x)
+		: c_(x.c_)
+		{}
+
+		~Queue() {}
+
+		Queue& operator=(const Queue& x) {
+			if (this == &x) {
+				return *this;
+			}
+			c_ = x.c_;
+			return *this;
+		}
 
 		// ---------------------------------------------------------------------
 
