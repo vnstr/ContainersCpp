@@ -24,7 +24,6 @@ namespace ft {
 	  class Alloc = std::allocator<std::pair<Key,T> > // map::allocator_type
 	>
 	class Map {
-
 	public:
 
 		// Typedef -------------------------------------------------------------
