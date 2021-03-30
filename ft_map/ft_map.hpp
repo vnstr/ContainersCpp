@@ -115,7 +115,7 @@ namespace ft {
 
 		// ---------------------------------------------------------------------
 
-		// Operators -------------------------------------------------------
+		// Operators -----------------------------------------------------------
 
 		// '='
 		Map &         operator=(const Map & x) {
@@ -190,7 +190,7 @@ namespace ft {
 
 		reverse_iterator       rend() {
 			if (this->size() == 0) {
-				return const_reverse_iterator(this->begin());
+				return reverse_iterator(this->begin());
 			}
 			return reverse_iterator(--(this->begin()));
 		}
@@ -253,7 +253,11 @@ namespace ft {
 		}
 
 		template <class InputIterator>
-		void                      insert (InputIterator first, InputIterator last) {
+		void                      insert
+		(
+		 InputIterator first, InputIterator last
+		)
+		{
 			while (first != last) {
 				this->insert(*first);
 				++first;
