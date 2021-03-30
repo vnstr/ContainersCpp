@@ -317,11 +317,11 @@ namespace ft {
 
 		// Operations ----------------------------------------------------------
 
-		iterator                                 find(const key_type & k) {
+		iterator                                 find(const key_type& k) {
 			return iterator(values_.find(value_type(k, mapped_type ())));
 		}
 
-		size_type                                count(const key_type & k) {
+		size_type                                count(const key_type& k) {
 			iterator found
 			(
 			 values_.find(std::pair<key_type, mapped_type>(k, mapped_type()))
