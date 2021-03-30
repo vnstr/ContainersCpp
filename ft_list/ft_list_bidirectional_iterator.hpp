@@ -51,63 +51,63 @@ namespace ft {
 		{
 			if (this == &x)
 				return *this;
-			this->node_ = x.node_;
+			node_ = x.node_;
 			return *this;
 		}
 
 		// '=='
-		bool                    operator==
+		bool                        operator==
 		(
 		 const ListBidirectionalIterator & x
 		)
 		{
-			return this->node_ == x.node_;
+			return node_ == x.node_;
 		}
 
 		// '!='
-		bool                    operator!=
+		bool                        operator!=
 		(
 		 const ListBidirectionalIterator & x
 		)
 		{
-			return this->node_ != x.node_;
+			return node_ != x.node_;
 		}
 
 		// '*'
-		reference               operator*() {
-			return this->node_->data;
+		reference                   operator*() {
+			return node_->data;
 		}
 
 		// '->'
-		pointer                 operator->() {
-			return &this->node_->data;
+		pointer                     operator->() {
+			return &node_->data;
 		}
 
 		// '++iter'
 		ListBidirectionalIterator   operator++() {
-			this->node_ = this->node_->next;
+			node_ = node_->next;
 			return (*this);
 		}
 
 		// 'iter++'
 		ListBidirectionalIterator   operator++(int) {
 			ListBidirectionalIterator tmp(*this);
-			this->node_ = this->node_->next;
+
+			node_ = node_->next;
 			return (tmp);
 		}
 
 		// '--iter'
 		ListBidirectionalIterator   operator--() {
-
-			this->node_ = this->node_->prev;
+			node_ = node_->prev;
 			return (*this);
 		}
 
 		// 'iter--'
 		ListBidirectionalIterator   operator--(int) {
-
 			ListBidirectionalIterator tmp(*this);
-			this->node_ = this->node_->prev;
+
+			node_ = node_->prev;
 			return (tmp);
 		}
 
@@ -116,7 +116,7 @@ namespace ft {
 		// Getters -------------------------------------------------------------
 
 		Node* get_node() const {
-			return this->node_;
+			return node_;
 		}
 
 		// ---------------------------------------------------------------------
