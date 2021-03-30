@@ -72,7 +72,7 @@ namespace ft {
 		explicit List(const allocator_type& alloc = allocator_type())
 		: size_(0), alloc_(alloc)
 		{
-			this->end_node_ = allocate_node();
+			end_node_ = allocate_node();
 		}
 
 		explicit List
@@ -327,7 +327,7 @@ namespace ft {
 			pos->prev->next   = pos;
 			prev->next        = x.end_node_->next;
 			prev->next->prev  = prev;
-			size_      += x.size_;
+			size_            += x.size_;
 			x.size_           = 0;
 			x.end_node_->next = x.end_node_;
 			x.end_node_->prev = x.end_node_;
