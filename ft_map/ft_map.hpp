@@ -9,6 +9,7 @@
 
 # include "../ft_multiset/ft_multiset.hpp"
 # include "ft_map_bidir_iterator.hpp"
+# include "../ft_reverse_iterator.hpp"
 
 // =============================================================================
 
@@ -28,17 +29,17 @@ namespace ft {
 
 		// Typedef -------------------------------------------------------------
 
-		typedef Key                                             key_type;
-		typedef T                                               mapped_type;
-		typedef std::pair<key_type, mapped_type>                value_type;
-		typedef Compare                                         key_compare;
-		typedef Compare                                         value_compare;
-		typedef Alloc                                           allocator_type;
+		typedef Key                                      key_type;
+		typedef T                                        mapped_type;
+		typedef std::pair<key_type, mapped_type>         value_type;
+		typedef Compare                                  key_compare;
+		typedef Compare                                  value_compare;
+		typedef Alloc                                    allocator_type;
 
-		typedef typename allocator_type::reference              reference;
-		typedef typename allocator_type::const_reference        const_reference;
-		typedef typename allocator_type::pointer                pointer;
-		typedef typename allocator_type::const_pointer          const_pointer;
+		typedef typename allocator_type::reference       reference;
+		typedef typename allocator_type::const_reference const_reference;
+		typedef typename allocator_type::pointer         pointer;
+		typedef typename allocator_type::const_pointer   const_pointer;
 
 		typedef ft::MapBidirIterator
 		        <
@@ -49,7 +50,7 @@ namespace ft {
 		                         value_type, value_type*, value_type&
 		                        >
 		                >
-		        >                                               iterator;
+		        >                                        iterator;
 
 		typedef ft::MapBidirIterator
 		        <
@@ -62,13 +63,11 @@ namespace ft {
 		                           const value_type&
 		                          >
 		                 >
-		         >                                              const_iterator;
+		         >                                       const_iterator;
 
+		typedef ft::ReverseIterator<iterator>            reverse_iterator;
+		typedef ft::ReverseIterator<const_iterator>      const_reverse_iterator;
 
-//		typedef ft::MultisetBidirIterator
-//				<ft::VectorRandomAccessIterator<T, const T*, const T&> >
-//				const_iterator;
-//
 		typedef typename ft::MapBidirIterator
 		<
 		 ft::MultisetBidirIterator
@@ -78,9 +77,9 @@ namespace ft {
 		                   value_type, value_type*, value_type&
 		                  >
 		         >
-		 >::difference_type                                     difference_type;
+		 >::difference_type                              difference_type;
 
-		typedef size_t                                          size_type;
+		typedef size_t                                   size_type;
 
 		// ---------------------------------------------------------------------
 
@@ -132,10 +131,8 @@ namespace ft {
 		mapped_type & operator[] (const key_type & k) {
 			return
 			(
-			 (*((this->insert(std::pair<Key, T>(k,mapped_type()))).first)).second
+			 (*((this->insert(std::pair<Key, T>(k, T()))).first)).second
 			);
-
-//			return (*position).second;
 		}
 
 		// ---------------------------------------------------------------------
@@ -161,23 +158,49 @@ namespace ft {
 
 		// Iterators -----------------------------------------------------------
 
-		iterator       begin() {
+		iterator               begin() {
 			return iterator(values_.begin());
 		}
 
-		const_iterator begin() const {
+		const_iterator         begin() const {
 			return const_iterator(values_.begin());
 		}
 
-		iterator       end() {
+		iterator               end() {
 			return iterator(values_.end());
 		}
 
-		const_iterator end() const {
+		const_iterator         end() const {
 			return const_iterator(values_.end());
 		}
 
-		//TODO ReverseIterator
+		reverse_iterator       rbegin() {
+			if (this->size() == 0) {
+				return reverse_iterator(this->end());
+			}
+			return reverse_iterator(--(this->end()));
+		}
+
+		const_reverse_iterator rbegin() const {
+			if (this->size() == 0) {
+				return const_reverse_iterator(this->end());
+			}
+			return const_reverse_iterator(--(this->end()));
+		}
+
+		reverse_iterator       rend() {
+			if (this->size() == 0) {
+				return const_reverse_iterator(this->begin());
+			}
+			return reverse_iterator(--(this->begin()));
+		}
+
+		const_reverse_iterator rend() const {
+			if (this->size() == 0) {
+				return const_reverse_iterator(this->begin());
+			}
+			return const_reverse_iterator(--(this->begin()));
+		}
 
 		// ---------------------------------------------------------------------
 
@@ -218,37 +241,26 @@ namespace ft {
 			return std::pair<iterator, bool>(position, false);
 		}
 
-		iterator                  insert (iterator position, const value_type& val) {
+		iterator                  insert
+		(
+		 iterator position, const value_type& val
+		)
+		{
 			(void)(position);
-			if (values_.size() == 0) {
-				return iterator(values_.insert(val));
-			}
+			std::pair<iterator, bool> pos(this->insert(val));
 
-			iterator pos(values_.find(val));
-
-			if (pos == end()) {
-				return iterator(values_.insert(val));
-			}
-			return pos;
+			return pos.first;
 		}
 
 		template <class InputIterator>
 		void                      insert (InputIterator first, InputIterator last) {
 			while (first != last) {
-				if (values_.size() == 0) {
-					this->insert(*first);
-					++first;
-					continue ;
-				}
 				this->insert(*first);
 				++first;
 			}
 		}
 
 		void                      erase(iterator position) {
-			if (this->size() == 0) {
-				return ;
-			}
 			values_.erase(position.base());
 		}
 
@@ -301,62 +313,77 @@ namespace ft {
 
 		// Operations ----------------------------------------------------------
 
-		iterator       find(const key_type & k) {
-			if (this->size() == 0) {
-				return this->end();
-			}
-			return iterator(values_.find(value_type(k, T())));
+		iterator                                 find(const key_type & k) {
+			return iterator(values_.find(value_type(k, mapped_type ())));
 		}
 
-		size_type      count(const key_type & k) {
-			if (this->size() == 0) {
-				return 0;
-			}
+		size_type                                count(const key_type & k) {
+			iterator found
+			(
+			 values_.find(std::pair<key_type, mapped_type>(k, mapped_type()))
+			);
 
-			iterator found(values_.find(std::pair<key_type, mapped_type>(k, mapped_type())));
 			return found != this->end();
 		}
 
-		iterator       lower_bound(const key_type & k) {
-			if (this->size() == 0) {
-				return this->end();
-			}
-			return iterator(values_.find(std::pair<key_type, mapped_type>(k, mapped_type())));
+		iterator                                 lower_bound
+		(
+		 const key_type & k
+		)
+		 {
+			return iterator
+			(
+			 values_.find(std::pair<key_type, mapped_type>(k, mapped_type()))
+			);
 		}
 
-		const_iterator lower_bound(const key_type & k) const {
-			if (this->size() == 0) {
-				return this->end();
-			}
-			return const_iterator(values_.find(std::pair<key_type, mapped_type>(k, mapped_type())));
+		const_iterator                           lower_bound
+		(
+		 const key_type & k
+		) const
+		{
+			return const_iterator
+			(
+			 values_.find(std::pair<key_type, mapped_type>(k, mapped_type()))
+			);
 		}
 
-		iterator       upper_bound(const key_type & k) {
+		iterator                                 upper_bound
+		(
+		 const key_type & k
+		)
+		{
 			iterator pos(this->lower_bound(k));
 
-			if (pos != this->end()) {
-				++pos;
-			}
-			return pos;
+			return (pos != this->end()) ? ++pos : pos;
 		}
 
-		const_iterator upper_bound (const key_type& k) const {
+		const_iterator                           upper_bound
+		(
+		 const key_type& k
+		) const
+		{
 			const_iterator pos(this->lower_bound(k));
 
-			if (pos != this->end()) {
-				++pos;
-			}
-			return pos;
+			return (pos != this->end()) ? ++pos : pos;
 		}
 
-		std::pair<iterator, iterator> equal_range(const key_type & k) {
+		std::pair<iterator, iterator>            equal_range
+		(
+		 const key_type & k
+		)
+		{
 			iterator first(this->lower_bound(k));
 			iterator last(this->upper_bound(k));
 
 			return std::pair<iterator, iterator >(first, last);
 		}
 
-		std::pair<const_iterator,const_iterator> equal_range(const key_type & k) const {
+		std::pair<const_iterator,const_iterator> equal_range
+		(
+		 const key_type & k
+		) const
+		{
 			const_iterator first(this->lower_bound(k));
 			const_iterator last(this->upper_bound(k));
 
@@ -375,36 +402,10 @@ namespace ft {
 		};
 		// ---------------------------------------------------------------------
 
-//	private:
-//		template <class K, class V>
-//		class KeyComp {
-//		public:
-//			KeyComp() {}
-//			KeyComp(const KeyComp & x) {(void)(x);}
-//			~KeyComp() {}
-//			KeyComp & operator=(const KeyComp & x) {(void)(x);}
-//
-//			bool operator()
-//			(
-//			 const std::pair<const K, const V> & a,
-//			 const std::pair<const K, const V> & b
-//			) const
-//			{
-//				return a.first < b.first;
-//			}
-//		};
-
 	private:
-		Multiset
-		<
-		 value_type,
-		 Compare,
-		 Alloc
-		>                                                            values_;
-
-		key_compare                                                  comp_;
-		Alloc                                                        alloc_;
-
+		Multiset<value_type, Compare, Alloc> values_;
+		key_compare                          comp_;
+		Alloc                                alloc_;
 	};
 
 // =============================================================================

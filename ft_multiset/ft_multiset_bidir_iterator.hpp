@@ -13,7 +13,6 @@ namespace ft {
 
 	template <class Iterator>
 	class MultisetBidirIterator {
-
 	public:
 
 		// Typedef -------------------------------------------------------------
