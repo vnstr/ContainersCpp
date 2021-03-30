@@ -4,10 +4,10 @@
 
 #include <iostream>
 
-#include "ft_stack.hpp"
+#include <stack>
 
-#define lib ft
-#define con Stack
+#define lib std
+#define con stack
 
 int main() {
 	lib::con<int> def;

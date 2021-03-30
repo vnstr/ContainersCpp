@@ -11,7 +11,9 @@ add_executable(containers_cpp
 
         # ------------- Stack ------------ #
         ft_stack/ft_stack.hpp
-        ft_stack/ft_stack_test.cpp)
+        ft_stack/ft_stack_test.cpp
+#        ft_stack/std_stack_test.cpp
+        )
 
         # ------- Vector, Multiset ------- #
 #        ft_vector/ft_vector.hpp

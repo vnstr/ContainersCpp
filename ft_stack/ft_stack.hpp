@@ -27,7 +27,7 @@ namespace ft {
 
 		typedef T         value_type;
 		typedef Container container_type;
-		typedef size_type size_t;
+		typedef size_t    size_type;
 
 		// ---------------------------------------------------------------------
 
@@ -85,27 +85,57 @@ namespace ft {
 		container_type ctnr_;
 	};
 
-	bool operator==(const Stack& lhs, const Stack& rhs) {
+	template <class T, class Container>
+	bool operator==
+	(
+	 const Stack<T, Container>& lhs, const Stack<T, Container>& rhs
+	)
+	{
 		return lhs._ctnr == rhs._ctnr;
 	}
 
-	bool operator!=(const Stack& lhs, const Stack& rhs) {
+	template <class T, class Container>
+	bool operator!=
+	(
+	 const Stack<T, Container>& lhs, const Stack<T, Container>& rhs
+	)
+	{
 		return lhs._ctnr != rhs._ctnr;
 	}
 
-	bool operator<(const Stack& lhs, const Stack& rhs) {
+	template <class T, class Container>
+	bool operator<
+	(
+	 const Stack<T, Container>& lhs, const Stack<T, Container>& rhs
+	)
+	{
 		return lhs._ctnr < rhs._ctnr;
 	}
 
-	bool operator<=(const Stack& lhs, const Stack& rhs) {
+	template <class T, class Container>
+	bool operator<=
+	(
+	 const Stack<T, Container>& lhs, const Stack<T, Container>& rhs
+	)
+	{
 		return lhs._ctnr <= rhs._ctnr;
 	}
 
-	bool operator>(const Stack& lhs, const Stack& rhs) {
+	template <class T, class Container>
+	bool operator>
+	(
+	 const Stack<T, Container>& lhs, const Stack<T, Container>& rhs
+	)
+	{
 		return lhs._ctnr > rhs._ctnr;
 	}
 
-	bool operator>=(const Stack& lhs, const Stack& rhs) {
+	template <class T, class Container>
+	bool operator>=
+	(
+	 const Stack<T, Container>& lhs, const Stack<T, Container>& rhs
+	)
+	{
 		return lhs._ctnr >= rhs._ctnr;
 	}
 
