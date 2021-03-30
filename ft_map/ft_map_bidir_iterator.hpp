@@ -13,7 +13,6 @@ namespace ft {
 
 	template <class Iterator>
 	class MapBidirIterator {
-
 	public:
 
 		// Typedef -------------------------------------------------------------
@@ -53,11 +52,10 @@ namespace ft {
 
 		// '='
 		MapBidirIterator & operator=(MapBidirIterator const & x) {
-
 			if (this == &x) {
 				return *this;
 			}
-			this->it_ = x.it_;
+			it_ = x.it_;
 			return *this;
 		}
 
@@ -67,7 +65,7 @@ namespace ft {
 				MapBidirIterator const & x
 		) const
 		{
-			return this->it_ == x.it_;
+			return it_ == x.it_;
 		}
 
 		// '!='
@@ -76,42 +74,42 @@ namespace ft {
 				MapBidirIterator const & x
 		) const
 		{
-			return this->it_ != x.it_;
+			return it_ != x.it_;
 		}
 
 		// '*'
 		reference             operator*() {
-			return *this->it_;
+			return *it_;
 		}
 
 		// '->'
 		pointer               operator->() {
-			return this->it_.base().get_pointer();
+			return it_.base().get_pointer();
 		}
 
 		// '++iter'
 		MapBidirIterator   operator++() {
-			++this->it_;
+			++it_;
 			return (*this);
 		}
 
 		// 'iter++'
 		MapBidirIterator   operator++(int) {
 			MapBidirIterator tmp(*this);
-			++this->it_;
+			++it_;
 			return (tmp);
 		}
 
 		// '--iter'
 		MapBidirIterator   operator--() {
-			--this->it_;
+			--it_;
 			return (*this);
 		}
 
 		// 'iter--'
 		MapBidirIterator   operator--(int) {
 			MapBidirIterator tmp(*this);
-			--this->it_;
+			--it_;
 			return (tmp);
 		}
 
